@@ -191,9 +191,9 @@
 					},
 					{
 						"indexed": true,
-						"internalType": "uint256",
+						"internalType": "uint16",
 						"name": "tokenId",
-						"type": "uint256"
+						"type": "uint16"
 					}
 				],
 				"name": "Transfer",
@@ -295,6 +295,40 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "operator",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "uint16",
+						"name": "tokenId",
+						"type": "uint16"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "onERC721Received",
+				"outputs": [
+					{
+						"internalType": "bytes4",
+						"name": "",
+						"type": "bytes4"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint16",
 						"name": "tokenId",
 						"type": "uint16"
@@ -309,6 +343,57 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint16",
+						"name": "tokenId",
+						"type": "uint16"
+					}
+				],
+				"name": "safeTransferFrom",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint16",
+						"name": "tokenId",
+						"type": "uint16"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "safeTransferFrom",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -359,6 +444,29 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint16",
+						"name": "tokenId",
+						"type": "uint16"
+					}
+				],
+				"name": "transferFrom",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			}
 		],
@@ -433,7 +541,11 @@
 				]
 			},
 			"kind": "dev",
-			"methods": {},
+			"methods": {
+				"onERC721Received(address,address,uint16,bytes)": {
+					"details": "Whenever an {IERC721} `tokenId` token is transferred to this contract via {IERC721-safeTransferFrom} by `operator` from `from`, this function is called. It must return its Solidity selector to confirm the token transfer. If any other value is returned or the interface is not implemented by the recipient, the transfer will be reverted. The selector can be obtained in Solidity with `IERC721Receiver.onERC721Received.selector`."
+				}
+			},
 			"version": 1
 		},
 		"userdoc": {
@@ -507,11 +619,19 @@
 			]
 		},
 		"contracts/ERC721TokenContractName.sol": {
-			"keccak256": "0x1c781add31e7ca34609284641efee34438744857dfe6faf5659cd57f0a2fd7a2",
+			"keccak256": "0xfe52fef71e294fc3c87be830e6e21c3057b8ad4cd5874f94ae55b4f62aec39db",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://696107c46ffe0d5dd9734b0b55b5033ec62beec74c955f5644b9b10dbca2b41b",
-				"dweb:/ipfs/QmcGQwGpCaDWuacq9ir8u6SJNAY6n6AurzADQcaSVUsepF"
+				"bzz-raw://c6baa0c83c7c6394e2e189edd2d6ccf944b8e931481d5744ef317f93f2a3696e",
+				"dweb:/ipfs/QmVqUMbpNuMEQzTNoR3ALdEfkyEwqPRZcRFm28AdFi3BfK"
+			]
+		},
+		"contracts/IERc721TokenContractNameReceiver.sol": {
+			"keccak256": "0x5500a399830fcc4dc5fba902a63c6bc9da68012fcd48f3d4b3b53d975d8dc041",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3260bc39f05cbfa81ae34d8ae4be651ffcf775952aaf49d5d15302d15b9f2d34",
+				"dweb:/ipfs/QmeWiK2iyapqi6ufS351ne83cV3XNay3Cpaf3nuXs4PL6A"
 			]
 		}
 	},
