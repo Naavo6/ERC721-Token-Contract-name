@@ -619,11 +619,11 @@
 			]
 		},
 		"contracts/ERC721TokenContractName.sol": {
-			"keccak256": "0xfe52fef71e294fc3c87be830e6e21c3057b8ad4cd5874f94ae55b4f62aec39db",
+			"keccak256": "0xf46a57bd170143674af0a0b21e88825699e2e5ed971eb3a99dc2651631c7daf8",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c6baa0c83c7c6394e2e189edd2d6ccf944b8e931481d5744ef317f93f2a3696e",
-				"dweb:/ipfs/QmVqUMbpNuMEQzTNoR3ALdEfkyEwqPRZcRFm28AdFi3BfK"
+				"bzz-raw://b069d2c796a469cbc46c2a54962b644330267ac33e61221ad538058ad609d486",
+				"dweb:/ipfs/QmZZiQKGEGmctHwrkf9ddjrWq8qeL8TN9dhFPpuPtUez7A"
 			]
 		},
 		"contracts/IERc721TokenContractNameReceiver.sol": {

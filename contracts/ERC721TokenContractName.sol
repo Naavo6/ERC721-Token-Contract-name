@@ -84,7 +84,15 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
 
 
     function approve(address to, uint16 tokenId) public {
-        _aprove(to, tokenId, _msgSender());
+        address owner = _requireOwned(tokenId);
+
+        require(owner != to, "The address of the owner and the operator must be different");
+
+       if (owner != _msgSender() && !isApprovedForAll(owner, _msgSender())){
+        revert ERC721InvalidApprover(_msgSender());
+       }
+
+        _aprove(to, tokenId, owner);
     }
 
     function getApproved(uint16 tokenId) public view virtual returns (address) {
@@ -95,6 +103,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
 
     function setApprovalForAll(address operator, bool approved) public {
         require(_msgSender() != operator, "The address of the owner and the operator must be different");
+
         if (operator == address(0)) {
             revert ERC721InvalidOperator(operator);
         }
@@ -109,16 +118,26 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     }
 
     function transferFrom(address from, address to, uint16 tokenId) public virtual {
-        if (to == address(0)) {
+         if (to == address(0)) {
             revert ERC721InvalidReceiver(address(0));
         }
 
-        // Setting an "auth" arguments enables the `_isAuthorized` check which verifies that the token exists
-        // (from != 0). Therefore, it is not needed to verify that the return value is not 0 here.
-        address previousOwner = _update(to, tokenId, _msgSender());
-        if (previousOwner != from) {
+        address previousOwner = _requireOwned(tokenId);
+
+        require(!ban[tokenId], "The transfer of this token is currently banned");
+
+        if (!(_msgSender() == previousOwner || isApprovedForAll(previousOwner, _msgSender()) || getApproved(tokenId) == _msgSender())) {
+            revert ERC721InsufficientApproval(_msgSender(), tokenId);
+        }
+
+                if (previousOwner != from) {
             revert ERC721IncorrectOwner(from, tokenId, previousOwner);
         }
+
+        _aprove(address(0), tokenId, previousOwner);
+        // Setting an "auth" arguments enables the `_isAuthorized` check which verifies that the token exists
+        // (from != 0). Therefore, it is not needed to verify that the return value is not 0 here.
+        _update(to, tokenId, previousOwner);
     }
 
     function safeTransferFrom(address from, address to, uint16 tokenId) public {
@@ -131,18 +150,22 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     }
 
 
-    function _update(address to, uint16 tokenId, address auth) private returns (address) {
+    function _update(address to, uint16 tokenId, address from) private returns (address) {
+       if (from != address(0)) {
+        uint16 preBalanceFrom = _balanceAndTokId[from][0];
+        for (uint16 i = 0; i <= preBalanceFrom; ++i) {
+            if (_balanceAndTokId[from][i] == tokenId) {
+                _balanceAndTokId[from][i] = _balanceAndTokId[from][preBalanceFrom];
+                _balanceAndTokId[from][preBalanceFrom] = 0;
+                break;
+           }
+        }
+       }
 
     }
 
 
-    function _aprove(address to, uint16 tokenId, address auth) private {
-        address owner = _requireOwned(tokenId);
-        require(owner != to, "The address of the owner and the operator must be different");
-       if (owner != auth && !isApprovedForAll(owner, auth)){
-        revert ERC721InvalidApprover(auth);
-       }
-
+    function _aprove(address to, uint16 tokenId, address owner) private {
         _tokenApprovals[tokenId] = to;
         emit Approval(owner, to, tokenId);
     }
