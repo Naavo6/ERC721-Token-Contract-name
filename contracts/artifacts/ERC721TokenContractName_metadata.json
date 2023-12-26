@@ -200,6 +200,31 @@
 				"type": "event"
 			},
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint16",
+						"name": "newmaxMinted",
+						"type": "uint16"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint48",
+						"name": "newregistrationStartTime",
+						"type": "uint48"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newexecutor",
+						"type": "address"
+					}
+				],
+				"name": "updatemintInfo",
+				"type": "event"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -416,6 +441,26 @@
 			},
 			{
 				"inputs": [],
+				"name": "setRegister",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "stateVoting",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "symbol",
 				"outputs": [
 					{
@@ -465,6 +510,29 @@
 					}
 				],
 				"name": "transferFrom",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint16",
+						"name": "newmaxMinted",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint48",
+						"name": "newregistrationStartTime",
+						"type": "uint48"
+					},
+					{
+						"internalType": "address",
+						"name": "newexecutor",
+						"type": "address"
+					}
+				],
+				"name": "updateMintInfo",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -619,11 +687,11 @@
 			]
 		},
 		"contracts/ERC721TokenContractName.sol": {
-			"keccak256": "0xf46a57bd170143674af0a0b21e88825699e2e5ed971eb3a99dc2651631c7daf8",
+			"keccak256": "0xfb349043bdd6a0e37be2d874d57f51db96d3487586a3ed8e6b3a2d0208dc1e27",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b069d2c796a469cbc46c2a54962b644330267ac33e61221ad538058ad609d486",
-				"dweb:/ipfs/QmZZiQKGEGmctHwrkf9ddjrWq8qeL8TN9dhFPpuPtUez7A"
+				"bzz-raw://f5252b8786d84d752af49978260fad1f7c105b3b91964add94a76a75fdc5af1a",
+				"dweb:/ipfs/QmTW3s3cBism49Y64TAKVwKT2iupSuZgUJMXWoYBheMT82"
 			]
 		},
 		"contracts/IERc721TokenContractNameReceiver.sol": {

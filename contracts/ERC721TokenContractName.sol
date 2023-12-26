@@ -16,6 +16,11 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
     event Transfer(address indexed from, address indexed to, uint16 indexed tokenId);
 
+    event updatemintInfo(uint16 indexed newmaxMinted,
+     uint48 indexed newregistrationStartTime,
+      address indexed newexecutor,
+       uint256 indexed newmintPrice);
+
 
     using Address for address;
     using Strings for uint16;
@@ -29,6 +34,10 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     struct MintInfo {
         uint16 maxMinted;
         uint16 currentTokens;
+        uint16 nRegistrants;
+        uint48 registrationStartTime;
+        address executor;
+        uint256 mintPrice;
     }
 
 
@@ -52,6 +61,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     constructor(bytes20 name_, bytes10 symbol_) {
         _name = name_;
         _symbol = symbol_;
+        mintInfo.executor = _msgSender();
     }
 
 
@@ -150,18 +160,56 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     }
 
 
-    function _update(address to, uint16 tokenId, address from) private returns (address) {
-       if (from != address(0)) {
+    function updateMintInfo(uint16 newmaxMinted, uint48 newregistrationStartTime, address newexecutor, uint256 newmintPrice) public {
+        require(_msgSender() == mintInfo.executor, "You do not have access to this function");
+        require(newmaxMinted > mintInfo.nRegistrants && newregistrationStartTime >= block.timestamp, "The entered parameters are not acceptable");
+        if (newmaxMinted > 1000) {
+            bytes32 sucessded;// bardashte mishe badan
+            require(newmaxMinted < 1201 && (sucessded == stateVoting()), "You do not have permission to upgrade");
+            bytes32 executed; // bardashte mishe badan
+            setStateVoting(executed);
+        }
+
+        mintInfo.maxMinted = newmaxMinted;
+        mintInfo.registrationStartTime = newregistrationStartTime;
+        mintInfo.executor = newexecutor;
+        mintInfo.minPrice = newmintPrice;
+        emit updatemintInfo(newmaxMinted, newregistrationStartTime, newexecutor, newmintPrice);
+        
+    }
+
+    function setRegister() public{
+        address registrant =_msgSender();
+        require(registrant != address(0) && registrant.code.length == 0,"The address of the registrant must not be 0 or the address of a contract");
+        require(msg.value == mintInfo.minPrice)
+    }
+
+
+    function _update(address to, uint16 tokenId, address from) private {
         uint16 preBalanceFrom = _balanceAndTokId[from][0];
-        for (uint16 i = 0; i <= preBalanceFrom; ++i) {
+       if (from != address(0)) {
+        for (uint16 i = 1; i <= preBalanceFrom; i++) {
             if (_balanceAndTokId[from][i] == tokenId) {
                 _balanceAndTokId[from][i] = _balanceAndTokId[from][preBalanceFrom];
-                _balanceAndTokId[from][preBalanceFrom] = 0;
                 break;
            }
         }
+
+       } else {
+        uint16 index = tokenId;
+        tokenId = _balanceAndTokId[from][index];
+        _balanceAndTokId[from][index] = _balanceAndTokId[from][preBalanceFrom];
        }
 
+        _balanceAndTokId[from][preBalanceFrom] = 0;
+        _balanceAndTokId[from][0] -= 1;
+
+        uint16 newBalanceTo = (_balanceAndTokId[to][0] + 1);
+        _balanceAndTokId[to][newBalanceTo] = tokenId;
+        _balanceAndTokId[to][0] = newBalanceTo;
+
+        _owners[tokenId] = to;
+        emit Transfer(from, to, tokenId);
     }
 
 
@@ -208,6 +256,18 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         uint16 tokenId,
         bytes calldata data
     ) external returns (bytes4){}
+
+
+
+
+
+    function setStateVoting(bytes32 state) internal {
+
+    }// bardashte mishe badan
+
+    function stateVoting() public returns(bytes32) {
+
+    }// bardashte mishe badan
 
 
     
