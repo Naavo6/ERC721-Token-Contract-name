@@ -15,11 +15,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     event Approval(address indexed owner, address indexed approved, uint16 indexed tokenId);
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
     event Transfer(address indexed from, address indexed to, uint16 indexed tokenId);
-
-    event updatemintInfo(uint16 indexed newmaxMinted,
-     uint48 indexed newregistrationStartTime,
-      address indexed newexecutor,
-       uint256 indexed newmintPrice);
+    event updatemintInfo(uint16 indexed newmaxMint, uint48 indexed newregistrationStartTime, address newexecutor, address newbankAddress, uint256 newmintPrice);
 
 
     using Address for address;
@@ -32,12 +28,14 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     bytes10 private _symbol;
 
     struct MintInfo {
-        uint16 maxMinted;
+        uint16 maxMint;
         uint16 currentTokens;
         uint16 nRegistrants;
         uint48 registrationStartTime;
         address executor;
+        address bankAddress;
         uint256 mintPrice;
+        address[1201] registrants;
     }
 
 
@@ -62,6 +60,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         _name = name_;
         _symbol = symbol_;
         mintInfo.executor = _msgSender();
+        mintInfo.nRegistrants = 1;
     }
 
 
@@ -160,28 +159,40 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     }
 
 
-    function updateMintInfo(uint16 newmaxMinted, uint48 newregistrationStartTime, address newexecutor, uint256 newmintPrice) public {
+    function updateMintInfo(uint16 newmaxMint, uint48 newregistrationStartTime, address newexecutor, address newbankAddress, uint256 newmintPrice) public {
         require(_msgSender() == mintInfo.executor, "You do not have access to this function");
-        require(newmaxMinted > mintInfo.nRegistrants && newregistrationStartTime >= block.timestamp, "The entered parameters are not acceptable");
-        if (newmaxMinted > 1000) {
+        require(newmaxMint > mintInfo.nRegistrants && newregistrationStartTime >= block.timestamp, "The entered parameters are not acceptable");
+        if (newmaxMint > 1000) {
             bytes32 sucessded;// bardashte mishe badan
-            require(newmaxMinted < 1201 && (sucessded == stateVoting()), "You do not have permission to upgrade");
+            require(newmaxMint < 1200 && (sucessded == stateVoting()), "You do not have permission to upgrade");
             bytes32 executed; // bardashte mishe badan
             setStateVoting(executed);
         }
 
-        mintInfo.maxMinted = newmaxMinted;
+        mintInfo.maxMint = newmaxMint;
         mintInfo.registrationStartTime = newregistrationStartTime;
         mintInfo.executor = newexecutor;
-        mintInfo.minPrice = newmintPrice;
-        emit updatemintInfo(newmaxMinted, newregistrationStartTime, newexecutor, newmintPrice);
+        mintInfo.bankAddress = newbankAddress;
+        mintInfo.mintPrice = newmintPrice;
+        emit updatemintInfo(newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice);
         
     }
 
-    function setRegister() public{
-        address registrant =_msgSender();
-        require(registrant != address(0) && registrant.code.length == 0,"The address of the registrant must not be 0 or the address of a contract");
-        require(msg.value == mintInfo.minPrice)
+    function setRegister() public payable returns (bytes memory) { // accsesemit barash benevis baraye tasir gozari dar dastresi
+        require(mintInfo.nRegistrants <= mintInfo.maxMint && mintInfo.registrationStartTime >= block.timestamp, "It is not possible to register now");
+        require(_msgSender() != address(0) && _msgSender().code.length == 0,"The address of the registrant must not be 0 or the address of a contract");
+        require(msg.value >= mintInfo.mintPrice, "The amount should not be less than the mint price");
+
+        (bool paid, bytes memory data) = mintInfo.bankAddress.call{value : msg.value}("");
+        require(paid, "The amount was not sent");
+        ++mintInfo.nRegistrants;
+        mintInfo.registrants[mintInfo.nRegistrants] =_msgSender();
+        
+        return data;
+    }
+
+    function mint() publ {
+
     }
 
 
