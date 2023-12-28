@@ -116,12 +116,45 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint16",
+						"name": "nRegistrants",
+						"type": "uint16"
+					}
+				],
+				"name": "ERC721NoNewRegistrants",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "tokenId",
 						"type": "uint256"
 					}
 				],
 				"name": "ERC721NonexistentToken",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint16",
+						"name": "token",
+						"type": "uint16"
+					}
+				],
+				"name": "Erc721InvalidTokenInNewTokenId",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint16",
+						"name": "total",
+						"type": "uint16"
+					}
+				],
+				"name": "Erc721InvalidTotalNewTokenId",
 				"type": "error"
 			},
 			{
@@ -210,9 +243,9 @@
 					},
 					{
 						"indexed": true,
-						"internalType": "uint48",
+						"internalType": "uint256",
 						"name": "newregistrationStartTime",
-						"type": "uint48"
+						"type": "uint256"
 					},
 					{
 						"indexed": false,
@@ -459,7 +492,13 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "uint48",
+						"name": "salt_",
+						"type": "uint48"
+					}
+				],
 				"name": "setRegister",
 				"outputs": [
 					{
@@ -547,9 +586,9 @@
 						"type": "uint16"
 					},
 					{
-						"internalType": "uint48",
+						"internalType": "uint256",
 						"name": "newregistrationStartTime",
-						"type": "uint48"
+						"type": "uint256"
 					},
 					{
 						"internalType": "address",
@@ -565,6 +604,11 @@
 						"internalType": "uint256",
 						"name": "newmintPrice",
 						"type": "uint256"
+					},
+					{
+						"internalType": "uint16[1201]",
+						"name": "newTokenId",
+						"type": "uint16[1201]"
 					}
 				],
 				"name": "updateMintInfo",
@@ -722,11 +766,11 @@
 			]
 		},
 		"contracts/ERC721TokenContractName.sol": {
-			"keccak256": "0xa9428cc4e5c06b2846f71d7effc893360d4fd68341732e695e343c8f48e015f3",
+			"keccak256": "0xecfd45574cbca620495b14d599b68abe59bf654e43107b13e43358f8bc1c6a5c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d28d365fb3a5d605c88f8554785883c2b8138ffc38a3f5705fb0ae36825568a3",
-				"dweb:/ipfs/QmT4XQV6RyZpGyw8vpCL2LaRrT6z3RxLH3ZLqkRadgkRar"
+				"bzz-raw://5dabea0dd6ed61245eef312cd5fc5d2e3f9fa46b0cebe2a173e0d9902cff878a",
+				"dweb:/ipfs/QmNVjn9TmNVVUNyAeQFdMXcTrsXwBZZLivaub3J8EybqEc"
 			]
 		},
 		"contracts/IERc721TokenContractNameReceiver.sol": {

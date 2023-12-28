@@ -15,7 +15,12 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     event Approval(address indexed owner, address indexed approved, uint16 indexed tokenId);
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
     event Transfer(address indexed from, address indexed to, uint16 indexed tokenId);
-    event updatemintInfo(uint16 indexed newmaxMint, uint48 indexed newregistrationStartTime, address newexecutor, address newbankAddress, uint256 newmintPrice);
+    event updatemintInfo(uint16 indexed newmaxMint, uint256 indexed newregistrationStartTime, address newexecutor, address newbankAddress, uint256 newmintPrice);
+
+    // error ERC721NonexistentToken(uint16 tokenId);
+    error ERC721NoNewRegistrants(uint16 nRegistrants);
+    error Erc721InvalidTotalNewTokenId(uint16 total);
+    error Erc721InvalidTokenInNewTokenId(uint16 token);
 
 
     using Address for address;
@@ -31,10 +36,11 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         uint16 maxMint;
         uint16 currentTokens;
         uint16 nRegistrants;
-        uint48 registrationStartTime;
         address executor;
         address bankAddress;
+        uint256 registrationStartTime;
         uint256 mintPrice;
+        uint48[1201] salts;
         address[1201] registrants;
     }
 
@@ -159,9 +165,19 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     }
 
 
-    function updateMintInfo(uint16 newmaxMint, uint48 newregistrationStartTime, address newexecutor, address newbankAddress, uint256 newmintPrice) public {
+    function updateMintInfo(
+    uint16 newmaxMint,
+    uint256 newregistrationStartTime,
+    address newexecutor,
+    address newbankAddress,
+    uint256 newmintPrice,
+    uint16[1201] memory newTokenId) public {
+
         require(_msgSender() == mintInfo.executor, "You do not have access to this function");
         require(newmaxMint > mintInfo.nRegistrants && newregistrationStartTime >= block.timestamp, "The entered parameters are not acceptable");
+        if ((newmaxMint - mintInfo.currentTokens) != newTokenId[0]) {
+            revert Erc721InvalidTotalNewTokenId(newTokenId[0]);
+        }
         if (newmaxMint > 1000) {
             bytes32 sucessded;// bardashte mishe badan
             require(newmaxMint < 1200 && (sucessded == stateVoting()), "You do not have permission to upgrade");
@@ -174,25 +190,60 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         mintInfo.executor = newexecutor;
         mintInfo.bankAddress = newbankAddress;
         mintInfo.mintPrice = newmintPrice;
+        _balanceAndTokId[address(0)] = newTokenId;
         emit updatemintInfo(newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice);
         
     }
 
-    function setRegister() public payable returns (bytes memory) { // accsesemit barash benevis baraye tasir gozari dar dastresi
-        require(mintInfo.nRegistrants <= mintInfo.maxMint && mintInfo.registrationStartTime >= block.timestamp, "It is not possible to register now");
+    function setRegister(uint48 salt_) public payable returns (bytes memory) { // accsesemit barash benevis baraye tasir gozari dar dastresi
+        require(mintInfo.nRegistrants <= mintInfo.maxMint && mintInfo.registrationStartTime <= block.timestamp, "It is not possible to register now");
         require(_msgSender() != address(0) && _msgSender().code.length == 0,"The address of the registrant must not be 0 or the address of a contract");
         require(msg.value >= mintInfo.mintPrice, "The amount should not be less than the mint price");
 
         (bool paid, bytes memory data) = mintInfo.bankAddress.call{value : msg.value}("");
         require(paid, "The amount was not sent");
+
         ++mintInfo.nRegistrants;
+        mintInfo.salts[mintInfo.nRegistrants] = salt_;
+        mintInfo.salts[0] += salt_;
         mintInfo.registrants[mintInfo.nRegistrants] =_msgSender();
         
         return data;
     }
 
-    function mint() publ {
+    function mint() public {
+        require (_msgSender() == mintInfo.executor, "Access only for executor");
 
+        if (mintInfo.nRegistrants > mintInfo.currentTokens) {
+            uint48[1201] memory salts_ = mintInfo.salts;
+            address[1201] memory registrants_ = mintInfo.registrants;
+            uint16 remainingReg = mintInfo.nRegistrants - mintInfo.currentTokens;
+            uint16 remainingTok = (mintInfo.maxMint - mintInfo.currentTokens);
+            uint16 i = ++mintInfo.currentTokens;
+            uint16 nRegistrants = mintInfo.nRegistrants;
+            uint256 mintTimeSalt = block.timestamp;
+
+            for (i; i <= nRegistrants; i++) {
+                uint16 index1 = uint16(salts_[0] + mintTimeSalt + salts_[i]) % i;
+                uint16 index2 = uint16(salts_[index1] + salts_[0]) % nRegistrants;
+                uint16 indexOwner =(uint16(salts_[index1] + salts_[index2]) % remainingReg) + i;
+                address owner = registrants_[indexOwner];
+                registrants_[indexOwner] = registrants_[i];
+                registrants_[i] = owner;
+
+                uint16 indextoken = (uint16(salts_[index1] + salts_[indexOwner]) % remainingTok);
+                if (indextoken == 0) {
+                    indextoken = remainingTok;
+                }
+                _update(owner, indextoken, address(0));
+                --remainingReg;
+                --remainingTok;
+            }
+
+            mintInfo.currentTokens = mintInfo.nRegistrants;
+        } else {
+            revert ERC721NoNewRegistrants(mintInfo.nRegistrants);
+        }
     }
 
 
@@ -209,6 +260,9 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
        } else {
         uint16 index = tokenId;
         tokenId = _balanceAndTokId[from][index];
+        if (_owners[tokenId] != address(0)) {
+            revert Erc721InvalidTokenInNewTokenId(index);
+        }
         _balanceAndTokId[from][index] = _balanceAndTokId[from][preBalanceFrom];
        }
 
@@ -233,8 +287,12 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
 
 
     function _requireOwned(uint16 tokenId) private view returns (address) {
-        require(0 < tokenId && tokenId <= mintInfo.currentTokens, "The ID entered is invalid. It must be in this interval 0 < id <= current tokens"); 
-        return _owners[tokenId];
+        require(0 < tokenId && tokenId <= mintInfo.maxMint, "The ID entered is invalid. It must be in this interval 0 < id <= maximum mintable tokens");
+        address owner = _owners[tokenId];
+        if (owner == address(0)) {
+            revert ERC721NonexistentToken(tokenId);
+        }
+        return owner;
     }
 
 
