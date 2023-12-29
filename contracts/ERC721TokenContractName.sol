@@ -21,6 +21,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     error ERC721NoNewRegistrants(uint16 nRegistrants);
     error Erc721InvalidTotalNewTokenId(uint16 total);
     error Erc721InvalidTokenInNewTokenId(uint16 token);
+    error ERC721AccessIsNotApproved(address sender);
 
 
     using Address for address;
@@ -66,7 +67,6 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         _name = name_;
         _symbol = symbol_;
         mintInfo.executor = _msgSender();
-        mintInfo.nRegistrants = 1;
     }
 
 
@@ -246,6 +246,20 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         }
     }
 
+    function setBan(uint16 tokenId, bool set_) public returns (bool) {
+        address owner = _requireOwned(tokenId);
+        bool ownerBan;
+        bool governorBan;
+        if (_msgSender() == owner) {
+            ownerBan = set_;
+        } else if (governoraccess(_msgSender())) {
+            governorBan = set_;
+        } else {
+            revert ERC721AccessIsNotApproved(_msgSender());
+        }
+        return (governorBan || ownerBan);
+    }
+
 
     function _update(address to, uint16 tokenId, address from) private {
         uint16 preBalanceFrom = _balanceAndTokId[from][0];
@@ -335,6 +349,10 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     }// bardashte mishe badan
 
     function stateVoting() public returns(bytes32) {
+
+    }// bardashte mishe badan
+
+    function governoraccess (address) public returns (bool) {
 
     }// bardashte mishe badan
 
