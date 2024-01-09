@@ -1,0 +1,97 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "proposals",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "proposer",
+								"type": "address"
+							},
+							{
+								"internalType": "uint48",
+								"name": "voteStart",
+								"type": "uint48"
+							},
+							{
+								"internalType": "uint32",
+								"name": "voteDuration",
+								"type": "uint32"
+							},
+							{
+								"internalType": "bool",
+								"name": "executed",
+								"type": "bool"
+							},
+							{
+								"internalType": "bool",
+								"name": "canceled",
+								"type": "bool"
+							},
+							{
+								"internalType": "uint48",
+								"name": "etaSeconds",
+								"type": "uint48"
+							}
+						],
+						"internalType": "struct storageTokenContractName.ProposalCore",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/storageTokenContractName.sol": "storageTokenContractName"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/storageTokenContractName.sol": {
+			"keccak256": "0xe375baf9694a0431cc0de28c3f1621afc965e4408e98a403125b7df32ee1191e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6763a54951de1fb0fd1823f2419fad2c28693a996f3e5e18f168459389abefdb",
+				"dweb:/ipfs/QmcA9nyUDFKog5Vj5fXYKx7WdggBbnETLdUdraqnF7twuy"
+			]
+		}
+	},
+	"version": 1
+}
