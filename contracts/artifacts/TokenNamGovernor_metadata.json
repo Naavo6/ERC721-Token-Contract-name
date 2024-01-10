@@ -51,6 +51,32 @@
 			},
 			{
 				"inputs": [],
+				"name": "CLOCK_MODE",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "Clock",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "eip712Domain",
 				"outputs": [
 					{
@@ -291,19 +317,19 @@
 			]
 		},
 		"contracts/governance.sol": {
-			"keccak256": "0x6208b40320b7273d48a4d15bf0a9192f6a80a27f4308ce9894ca0c33dc288c2b",
+			"keccak256": "0x85daee66a21f2e555fb1db99a19d766d2c1bd9f3dc414cdfa15ed47901e61e6d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://9f3620634da5f6bbb34ff0f5ac5da085b8e8d17ba17d66d5c53941b019ca4871",
-				"dweb:/ipfs/QmVQ5KS2TMJD85P1Y9qCPdg4Nx7QML6BkeeFUxPxNTGvsb"
+				"bzz-raw://45fb44006a917837172d12182b0df6e5a3ef33ba16b6d35432c4716acf2a65d0",
+				"dweb:/ipfs/QmULYzTHbg8MQ521vTb7FroKaVhjK8j4PLZ4aAAFf3pZio"
 			]
 		},
 		"contracts/storageTokenContractName.sol": {
-			"keccak256": "0xdfeb8bd1348c1e32ee8903c48d9ec94fd16f2cef45b97778a660c1db47d6feda",
+			"keccak256": "0xbd1bcd6695b09a8cca1f97235a4ccd902baf6522eab50d16cfbc1dc7501bf31a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4e869c54eba1f6cefedad1ddc86c273962ee6e9ae558571b89884887562c6c26",
-				"dweb:/ipfs/QmT9eDErT6VWnJZVGHNPGjbM5DJXaaTcvPzVxz2BvJ8kiY"
+				"bzz-raw://43c970585a0bedaab59972ecb72fd3da66bb22eb484ffa9f2c2064385cc7de30",
+				"dweb:/ipfs/QmZf2XCiVP6TKj9qjnGA4BeMAkTiGevd2mGcgDCqJr2912"
 			]
 		}
 	},

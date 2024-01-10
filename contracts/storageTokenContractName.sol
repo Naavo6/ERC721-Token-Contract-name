@@ -12,15 +12,20 @@ contract storageTCN {
 
     struct ProposalCore {
         address proposer;
-        uint48 voteStart;
+        uint16 quorum;
+        uint16 voteCounter;
         uint32 voteDuration;
+        uint48 voteStart;
+        uint48 etaSeconds;
         bool executed;
         bool canceled;
-        uint48 etaSeconds;
+        bool Succeeded;
+        bool Defeated;
     }
 
-    mapping(uint256 proposalId => ProposalCore) private _proposals;
 
+    mapping(uint256 proposalId => ProposalCore) private _proposals;
+    mapping(uint256 proposalId => mapping(address voter => bytes32 voteHash)) private _votersVote;
 
 
     function proposals(uint256 proposalId) public view returns (ProposalCore memory) {

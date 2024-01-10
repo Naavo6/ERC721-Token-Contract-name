@@ -28,8 +28,6 @@ contract TokenNamGovernor is EIP712 {
         Canceled,
         Defeated,
         Succeeded,
-        Queued,
-        Expired,
         Executed
     }
 
@@ -54,7 +52,7 @@ contract TokenNamGovernor is EIP712 {
         return "1";
     }
 
-    function Clock() public view returns (uint48) {
+    function Clock() public view returns (uint256) {
         return block.timestamp;
     }
 
@@ -90,8 +88,22 @@ contract TokenNamGovernor is EIP712 {
 
        uint256 currentTimePoint = block.timestamp;
 
-       if ()
-        
+       if (currentTimePoint <= snapshot) {
+        return ProposalState.Pending;
+       }
+
+       uint256 deadline = snapshot + proposal.voteDuration;
+
+       if (currentTimePoint <= deadline) {
+        return ProposalState.Active;
+       } else if (proposal.Succeeded) {
+            return ProposalState.Succeeded;
+        } else if (proposal.Defeated) {
+            return ProposalState.Defeated;
+        } else {
+            _voteResult(proposalId)
+        }
+
     }
 
 
