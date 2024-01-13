@@ -106,5 +106,7 @@ contract TokenNamGovernor is EIP712 {
 
     }
 
+    function _voteResult(uint256 proposal)
+
 
 }
