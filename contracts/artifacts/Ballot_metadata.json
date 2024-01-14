@@ -93,6 +93,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "voteCountProposal",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "winningProposal_",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -138,19 +151,6 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "winningProposal",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "winningProposal_",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -181,16 +181,16 @@
 						"proposal": "index of proposal in the proposals array"
 					}
 				},
+				"voteCountProposal()": {
+					"details": "Computes the winning proposal taking all previous votes into account.",
+					"returns": {
+						"winningProposal_": "index of winning proposal in the proposals array"
+					}
+				},
 				"winnerName()": {
 					"details": "Calls winningProposal() function to get the index of the winner contained in the proposals array and then",
 					"returns": {
 						"winnerName_": "the name of the winner"
-					}
-				},
-				"winningProposal()": {
-					"details": "Computes the winning proposal taking all previous votes into account.",
-					"returns": {
-						"winningProposal_": "index of winning proposal in the proposals array"
 					}
 				}
 			},
@@ -220,11 +220,11 @@
 	},
 	"sources": {
 		"contracts/3_Ballot.sol": {
-			"keccak256": "0xbb11296e92f6222b67d7dd604c04ae786e74e36ecbc3890a283380e94c1516e4",
+			"keccak256": "0x674efc89de79b24415698e7a33d46e295078aa8d885fd61d6681fce5733614d2",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://411747a9d941722d338f6d9f2274af3d06f03511987cd727467c79ecf0328e0d",
-				"dweb:/ipfs/QmUZcAkR1HPHhSAPepKwiEjNXpxnwU2sEaonWCkBXxUEem"
+				"bzz-raw://112fd7217aacbc10e74a7405ec5148164210ef3e2c6871650dd8188178d74586",
+				"dweb:/ipfs/QmWkpUNM3WsCix4EYzmgxeCGRi69NWCZ2c3drVfjcf3krQ"
 			]
 		}
 	},

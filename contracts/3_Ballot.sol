@@ -114,8 +114,8 @@ contract Ballot {
      * @dev Computes the winning proposal taking all previous votes into account.
      * @return winningProposal_ index of winning proposal in the proposals array
      */
-    function winningProposal() public view
-            returns (uint winningProposal_)
+    function voteCountProposal() public view
+            returns (uint256 winningProposal_)
     {
         uint winningVoteCount = 0;
         for (uint p = 0; p < proposals.length; p++) {
@@ -133,6 +133,6 @@ contract Ballot {
     function winnerName() public view
             returns (bytes32 winnerName_)
     {
-        winnerName_ = proposals[winningProposal()].name;
+        winnerName_ = proposals[voteCountProposal()].name;
     }
 }

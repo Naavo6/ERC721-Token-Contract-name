@@ -12,6 +12,7 @@ import {storageTCN} from "contracts/storageTokenContractName.sol";
 contract TokenNamGovernor is EIP712 {
 
     error GovernorNonexistentProposal(uint256 proposalId);
+    error AddressNotReturnVoteCount(address ballot);
 
     struct ProposalCore { // mitoone nabashe
         address proposer;
@@ -68,7 +69,7 @@ contract TokenNamGovernor is EIP712 {
         return uint256(keccak256(abi.encode(target, value, callData, descriptionHash)));
     }
 
-    function state(uint256 proposalId) public view returns (ProposalState) {
+    function state(uint256 proposalId) public returns (ProposalState) {
        storageTCN contractStorage = storageTCN(_connectors[msg.sender]);
        storageTCN.ProposalCore memory proposal = contractStorage.proposals(proposalId);
 
@@ -101,12 +102,25 @@ contract TokenNamGovernor is EIP712 {
         } else if (proposal.Defeated) {
             return ProposalState.Defeated;
         } else {
-            _voteResult(proposalId)
+            ProposalState result = _voteResult(proposal);
+            uint256 state_ = uint256(result);
+            contractStorage.setProposalState(state_, proposalId);
+            return result;
         }
 
     }
 
-    function _voteResult(uint256 proposal)
+    function _voteResult(storageTCN.ProposalCore memory proposal) private returns (ProposalState) {
+        address ballot = proposal.ballotContract;
+        (bool result, bytes memory data) = ballot.call(abi.encodeWithSignature("voteCountProposal()"));
+        if (result) {
+            uint256 voteCount = abi.decode(data, (uint256));
+            if (voteCount > proposal.quorum) {
+                return ProposalState.Succeeded;
+            } else return ProposalState.Defeated;
+        } else revert AddressNotReturnVoteCount(ballot);
+
+    }
 
 
 }
