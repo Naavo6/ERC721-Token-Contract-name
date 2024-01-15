@@ -22,6 +22,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     error Erc721InvalidTotalNewTokenId(uint16 total);
     error Erc721InvalidTokenInNewTokenId(uint16 token);
     error ERC721AccessIsNotApproved(address sender);
+    error ERC721StorageContractStateNotChange(address governance, uint256 proposalId);
 
 
     using Address for address;
@@ -171,7 +172,9 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     address newexecutor,
     address newbankAddress,
     uint256 newmintPrice,
-    uint16[1201] memory newTokenId) public {
+    uint16[1201] memory newTokenId,
+    bytes32 descriptionHash,
+    address governance) public payable {
 
         require(_msgSender() == mintInfo.executor, "You do not have access to this function");
         require(newmaxMint > mintInfo.nRegistrants && newregistrationStartTime >= block.timestamp, "The entered parameters are not acceptable");
@@ -179,10 +182,18 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
             revert Erc721InvalidTotalNewTokenId(newTokenId[0]);
         }
         if (newmaxMint > 1000) {
-            bytes32 sucessded;// bardashte mishe badan
-            require(newmaxMint < 1200 && (sucessded == stateVoting()), "You do not have permission to upgrade");
-            bytes32 executed; // bardashte mishe badan
-            setStateVoting(executed);
+            require(newmaxMint < 1200, "Mint cannot be more than 1200");
+            bytes memory callData = abi.encodeWithSignature("updateMintInfo(uint16,uint256,address,address,uint256,uint16[1201],bytes32,address)", newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice, newTokenId, descriptionHash, governance);
+            (,bytes memory hashProposal) = governance.call(abi.encodeWithSignature("hashProposal(address,uint256,bytes,bytes32)", address(this), msg.value, callData, descriptionHash));
+            uint256 proposalId = abi.decode(hashProposal, (uint256));
+            (bool suc, bytes memory state) = governance.call(abi.encodeWithSignature("state(uint256)", proposalId));
+            require(suc,"The state was not received");
+            uint256 state_ = abi.decode(state, (uint256));
+            require(state_ == 4, "The state is not allowed");
+            (bool sucess,) = governance.call(abi.encodeWithSignature("setproposalState(uint256, uint256)", 5, proposalId));
+             if (!sucess){
+                revert ERC721StorageContractStateNotChange(governance, proposalId);
+             }
         }
 
         mintInfo.maxMint = newmaxMint;
@@ -192,7 +203,6 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         mintInfo.mintPrice = newmintPrice;
         _balanceAndTokId[address(0)] = newTokenId;
         emit updatemintInfo(newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice);
-        
     }
 
     function setRegister(uint48 salt_) public payable returns (bytes memory) { // accsesemit barash benevis baraye tasir gozari dar dastresi

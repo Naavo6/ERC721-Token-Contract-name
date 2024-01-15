@@ -149,6 +149,22 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "governance",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "ERC721StorageContractStateNotChange",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint16",
 						"name": "token",
 						"type": "uint16"
@@ -663,11 +679,21 @@
 						"internalType": "uint16[1201]",
 						"name": "newTokenId",
 						"type": "uint16[1201]"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "descriptionHash",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "governance",
+						"type": "address"
 					}
 				],
 				"name": "updateMintInfo",
 				"outputs": [],
-				"stateMutability": "nonpayable",
+				"stateMutability": "payable",
 				"type": "function"
 			}
 		],
@@ -820,11 +846,11 @@
 			]
 		},
 		"contracts/ERC721TokenContractName.sol": {
-			"keccak256": "0xc8707a5aafe8c81134a0998f706497eb19e31b02081e4d0174956c1c09873eaa",
+			"keccak256": "0xfe1ef6b76d95ea7cc2e569ecc15e6dbb97bb134119584148884b2b21606200c1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6b4c61215634bb93ce404c613e5838dee0185efddcd0119e279015c896f6c92f",
-				"dweb:/ipfs/Qmc1a1QTK1e9oVyUXzLp2nRJaZWi3KQpEp2avswnhSiDiF"
+				"bzz-raw://90801b811752a73746c60be9054c23c7641c5deaccc0e9377db04a916ec75bf0",
+				"dweb:/ipfs/QmU9vB5k3fhuwo1T5E84kXSeL2e6CzGDz9uMbpM8tucAV1"
 			]
 		},
 		"contracts/IERc721TokenContractNameReceiver.sol": {

@@ -110,6 +110,11 @@ contract TokenNamGovernor is EIP712 {
 
     }
 
+    function setproposalState(uint256 state_, uint256 proposalId) public {
+            storageTCN contractStorage_ = storageTCN(_connectors[msg.sender]);
+            contractStorage_.setProposalState(state_, proposalId);
+    }
+
     function _voteResult(storageTCN.ProposalCore memory proposal) private returns (ProposalState) {
         address ballot = proposal.ballotContract;
         (bool result, bytes memory data) = ballot.call(abi.encodeWithSignature("voteCountProposal()"));
