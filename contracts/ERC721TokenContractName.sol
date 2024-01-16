@@ -164,6 +164,24 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         _checkOnERC721Received(from, to, tokenId, data);
     }
 
+    function setBallotForupdateMintInfo(
+        uint16 newmaxMint,
+        uint256 newregistrationStartTime,
+        address newexecutor,
+        address newbankAddress,
+        uint256 newmintPrice,
+        uint16[1201] memory newTokenId,
+        bytes32 descriptionHash,
+        address governance,
+        uint256 value,
+        address proposer,
+        address ballotAddress) public {
+
+            require(newmaxMint < 1200, "Mint cannot be more than 1200");
+            bytes memory callData = abi.encodeWithSignature("updateMintInfo(uint16,uint256,address,address,uint256,uint16[],bytes32,address)", newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice, newTokenId, descriptionHash, governance);
+            (bool suc,) = governance.call(abi.encodeWithSignature("propose(address,uint256,bytes,bytes32)", address(this), value, callData, descriptionHash, proposer, ballotAddress));
+        }
+
 
     function updateMintInfo(
     uint16 newmaxMint,
@@ -182,7 +200,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         }
         if (newmaxMint > 1000) {
             require(newmaxMint < 1200, "Mint cannot be more than 1200");
-            bytes memory callData = abi.encodeWithSignature("updateMintInfo(uint16,uint256,address,address,uint256,uint16[1201],bytes32,address)", newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice, newTokenId, descriptionHash, governance);
+            bytes memory callData = abi.encodeWithSignature("updateMintInfo(uint16,uint256,address,address,uint256,uint16[],bytes32,address)", newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice, newTokenId, descriptionHash, governance);
             (bool suc,) = governance.call(abi.encodeWithSignature("execute(address,uint256,bytes,bytes32)", address(this), msg.value, callData, descriptionHash));
             require(suc,"execute permission function failed");
         }
@@ -344,14 +362,6 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
 
 
 
-
-    function setStateVoting(bytes32 state) internal {
-
-    }// bardashte mishe badan
-
-    function stateVoting() public returns(bytes32) {
-
-    }// bardashte mishe badan
 
     function governoraccess (address) public returns (bool) {
 

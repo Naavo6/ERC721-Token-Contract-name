@@ -12,6 +12,8 @@ contract storageTCN {
 
     error stateIsInvalid(uint256 proposalState);
 
+    struct ACTIVITY
+
     struct ProposalCore {
         address proposer;
         address ballotContract;

@@ -15,6 +15,7 @@ contract TokenNamGovernor is EIP712 {
 
     error GovernorNonexistentProposal(uint256 proposalId);
     error AddressNotReturnVoteCount(address ballot);
+    error StorageContractS_invalidAccess(address Applicant);
     error StorageContractS_invalidState(address storageContract, uint256 proposalId);
 
     struct ProposalCore { // mitoone nabashe
@@ -113,16 +114,19 @@ contract TokenNamGovernor is EIP712 {
     }
 
     function execute(address target, uint256 value, bytes memory callData, bytes32 descriptionHash) public {
-        uint256 proposalId = hashProposal(target, value, callData, descriptionHash);
-        ProposalState proState = state(proposalId);
+        if (target == msg.sender){ 
+            uint256 proposalId = hashProposal(target, value, callData, descriptionHash);
+            ProposalState proState = state(proposalId);
 
-        if(proState == ProposalState.Succeeded) {
-            storageTCN contractStorage_ = storageTCN(_connectors[msg.sender]);
-            contractStorage_.setProposalState(5, proposalId);
+            if(proState == ProposalState.Succeeded) {
+                storageTCN contractStorage_ = storageTCN(_connectors[msg.sender]);
+                contractStorage_.setProposalState(5, proposalId);
 
-            emit ChangeStateToExecutedAndContinue(_connectors[msg.sender], proposalId);
+                emit ChangeStateToExecutedAndContinue(_connectors[msg.sender], proposalId);
 
-        } else revert StorageContractS_invalidState(_connectors[msg.sender], proposalId);
+            } else revert StorageContractS_invalidState(_connectors[msg.sender], proposalId);
+
+        } else revert StorageContractS_invalidAccess(msg.sender);
     }
 
 
