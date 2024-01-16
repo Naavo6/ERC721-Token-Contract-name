@@ -149,22 +149,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "governance",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "proposalId",
-						"type": "uint256"
-					}
-				],
-				"name": "ERC721StorageContractStateNotChange",
-				"type": "error"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "uint16",
 						"name": "token",
 						"type": "uint16"
@@ -846,11 +830,11 @@
 			]
 		},
 		"contracts/ERC721TokenContractName.sol": {
-			"keccak256": "0xfe1ef6b76d95ea7cc2e569ecc15e6dbb97bb134119584148884b2b21606200c1",
+			"keccak256": "0x00e9291634e239d1d02c630b60f4218f19adb6bce297c4a90842c34b1029d844",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://90801b811752a73746c60be9054c23c7641c5deaccc0e9377db04a916ec75bf0",
-				"dweb:/ipfs/QmU9vB5k3fhuwo1T5E84kXSeL2e6CzGDz9uMbpM8tucAV1"
+				"bzz-raw://74a638ae81a9c6cae52b09c9517568dd635b996c4af0a2aa6f674480989b5add",
+				"dweb:/ipfs/QmaWLtkKjSbHRW6cpAw3rKSzgLWVGsv44Bs6ABA6W6BhrP"
 			]
 		},
 		"contracts/IERc721TokenContractNameReceiver.sol": {

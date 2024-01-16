@@ -22,7 +22,6 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     error Erc721InvalidTotalNewTokenId(uint16 total);
     error Erc721InvalidTokenInNewTokenId(uint16 token);
     error ERC721AccessIsNotApproved(address sender);
-    error ERC721StorageContractStateNotChange(address governance, uint256 proposalId);
 
 
     using Address for address;
@@ -184,16 +183,8 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         if (newmaxMint > 1000) {
             require(newmaxMint < 1200, "Mint cannot be more than 1200");
             bytes memory callData = abi.encodeWithSignature("updateMintInfo(uint16,uint256,address,address,uint256,uint16[1201],bytes32,address)", newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice, newTokenId, descriptionHash, governance);
-            (,bytes memory hashProposal) = governance.call(abi.encodeWithSignature("hashProposal(address,uint256,bytes,bytes32)", address(this), msg.value, callData, descriptionHash));
-            uint256 proposalId = abi.decode(hashProposal, (uint256));
-            (bool suc, bytes memory state) = governance.call(abi.encodeWithSignature("state(uint256)", proposalId));
-            require(suc,"The state was not received");
-            uint256 state_ = abi.decode(state, (uint256));
-            require(state_ == 4, "The state is not allowed");
-            (bool sucess,) = governance.call(abi.encodeWithSignature("setproposalState(uint256, uint256)", 5, proposalId));
-             if (!sucess){
-                revert ERC721StorageContractStateNotChange(governance, proposalId);
-             }
+            (bool suc,) = governance.call(abi.encodeWithSignature("execute(address,uint256,bytes,bytes32)", address(this), msg.value, callData, descriptionHash));
+            require(suc,"execute permission function failed");
         }
 
         mintInfo.maxMint = newmaxMint;

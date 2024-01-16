@@ -11,8 +11,11 @@ import {storageTCN} from "contracts/storageTokenContractName.sol";
 
 contract TokenNamGovernor is EIP712 {
 
+    event ChangeStateToExecutedAndContinue(address storageContract, uint256 indexed proposalId);
+
     error GovernorNonexistentProposal(uint256 proposalId);
     error AddressNotReturnVoteCount(address ballot);
+    error StorageContractS_invalidState(address storageContract, uint256 proposalId);
 
     struct ProposalCore { // mitoone nabashe
         address proposer;
@@ -107,13 +110,21 @@ contract TokenNamGovernor is EIP712 {
             contractStorage.setProposalState(state_, proposalId);
             return result;
         }
-
     }
 
-    function setproposalState(uint256 state_, uint256 proposalId) public {
+    function execute(address target, uint256 value, bytes memory callData, bytes32 descriptionHash) public {
+        uint256 proposalId = hashProposal(target, value, callData, descriptionHash);
+        ProposalState proState = state(proposalId);
+
+        if(proState == ProposalState.Succeeded) {
             storageTCN contractStorage_ = storageTCN(_connectors[msg.sender]);
-            contractStorage_.setProposalState(state_, proposalId);
+            contractStorage_.setProposalState(5, proposalId);
+
+            emit ChangeStateToExecutedAndContinue(_connectors[msg.sender], proposalId);
+
+        } else revert StorageContractS_invalidState(_connectors[msg.sender], proposalId);
     }
+
 
     function _voteResult(storageTCN.ProposalCore memory proposal) private returns (ProposalState) {
         address ballot = proposal.ballotContract;
