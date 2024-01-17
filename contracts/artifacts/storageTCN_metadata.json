@@ -19,6 +19,25 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint16",
+						"name": "quorumProposal",
+						"type": "uint16"
+					}
+				],
+				"name": "isQuorumValid",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "proposalId",
 						"type": "uint256"
@@ -90,6 +109,29 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint48",
+						"name": "time",
+						"type": "uint48"
+					},
+					{
+						"internalType": "uint16",
+						"name": "tokenId",
+						"type": "uint16"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "varName",
+						"type": "bytes32"
+					}
+				],
+				"name": "setActivityTimeToken",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "proposalState",
 						"type": "uint256"
@@ -134,11 +176,11 @@
 	},
 	"sources": {
 		"contracts/storageTokenContractName.sol": {
-			"keccak256": "0xa0c43db139e655bcfaa13c5b98865c27fd0cd3a814245693a1586eaa3e4ef544",
+			"keccak256": "0x59f0f712eecfb108a857cb05e920113005beb896a7dc591f38166e2a9ba35b81",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b5e8a0d4d95559b0ab665d4f69d2f314af54149ff2bfdb96047ee1a0c8b429e8",
-				"dweb:/ipfs/Qmf35HfkbZHm73hatgkyYdYEnpqoDFLzBerPDPob3aFAjf"
+				"bzz-raw://d47cd30b2f882d39ae2101d48f4a78a1c4e38806e7614dfcda6ba56a62efe72c",
+				"dweb:/ipfs/QmRHS2RacaVCLVmdWyZ9HM9WVLxi95SyhmyxpcySGL3Axx"
 			]
 		}
 	},

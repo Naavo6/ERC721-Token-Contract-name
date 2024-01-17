@@ -177,7 +177,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         address proposer,
         address ballotAddress) public {
 
-            require(newmaxMint < 1200, "Mint cannot be more than 1200");
+            require(newmaxMint <= 1200, "Mint cannot be more than 1200");
             bytes memory callData = abi.encodeWithSignature("updateMintInfo(uint16,uint256,address,address,uint256,uint16[],bytes32,address)", newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice, newTokenId, descriptionHash, governance);
             (bool suc,) = governance.call(abi.encodeWithSignature("propose(address,uint256,bytes,bytes32)", address(this), value, callData, descriptionHash, proposer, ballotAddress));
         }
@@ -199,7 +199,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
             revert Erc721InvalidTotalNewTokenId(newTokenId[0]);
         }
         if (newmaxMint > 1000) {
-            require(newmaxMint < 1200, "Mint cannot be more than 1200");
+            require(newmaxMint <= 1200, "Mint cannot be more than 1200");
             bytes memory callData = abi.encodeWithSignature("updateMintInfo(uint16,uint256,address,address,uint256,uint16[],bytes32,address)", newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice, newTokenId, descriptionHash, governance);
             (bool suc,) = governance.call(abi.encodeWithSignature("execute(address,uint256,bytes,bytes32)", address(this), msg.value, callData, descriptionHash));
             require(suc,"execute permission function failed");

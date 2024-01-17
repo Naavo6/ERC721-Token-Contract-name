@@ -46,6 +46,33 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "Applicant",
+						"type": "address"
+					}
+				],
+				"name": "StorageContractS_invalidAccess",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "storageContract",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "StorageContractS_invalidState",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "string",
 						"name": "str",
 						"type": "string"
@@ -53,6 +80,25 @@
 				],
 				"name": "StringTooLong",
 				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "storageContract",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "ChangeStateToExecutedAndContinue",
+				"type": "event"
 			},
 			{
 				"anonymous": false,
@@ -152,6 +198,34 @@
 						"type": "bytes32"
 					}
 				],
+				"name": "execute",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "callData",
+						"type": "bytes"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "descriptionHash",
+						"type": "bytes32"
+					}
+				],
 				"name": "hashProposal",
 				"outputs": [
 					{
@@ -190,24 +264,6 @@
 					}
 				],
 				"name": "setConnectors",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "state_",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "proposalId",
-						"type": "uint256"
-					}
-				],
-				"name": "setproposalState",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -346,19 +402,19 @@
 			]
 		},
 		"contracts/Governance.sol": {
-			"keccak256": "0x0e01973f7a1ea5d69039f690e356062195f1c451ee79ea4b8d1887e91d5c6baa",
+			"keccak256": "0x86b254156476c03544e100f215e5d4776500114a2d1b727b21d957872399a3e8",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4d89a63f30f3612db77869f42f08757d0e877f991b0d18dfa2921502afc10e47",
-				"dweb:/ipfs/QmdpAfWCbVvT5VRo3NFYc9qwPExkCDxGUrpadK1Suh8ucS"
+				"bzz-raw://f54d2ef1c4a7ac144168db493bc2b57451af24b11f9615295fb5925afba2af6d",
+				"dweb:/ipfs/QmNMA9Y7wUZGs8FuvxUo42ebQfHXtskrPmkCTi2ZZSDzND"
 			]
 		},
 		"contracts/storageTokenContractName.sol": {
-			"keccak256": "0xa53bc8344daa71fa6677e71cf4f5cec3336e967612095bcbdd8c47ce01ab52c9",
+			"keccak256": "0x25fc003193baccce791002955e515dc9eed8400f7eb932f4a0335988f312b183",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e39e965e786425350741d78294e971574b08f1002e957073790895e54590cda2",
-				"dweb:/ipfs/QmVnWvrLWN2nMGGMwAtawVbzUXrif5qrSDiVs8BBuj7HXH"
+				"bzz-raw://88263e56dc55d5ea06d0ae7f9c5142d76514f4d704b042f053a3b390ce47b30a",
+				"dweb:/ipfs/QmbeUrX76CWvKLRsuzyqXHP5citKYquxYvRrEo6GdNC1Be"
 			]
 		}
 	},
