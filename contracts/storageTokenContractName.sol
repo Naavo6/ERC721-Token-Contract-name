@@ -40,25 +40,26 @@ contract storageTCN {
 
 
 
-    function setActivityTimeToken(uint48 time, uint16 tokenId, bytes32 varName) public {
+    function setActivityTimeToken(uint256 time, uint16 tokenId, bytes32 varName) public {
         bytes32 varName_ = keccak256(abi.encodePacked(varName));
+        uint48 time_ = uint48(time);
        if (keccak256(abi.encodePacked("forAny")) == varName_) {
-        activityTimeToken.forAny[tokenId] = time;
+        activityTimeToken.forAny[tokenId] = time_;
         activityTimeToken.forAny[0] += 1;
        } else if (keccak256(abi.encodePacked("lastPartiAuction")) == varName_) {
-        activityTimeToken.forAny[tokenId] = time;
+        activityTimeToken.forAny[tokenId] = time_;
         activityTimeToken.forAny[0] += 1;
-        activityTimeToken.lastPartiAuction[tokenId] = time;
+        activityTimeToken.lastPartiAuction[tokenId] = time_;
         activityTimeToken.lastPartiAuction[0] += 1;
        } else if (keccak256(abi.encodePacked("lastSucAuction")) == varName_) {
-        activityTimeToken.forAny[tokenId] = time;
+        activityTimeToken.forAny[tokenId] = time_;
         activityTimeToken.forAny[0] += 1;
-        activityTimeToken.lastSucAuction[tokenId] = time;
+        activityTimeToken.lastSucAuction[tokenId] = time_;
         activityTimeToken.lastSucAuction[0] += 1;
        } else if (keccak256(abi.encodePacked("lastTransfer")) == varName_) {
-        activityTimeToken.forAny[tokenId] = time;
+        activityTimeToken.forAny[tokenId] = time_;
         activityTimeToken.forAny[0] += 1;
-        activityTimeToken.lastTransfer[tokenId] = time;
+        activityTimeToken.lastTransfer[tokenId] = time_;
         activityTimeToken.lastTransfer[0] += 1;
        }
     }
@@ -70,7 +71,7 @@ contract storageTCN {
         uint16 i;
         for (i = 1; i <= 1200; i++) {
             if (activityTimeToken.forAny[i] == 0) {
-                break
+                break;
             } else if (sampleTime < activityTimeToken.forAny[i]) {
                 ++activeToken;
             }

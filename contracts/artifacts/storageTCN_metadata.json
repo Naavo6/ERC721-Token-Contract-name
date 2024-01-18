@@ -109,9 +109,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint48",
+						"internalType": "uint256",
 						"name": "time",
-						"type": "uint48"
+						"type": "uint256"
 					},
 					{
 						"internalType": "uint16",
@@ -176,11 +176,11 @@
 	},
 	"sources": {
 		"contracts/storageTokenContractName.sol": {
-			"keccak256": "0x59f0f712eecfb108a857cb05e920113005beb896a7dc591f38166e2a9ba35b81",
+			"keccak256": "0xa2c03eb055074e3426f6b10818237f7ea1d9659f1e6159dd5641023839c14879",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d47cd30b2f882d39ae2101d48f4a78a1c4e38806e7614dfcda6ba56a62efe72c",
-				"dweb:/ipfs/QmRHS2RacaVCLVmdWyZ9HM9WVLxi95SyhmyxpcySGL3Axx"
+				"bzz-raw://cddfbee35502ce1e3044ff244f095c98590bc2fcead572a64061a6d132fcc38a",
+				"dweb:/ipfs/QmThhswSm22YMyTVnu76jR5gubsCfDQt4Uz187BJRJv3YE"
 			]
 		}
 	},

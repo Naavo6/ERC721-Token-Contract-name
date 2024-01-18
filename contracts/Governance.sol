@@ -113,6 +113,10 @@ contract TokenNamGovernor is EIP712 {
         }
     }
 
+    function proposal() public {
+        (bool suc,) = IQuorumvalid
+    }
+
     function execute(address target, uint256 value, bytes memory callData, bytes32 descriptionHash) public {
         if (target == msg.sender){ 
             uint256 proposalId = hashProposal(target, value, callData, descriptionHash);

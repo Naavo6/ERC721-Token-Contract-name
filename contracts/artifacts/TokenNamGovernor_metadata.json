@@ -410,11 +410,11 @@
 			]
 		},
 		"contracts/storageTokenContractName.sol": {
-			"keccak256": "0x25fc003193baccce791002955e515dc9eed8400f7eb932f4a0335988f312b183",
+			"keccak256": "0xa2c03eb055074e3426f6b10818237f7ea1d9659f1e6159dd5641023839c14879",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://88263e56dc55d5ea06d0ae7f9c5142d76514f4d704b042f053a3b390ce47b30a",
-				"dweb:/ipfs/QmbeUrX76CWvKLRsuzyqXHP5citKYquxYvRrEo6GdNC1Be"
+				"bzz-raw://cddfbee35502ce1e3044ff244f095c98590bc2fcead572a64061a6d132fcc38a",
+				"dweb:/ipfs/QmThhswSm22YMyTVnu76jR5gubsCfDQt4Uz187BJRJv3YE"
 			]
 		}
 	},

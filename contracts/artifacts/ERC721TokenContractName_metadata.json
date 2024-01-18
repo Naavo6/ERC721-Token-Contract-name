@@ -16,6 +16,16 @@
 						"internalType": "bytes10",
 						"name": "symbol_",
 						"type": "bytes10"
+					},
+					{
+						"internalType": "address",
+						"name": "governance_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "storageContract_",
+						"type": "address"
 					}
 				],
 				"stateMutability": "nonpayable",
@@ -30,6 +40,17 @@
 					}
 				],
 				"name": "ERC721AccessIsNotApproved",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint16",
+						"name": "newMaxMint",
+						"type": "uint16"
+					}
+				],
+				"name": "ERC721CantMoreThan1200",
 				"type": "error"
 			},
 			{
@@ -78,6 +99,17 @@
 					}
 				],
 				"name": "ERC721InvalidApprover",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "governance",
+						"type": "address"
+					}
+				],
+				"name": "ERC721InvalidGovernanceAddress",
 				"type": "error"
 			},
 			{
@@ -144,6 +176,22 @@
 					}
 				],
 				"name": "ERC721NonexistentToken",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint16",
+						"name": "newmaxMint",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint256",
+						"name": "newregistrationStartTime",
+						"type": "uint256"
+					}
+				],
+				"name": "ERC721ParamArentAcceptable",
 				"type": "error"
 			},
 			{
@@ -241,6 +289,25 @@
 					}
 				],
 				"name": "Transfer",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint16",
+						"name": "tokenId",
+						"type": "uint16"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "time",
+						"type": "uint256"
+					}
+				],
+				"name": "updateActivityTimeTransfer",
 				"type": "event"
 			},
 			{
@@ -499,6 +566,24 @@
 					}
 				],
 				"name": "safeTransferFrom",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "address_",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "varName",
+						"type": "bytes32"
+					}
+				],
+				"name": "setAccessAddress",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -880,11 +965,11 @@
 			]
 		},
 		"contracts/ERC721TokenContractName.sol": {
-			"keccak256": "0x8a8cbfbd4e102083b4a132fc3263e761aceee4afeb629b4091ce66bada02b276",
+			"keccak256": "0x31f05093b6700d9ab373517231e29b84da5fc4cc29eef0a35702cbbc23dd39ad",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d5dd8c473e7656c744703d6cd73ecd24de229c0b5d2d95da513c052960512d9c",
-				"dweb:/ipfs/QmYiqJEJ9yx8W9E2fW5wGWjWHkLWgLvstYFZXEWxyFHzaP"
+				"bzz-raw://8854c10d21e7a313cdf2553b200600e0a4c9094f759d6b6f13e90161203511ca",
+				"dweb:/ipfs/QmPY2KNGjdQ5pJG1rxrRfyeok1tpCWHEZAiwQ16WnXWyb2"
 			]
 		},
 		"contracts/IERc721TokenContractNameReceiver.sol": {
