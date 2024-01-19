@@ -44,48 +44,50 @@ contract storageTCN {
         bytes32 varName_ = keccak256(abi.encodePacked(varName));
         uint48 time_ = uint48(time);
        if (keccak256(abi.encodePacked("forAny")) == varName_) {
-        activityTimeToken.forAny[tokenId] = time_;
-        activityTimeToken.forAny[0] += 1;
+            activityTimeToken.forAny[tokenId] = time_;
+            activityTimeToken.forAny[0] += 1;
        } else if (keccak256(abi.encodePacked("lastPartiAuction")) == varName_) {
-        activityTimeToken.forAny[tokenId] = time_;
-        activityTimeToken.forAny[0] += 1;
-        activityTimeToken.lastPartiAuction[tokenId] = time_;
-        activityTimeToken.lastPartiAuction[0] += 1;
+            activityTimeToken.forAny[tokenId] = time_;
+            activityTimeToken.forAny[0] += 1;
+            activityTimeToken.lastPartiAuction[tokenId] = time_;
+            activityTimeToken.lastPartiAuction[0] += 1;
        } else if (keccak256(abi.encodePacked("lastSucAuction")) == varName_) {
-        activityTimeToken.forAny[tokenId] = time_;
-        activityTimeToken.forAny[0] += 1;
-        activityTimeToken.lastSucAuction[tokenId] = time_;
-        activityTimeToken.lastSucAuction[0] += 1;
+            activityTimeToken.forAny[tokenId] = time_;
+            activityTimeToken.forAny[0] += 1;
+            activityTimeToken.lastSucAuction[tokenId] = time_;
+            activityTimeToken.lastSucAuction[0] += 1;
        } else if (keccak256(abi.encodePacked("lastTransfer")) == varName_) {
-        activityTimeToken.forAny[tokenId] = time_;
-        activityTimeToken.forAny[0] += 1;
-        activityTimeToken.lastTransfer[tokenId] = time_;
-        activityTimeToken.lastTransfer[0] += 1;
+            activityTimeToken.forAny[tokenId] = time_;
+            activityTimeToken.forAny[0] += 1;
+            activityTimeToken.lastTransfer[tokenId] = time_;
+            activityTimeToken.lastTransfer[0] += 1;
        }
     }
 
-    function isQuorumValid(uint16 quorumProposal) public view returns (bool) {
-        uint256 currentTime = block.timestamp;
-        uint48 sampleTime = uint48(currentTime - 60 days);
-        uint16 activeToken;
-        uint16 i;
-        for (i = 1; i <= 1200; i++) {
-            if (activityTimeToken.forAny[i] == 0) {
-                break;
-            } else if (sampleTime < activityTimeToken.forAny[i]) {
-                ++activeToken;
-            }
-        }
-        if (quorumProposal > (i/2)) {
-            return true;
-        }else if (((quorumProposal/activeToken) * 100) > 70) {
-            return true;
-        }else return false;
-    }
 
     function proposals(uint256 proposalId) public view returns (ProposalCore memory) {
         return _proposals[proposalId];
     }
+
+
+    function getActivityTimeToken(bytes32 varName) public view returns (uint48[1201] memory time_) {
+         bytes32 varName_ = keccak256(abi.encodePacked(varName));
+
+        if (keccak256(abi.encodePacked("forAny")) == varName_) {
+            time_ = activityTimeToken.forAny;
+            return time_;
+       } else if (keccak256(abi.encodePacked("lastPartiAuction")) == varName_) {
+           time_ = activityTimeToken.lastPartiAuction;
+            return time_;
+       } else if (keccak256(abi.encodePacked("lastSucAuction")) == varName_) {
+           time_ = activityTimeToken.lastSucAuction;
+            return time_;
+       } else if (keccak256(abi.encodePacked("lastTransfer")) == varName_) {
+           time_ = activityTimeToken.lastTransfer;
+            return time_;
+       }
+    }
+
 
     function setProposalState(uint256 proposalState, uint256 proposalId) public {
         if (2 >= proposalState || proposalState >= 5) {

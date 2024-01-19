@@ -11,12 +11,18 @@ import {storageTCN} from "contracts/storageTokenContractName.sol";
 
 contract TokenNamGovernor is EIP712 {
 
-    event ChangeStateToExecutedAndContinue(address storageContract, uint256 indexed proposalId);
+    event ChangeStateToExecutedAndContinue(address indexed  storageContract, uint256 indexed proposalId);
+    event changeVoteDuration(uint32 indexed  time);
+    event changeEtaSeconds(uint32 indexed  time);
+    event changeVoteDelay(uint32 indexed  time);
 
     error GovernorNonexistentProposal(uint256 proposalId);
     error AddressNotReturnVoteCount(address ballot);
     error StorageContractS_invalidAccess(address Applicant);
     error StorageContractS_invalidState(address storageContract, uint256 proposalId);
+    error invalidProposalParam(bytes callData, bytes32 descriptionHash);
+    error invalidQuorum(uint16 quorum);
+    error ivalidVoteStart(uint48 voteStart);
 
     struct ProposalCore { // mitoone nabashe
         address proposer;
@@ -42,6 +48,12 @@ contract TokenNamGovernor is EIP712 {
 
     string private _name;
 
+    uint32 private _voteDuration = 1 days;
+
+    uint32 private _etaSeconds = 1 days;
+
+    uint32 private _voteDelay = 7 days;
+
 
     
 
@@ -61,8 +73,23 @@ contract TokenNamGovernor is EIP712 {
         return block.timestamp;
     }
 
-    function CLOCK_MODE() public view returns (string memory) {
+    function CLOCK_MODE() public pure returns (string memory) {
         return "Time stamp";
+    }
+
+    function setvoteTiming(uint32 time, bytes32 varName) public {
+        bytes32 varName_ = keccak256(abi.encodePacked(varName));
+        uint32 time_ = uint32(time);
+        if (keccak256(abi.encodePacked("_voteDuration")) == varName_) {
+           _voteDuration = time_;
+            emit changeVoteDuration(time_);
+       } else if (keccak256(abi.encodePacked("_etaSeconds")) == varName_) {
+           _etaSeconds = time_;
+            emit changeEtaSeconds(time_);
+       } else if (keccak256(abi.encodePacked("_votedelay")) == varName_) {
+           _voteDelay = time_;
+           emit changeVoteDelay(time_);
+       }
     }
 
     function setConnectors(address applicantAdd_, address storageAdd_) public { // modifier lazeme ba contract access control
@@ -75,17 +102,17 @@ contract TokenNamGovernor is EIP712 {
 
     function state(uint256 proposalId) public returns (ProposalState) {
        storageTCN contractStorage = storageTCN(_connectors[msg.sender]);
-       storageTCN.ProposalCore memory proposal = contractStorage.proposals(proposalId);
+       storageTCN.ProposalCore memory proposal_ = contractStorage.proposals(proposalId);
 
-       if (proposal.executed) {
+       if (proposal_.executed) {
         return ProposalState.Executed;
        }
 
-       if (proposal.canceled) {
+       if (proposal_.canceled) {
         return ProposalState.Canceled;
        }
 
-       uint256 snapshot = proposal.voteStart;
+       uint256 snapshot = proposal_.voteStart;
 
        if (snapshot == 0) {
         revert GovernorNonexistentProposal(proposalId);
@@ -97,24 +124,46 @@ contract TokenNamGovernor is EIP712 {
         return ProposalState.Pending;
        }
 
-       uint256 deadline = snapshot + proposal.voteDuration;
+       uint256 deadline = snapshot + proposal_.voteDuration;
 
        if (currentTimePoint <= deadline) {
         return ProposalState.Active;
-       } else if (proposal.Succeeded) {
+       } else if (proposal_.Succeeded) {
             return ProposalState.Succeeded;
-        } else if (proposal.Defeated) {
+        } else if (proposal_.Defeated) {
             return ProposalState.Defeated;
         } else {
-            ProposalState result = _voteResult(proposal);
+            ProposalState result = _voteResult(proposal_);
             uint256 state_ = uint256(result);
             contractStorage.setProposalState(state_, proposalId);
             return result;
         }
     }
 
-    function proposal() public {
-        (bool suc,) = IQuorumvalid
+    function proposal(
+        address target,
+        uint256 value,
+        bytes memory callData,
+        bytes32 descriptionHash,
+        address proposer,
+        address ballotAddress,
+        uint16 quorum,
+        uint48 voteStart) public {
+        (,bytes memory ballotCallData) = ballotAddress.call(abi.encodeWithSignature("getCallData()"));
+        (,bytes memory ballotDescriptionHash) = ballotAddress.call(abi.encodeWithSignature("getDescriptionHash()"));
+        bytes32 ballotDescriptionHash_ = abi.decode(ballotDescriptionHash, (bytes32));
+        if (!((keccak256(ballotCallData) == keccak256(callData)) && (ballotDescriptionHash_ == descriptionHash))) {
+            revert invalidProposalParam(callData, descriptionHash);
+        }
+        if (!isQuorumValid(quorum)) {
+            revert invalidQuorum(quorum);
+        }
+
+        if (voteStart < (block.timestamp + _voteDelay)) {
+            revert ivalidVoteStart(voteStart)
+        }
+
+        //(bool suc,) = IQuorumvalid
     }
 
     function execute(address target, uint256 value, bytes memory callData, bytes32 descriptionHash) public {
@@ -133,13 +182,34 @@ contract TokenNamGovernor is EIP712 {
         } else revert StorageContractS_invalidAccess(msg.sender);
     }
 
+    function isQuorumValid(uint16 quorumProposal) private view returns (bool) {
+        storageTCN contractStorage_ = storageTCN(_connectors[msg.sender]);
+        uint48[1201] memory forAny = contractStorage_.getActivityTimeToken("forAny");
+        uint256 currentTime = block.timestamp;
+        uint48 sampleTime = uint48(currentTime - 60 days);
+        uint16 activeToken;
+        uint16 i;
+        for (i = 1; i <= 1200; i++) {
+            if (forAny[i] == 0) {
+                break;
+            } else if (sampleTime < forAny[i]) {
+                ++activeToken;
+            }
+        }
+        if (quorumProposal > (i/2)) {
+            return true;
+        }else if (((quorumProposal/activeToken) * 100) > 70) {
+            return true;
+        }else return false;
+    }
 
-    function _voteResult(storageTCN.ProposalCore memory proposal) private returns (ProposalState) {
-        address ballot = proposal.ballotContract;
+
+    function _voteResult(storageTCN.ProposalCore memory proposal_) private returns (ProposalState) {
+        address ballot = proposal_.ballotContract;
         (bool result, bytes memory data) = ballot.call(abi.encodeWithSignature("voteCountProposal()"));
         if (result) {
             uint256 voteCount = abi.decode(data, (uint256));
-            if (voteCount > proposal.quorum) {
+            if (voteCount > proposal_.quorum) {
                 return ProposalState.Succeeded;
             } else return ProposalState.Defeated;
         } else revert AddressNotReturnVoteCount(ballot);

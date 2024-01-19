@@ -175,29 +175,24 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     }
 
     function setBallotForupdateMintInfo(
-        uint16 newmaxMint,
-        uint256 newregistrationStartTime,
-        address newexecutor,
-        address newbankAddress,
-        uint256 newmintPrice,
-        uint16[1201] memory newTokenId,
-        bytes32 descriptionHash,
-        address governance,
         uint256 value,
-        address proposer,
-        address ballotAddress) public {
+        bytes memory callData,
+        bytes32 descriptionHash,
+        address ballotAddress,
+        uint16 quorum,
+        uint32 voteDuration,
+        uint48 voteStart) public returns (uint256 proposalId) {
+
             require(_msgSender() == mintInfo.executor, "You do not have access to this function");
-           if (1000 < newmaxMint && newmaxMint <= 1200) { 
-                if (newmaxMint > mintInfo.nRegistrants && newregistrationStartTime >= block.timestamp) {
-                    revert ERC721ParamArentAcceptable(newmaxMint, newregistrationStartTime);
-                } else if ((newmaxMint - mintInfo.currentTokens) != newTokenId[0]) {
-                    revert Erc721InvalidTotalNewTokenId(newTokenId[0]);
-                } else if (governance != _governance) {
-                    revert ERC721InvalidGovernanceAddress(governance);
-                }
-            bytes memory callData = abi.encodeWithSignature("updateMintInfo(uint16,uint256,address,address,uint256,uint16[],bytes32,address)", newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice, newTokenId, descriptionHash, governance);
-            (bool suc,) = governance.call(abi.encodeWithSignature("propose(address,uint256,bytes,bytes32)", address(this), value, callData, descriptionHash, proposer, ballotAddress));
-            } else revert ERC721CantMoreThan1200(newmaxMint);
+
+            (,bytes memory data) = _governance.call(
+                abi.encodeWithSignature(
+                "propose(address,uint256,bytes,bytes32,address,address,uint16,uint32,uint48)",
+                address(this), value, callData, descriptionHash, msg.sender, ballotAddress, quorum, voteDuration, voteStart
+                )
+                );
+                proposalId = abi.decode(data, (uint256));
+                return proposalId;
         }
 
 
@@ -210,6 +205,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     uint16[1201] memory newTokenId,
     bytes32 descriptionHash,
     address governance) public payable {
+
         require(_msgSender() == mintInfo.executor, "You do not have access to this function");
         if (0 < newmaxMint && newmaxMint <= 1000) {
                 if (newmaxMint > mintInfo.nRegistrants && newregistrationStartTime >= block.timestamp) {

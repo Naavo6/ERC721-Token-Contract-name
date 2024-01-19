@@ -82,10 +82,48 @@
 				"type": "error"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "bytes",
+						"name": "callData",
+						"type": "bytes"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "descriptionHash",
+						"type": "bytes32"
+					}
+				],
+				"name": "invalidProposalParam",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint16",
+						"name": "quorum",
+						"type": "uint16"
+					}
+				],
+				"name": "invalidQuorum",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint48",
+						"name": "voteStart",
+						"type": "uint48"
+					}
+				],
+				"name": "ivalidVoteStart",
+				"type": "error"
+			},
+			{
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": false,
+						"indexed": true,
 						"internalType": "address",
 						"name": "storageContract",
 						"type": "address"
@@ -107,6 +145,45 @@
 				"type": "event"
 			},
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "time",
+						"type": "uint32"
+					}
+				],
+				"name": "changeEtaSeconds",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "time",
+						"type": "uint32"
+					}
+				],
+				"name": "changeVoteDelay",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "time",
+						"type": "uint32"
+					}
+				],
+				"name": "changeVoteDuration",
+				"type": "event"
+			},
+			{
 				"inputs": [],
 				"name": "CLOCK_MODE",
 				"outputs": [
@@ -116,7 +193,7 @@
 						"type": "string"
 					}
 				],
-				"stateMutability": "view",
+				"stateMutability": "pure",
 				"type": "function"
 			},
 			{
@@ -254,6 +331,54 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "callData",
+						"type": "bytes"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "descriptionHash",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "proposer",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "ballotAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint16",
+						"name": "quorum",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint48",
+						"name": "voteStart",
+						"type": "uint48"
+					}
+				],
+				"name": "proposal",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "applicantAdd_",
 						"type": "address"
 					},
@@ -264,6 +389,24 @@
 					}
 				],
 				"name": "setConnectors",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint32",
+						"name": "time",
+						"type": "uint32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "varName",
+						"type": "bytes32"
+					}
+				],
+				"name": "setvoteTiming",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -402,19 +545,19 @@
 			]
 		},
 		"contracts/Governance.sol": {
-			"keccak256": "0x86b254156476c03544e100f215e5d4776500114a2d1b727b21d957872399a3e8",
+			"keccak256": "0x2ac948653442ca9ed67b1de0d6990a454a4d177d23d0825dc7edb6471965af4e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f54d2ef1c4a7ac144168db493bc2b57451af24b11f9615295fb5925afba2af6d",
-				"dweb:/ipfs/QmNMA9Y7wUZGs8FuvxUo42ebQfHXtskrPmkCTi2ZZSDzND"
+				"bzz-raw://ff4f156892429e8d99e5fd95e0a700c2baa18fa65ff693ae88b7cc2f206f06e9",
+				"dweb:/ipfs/QmQDaiP4HfoCnuFhkfzRmxf9QBH2zSKRepSoLEyoJMxrGn"
 			]
 		},
 		"contracts/storageTokenContractName.sol": {
-			"keccak256": "0xa2c03eb055074e3426f6b10818237f7ea1d9659f1e6159dd5641023839c14879",
+			"keccak256": "0x9d9f9ae7c03ac4fd5c08366796e4ca92bf8bb3b1f85b6c4eed61dd5459c2537c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://cddfbee35502ce1e3044ff244f095c98590bc2fcead572a64061a6d132fcc38a",
-				"dweb:/ipfs/QmThhswSm22YMyTVnu76jR5gubsCfDQt4Uz187BJRJv3YE"
+				"bzz-raw://2f89ad4a81cf4de9ce970d946a2fba6c5d9ced2f123ec66d7812e362e1779a0f",
+				"dweb:/ipfs/QmabvhXeyQ6JzuKpr1h1knc2xuvgDgShpwt1iugfRyGAuv"
 			]
 		}
 	},

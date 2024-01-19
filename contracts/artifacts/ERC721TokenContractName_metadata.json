@@ -609,34 +609,14 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint16",
-						"name": "newmaxMint",
-						"type": "uint16"
-					},
-					{
 						"internalType": "uint256",
-						"name": "newregistrationStartTime",
+						"name": "value",
 						"type": "uint256"
 					},
 					{
-						"internalType": "address",
-						"name": "newexecutor",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "newbankAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "newmintPrice",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint16[1201]",
-						"name": "newTokenId",
-						"type": "uint16[1201]"
+						"internalType": "bytes",
+						"name": "callData",
+						"type": "bytes"
 					},
 					{
 						"internalType": "bytes32",
@@ -645,27 +625,33 @@
 					},
 					{
 						"internalType": "address",
-						"name": "governance",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "value",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address",
-						"name": "proposer",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
 						"name": "ballotAddress",
 						"type": "address"
+					},
+					{
+						"internalType": "uint16",
+						"name": "quorum",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint32",
+						"name": "voteDuration",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint48",
+						"name": "voteStart",
+						"type": "uint48"
 					}
 				],
 				"name": "setBallotForupdateMintInfo",
-				"outputs": [],
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -965,11 +951,11 @@
 			]
 		},
 		"contracts/ERC721TokenContractName.sol": {
-			"keccak256": "0x31f05093b6700d9ab373517231e29b84da5fc4cc29eef0a35702cbbc23dd39ad",
+			"keccak256": "0xb080152102d1e3ddd8664d49c5daebfca9534ba77f9bff87db7047448fffed36",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8854c10d21e7a313cdf2553b200600e0a4c9094f759d6b6f13e90161203511ca",
-				"dweb:/ipfs/QmPY2KNGjdQ5pJG1rxrRfyeok1tpCWHEZAiwQ16WnXWyb2"
+				"bzz-raw://3ac1a63aca63ea64a26b348f88b75d3022d9a8e502c4aff57bb56016d8382ece",
+				"dweb:/ipfs/QmaV9gLWWjPe8JNFLUQN4Qq4gC54RKSgoWcM9xSh77hjTG"
 			]
 		},
 		"contracts/IERc721TokenContractNameReceiver.sol": {

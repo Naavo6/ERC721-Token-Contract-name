@@ -19,17 +19,17 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint16",
-						"name": "quorumProposal",
-						"type": "uint16"
+						"internalType": "bytes32",
+						"name": "varName",
+						"type": "bytes32"
 					}
 				],
-				"name": "isQuorumValid",
+				"name": "getActivityTimeToken",
 				"outputs": [
 					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
+						"internalType": "uint48[1201]",
+						"name": "time_",
+						"type": "uint48[1201]"
 					}
 				],
 				"stateMutability": "view",
@@ -176,11 +176,11 @@
 	},
 	"sources": {
 		"contracts/storageTokenContractName.sol": {
-			"keccak256": "0xa2c03eb055074e3426f6b10818237f7ea1d9659f1e6159dd5641023839c14879",
+			"keccak256": "0x9d9f9ae7c03ac4fd5c08366796e4ca92bf8bb3b1f85b6c4eed61dd5459c2537c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://cddfbee35502ce1e3044ff244f095c98590bc2fcead572a64061a6d132fcc38a",
-				"dweb:/ipfs/QmThhswSm22YMyTVnu76jR5gubsCfDQt4Uz187BJRJv3YE"
+				"bzz-raw://2f89ad4a81cf4de9ce970d946a2fba6c5d9ced2f123ec66d7812e362e1779a0f",
+				"dweb:/ipfs/QmabvhXeyQ6JzuKpr1h1knc2xuvgDgShpwt1iugfRyGAuv"
 			]
 		}
 	},
