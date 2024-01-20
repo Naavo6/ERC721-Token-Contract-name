@@ -3,6 +3,7 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 import {storageTCN} from "contracts/storageTokenContractName.sol";
+import {BallotTCN} from "contracts/3_Ballot.sol";
 
 
 
@@ -15,6 +16,7 @@ contract TokenNamGovernor is EIP712 {
     event changeVoteDuration(uint32 indexed  time);
     event changeEtaSeconds(uint32 indexed  time);
     event changeVoteDelay(uint32 indexed  time);
+    event setBallotVotingTimes(address indexed  ballotContract, uint32 voteDuration,uint48 indexed voteStart, uint48 _etaSeconds);
 
     error GovernorNonexistentProposal(uint256 proposalId);
     error AddressNotReturnVoteCount(address ballot);
@@ -22,7 +24,9 @@ contract TokenNamGovernor is EIP712 {
     error StorageContractS_invalidState(address storageContract, uint256 proposalId);
     error invalidProposalParam(bytes callData, bytes32 descriptionHash);
     error invalidQuorum(uint16 quorum);
-    error ivalidVoteStart(uint48 voteStart);
+    error invalidVoteStart(uint48 voteStart);
+    error invalidvoteDuration(uint32 voteDuration);
+
 
     struct ProposalCore { // mitoone nabashe
         address proposer;
@@ -148,6 +152,7 @@ contract TokenNamGovernor is EIP712 {
         address proposer,
         address ballotAddress,
         uint16 quorum,
+        uint32 voteDuration,
         uint48 voteStart) public {
         (,bytes memory ballotCallData) = ballotAddress.call(abi.encodeWithSignature("getCallData()"));
         (,bytes memory ballotDescriptionHash) = ballotAddress.call(abi.encodeWithSignature("getDescriptionHash()"));
@@ -155,13 +160,27 @@ contract TokenNamGovernor is EIP712 {
         if (!((keccak256(ballotCallData) == keccak256(callData)) && (ballotDescriptionHash_ == descriptionHash))) {
             revert invalidProposalParam(callData, descriptionHash);
         }
-        if (!isQuorumValid(quorum)) {
+        if (!isQuorumValid(quorum)) {// governance ballot
             revert invalidQuorum(quorum);
         }
 
         if (voteStart < (block.timestamp + _voteDelay)) {
-            revert ivalidVoteStart(voteStart)
+            revert invalidVoteStart(voteStart);
         }
+
+        if (voteDuration < _voteDuration) {
+            revert invalidvoteDuration(voteDuration);
+        }
+
+        (bool suc,) = ballotAddress.call(abi.encodeWithSignature("setVotingTimes(uint32,uint48,uint48)", voteDuration, voteStart, _etaSeconds));
+        if (suc) {
+            emit setBallotVotingTimes(ballotAddress, voteDuration, voteStart, _etaSeconds);
+        }
+        
+        uint256 proposalId = hashProposal(target, value, callData, descriptionHash);
+
+        storageTCN contractStorage_ = storageTCN(_connectors[msg.sender]);
+        contractStorage_.setProposalCore();
 
         //(bool suc,) = IQuorumvalid
     }
@@ -174,7 +193,6 @@ contract TokenNamGovernor is EIP712 {
             if(proState == ProposalState.Succeeded) {
                 storageTCN contractStorage_ = storageTCN(_connectors[msg.sender]);
                 contractStorage_.setProposalState(5, proposalId);
-
                 emit ChangeStateToExecutedAndContinue(_connectors[msg.sender], proposalId);
 
             } else revert StorageContractS_invalidState(_connectors[msg.sender], proposalId);

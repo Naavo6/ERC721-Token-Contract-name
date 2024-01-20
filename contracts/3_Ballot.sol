@@ -6,7 +6,7 @@ pragma solidity ^0.8.20;
  * @title Ballot
  * @dev Implements voting process along with vote delegation
  */
-contract Ballot {
+contract BallotTCN {
 
     struct Voter {
         uint weight; // weight is accumulated by delegation
@@ -22,61 +22,91 @@ contract Ballot {
         uint voteCount; // number of accumulated votes
     }
 
+    struct votingTime {
+        uint32 voteDuration;
+        uint48 voteStart;
+        uint48 etaSeconds;
+    }
+
+    votingTime private votingTimes;
+
+    struct CALLDATAPARAM {
+    string signature;
+    // uint16 newmaxMint;
+    // uint256 newregistrationStartTime;
+    // address newexecutor;
+    // address newbankAddress;
+    // uint256 newmintPrice;
+    // uint16[1201] newTokenId;
+    bytes32 descriptionHash;
+    address governance;
+    }
+
+    CALLDATAPARAM  public callDataParam;
+
+    address immutable public target;
+    uint256 immutable public value;
+
+
     address public chairperson;
 
     mapping(address => Voter) public voters;
 
     Proposal[] public proposals;
 
-    /** 
-     * @dev Create a new ballot to choose one of 'proposalNames'.
-     * @param proposalNames names of proposals
-     */
-    constructor(bytes32[] memory proposalNames) {
-        chairperson = msg.sender;
-        voters[chairperson].weight = 1;
+    // /** 
+    //  * @dev Create a new ballot to choose one of 'proposalNames'.
+    //  * @param proposalNames names of proposals
+    //  */
+    constructor(address target_, uint256 value_) {//bytes32[] memory proposalNames
+        target = target_
+        value = value_;
+        // chairperson = msg.sender;
+        // voters[chairperson].weight = 1;
 
-        for (uint i = 0; i < proposalNames.length; i++) {
-            // 'Proposal({...})' creates a temporary
-            // Proposal object and 'proposals.push(...)'
-            // appends it to the end of 'proposals'.
-            proposals.push(Proposal({
-                name: proposalNames[i],
-                voteCount: 0
-            }));
-        }
+        // for (uint i = 0; i < proposalNames.length; i++) {
+        //     // 'Proposal({...})' creates a temporary
+        //     // Proposal object and 'proposals.push(...)'
+        //     // appends it to the end of 'proposals'.
+        //     proposals.push(Proposal({
+        //         name: proposalNames[i],
+        //         voteCount: 0
+        //     }));
+        // }
+    }
+
+    function setVotingTimes(uint32 voteDuration_, uint48 voteStart_, uint48 etaSeconds_) public {
+        votingTimes.voteDuration = voteDuration_;
+        votingTimes.voteStart = voteStart_;
+        votingTimes.etaSeconds = etaSeconds_;
     }
 
 
 
-    function setBallotForupdateMintInfo(
-        uint16 newmaxMint,
-        uint256 newregistrationStartTime,
-        address newexecutor,
-        address newbankAddress,
-        uint256 newmintPrice,
-        uint16[1201] memory newTokenId,
-        bytes32 descriptionHash,
-        address governance,
-        uint256 value,
-        address proposer,
-        address ballotAddress,
-        uint16 quorum,
-        uint32 voteDuration,
-        uint48 voteStart) public {
-            require(_msgSender() == mintInfo.executor, "You do not have access to this function");
-           if (1000 < newmaxMint && newmaxMint <= 1200) { 
-                if (newmaxMint > mintInfo.nRegistrants && newregistrationStartTime >= block.timestamp) {
-                    revert ERC721ParamArentAcceptable(newmaxMint, newregistrationStartTime);
-                } else if ((newmaxMint - mintInfo.currentTokens) != newTokenId[0]) {
-                    revert Erc721InvalidTotalNewTokenId(newTokenId[0]);
-                } else if (governance != _governance) {
-                    revert ERC721InvalidGovernanceAddress(governance);
-                }
-            bytes memory callData = abi.encodeWithSignature("updateMintInfo(uint16,uint256,address,address,uint256,uint16[],bytes32,address)", newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice, newTokenId, descriptionHash, governance);
-            (bool suc,) = governance.call(abi.encodeWithSignature("propose(address,uint256,bytes,bytes32)", address(this), value, callData, descriptionHash, proposer, ballotAddress));
-            } else revert ERC721CantMoreThan1200(newmaxMint);
-        }
+    // function setBallotForupdateMintInfo(
+    //     uint16 newmaxMint,
+    //     uint256 newregistrationStartTime,
+    //     address newexecutor,
+    //     address newbankAddress,
+    //     uint256 newmintPrice,
+    //     uint16[1201] memory newTokenId,
+    //     bytes32 descriptionHash,
+    //     address governance,
+    //     uint256 value,
+    //     address proposer) public {
+    //     //     require(_msgSender() == mintInfo.executor, "You do not have access to this function");
+    //     //    if (1000 < newmaxMint && newmaxMint <= 1200) { 
+    //     //         if (newmaxMint > mintInfo.nRegistrants && newregistrationStartTime >= block.timestamp) {
+    //     //             revert ERC721ParamArentAcceptable(newmaxMint, newregistrationStartTime);
+    //     //         } else if ((newmaxMint - mintInfo.currentTokens) != newTokenId[0]) {
+    //     //             revert Erc721InvalidTotalNewTokenId(newTokenId[0]);
+    //     //         } else if (governance != _governance) {
+    //     //             revert ERC721InvalidGovernanceAddress(governance);
+    //     //         }
+    //         bytes memory callData = abi.encodeWithSignature("updateMintInfo(uint16,uint256,address,address,uint256,uint16[],bytes32,address)", newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice, newTokenId, descriptionHash, governance);
+    //         //(bool suc,) = governance.call(abi.encodeWithSignature("propose(address,uint256,bytes,bytes32)", address(this), value, callData, descriptionHash, proposer, ballotAddress));
+    //         // } else revert ERC721CantMoreThan1200(newmaxMint);
+    //     }
 
     /** 
      * @dev Give 'voter' the right to vote on this ballot. May only be called by 'chairperson'.

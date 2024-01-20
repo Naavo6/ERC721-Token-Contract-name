@@ -133,6 +133,49 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "proposer_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "ballotContract_",
+						"type": "address"
+					},
+					{
+						"internalType": "uint16",
+						"name": "quorum_",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint32",
+						"name": "voteDuration_",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint48",
+						"name": "voteStart_",
+						"type": "uint48"
+					},
+					{
+						"internalType": "uint48",
+						"name": "etaSeconds_",
+						"type": "uint48"
+					}
+				],
+				"name": "setProposalCore",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
 						"name": "proposalState",
 						"type": "uint256"
 					},
@@ -176,11 +219,11 @@
 	},
 	"sources": {
 		"contracts/storageTokenContractName.sol": {
-			"keccak256": "0x9d9f9ae7c03ac4fd5c08366796e4ca92bf8bb3b1f85b6c4eed61dd5459c2537c",
+			"keccak256": "0x5426aacb76f294261e66d0bac29994b0085d41027607ec252229134200105d7b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2f89ad4a81cf4de9ce970d946a2fba6c5d9ced2f123ec66d7812e362e1779a0f",
-				"dweb:/ipfs/QmabvhXeyQ6JzuKpr1h1knc2xuvgDgShpwt1iugfRyGAuv"
+				"bzz-raw://efaecb3b2a70ff68a3b3016a10f6dc19d6b7425c8f1f1f47a1593ad0f95f890a",
+				"dweb:/ipfs/QmQVceo7RALDm9C4A3ziLc8AfLMuuCXe5QPjs9i741AvCT"
 			]
 		}
 	},

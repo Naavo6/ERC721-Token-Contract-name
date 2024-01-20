@@ -39,6 +39,42 @@ contract storageTCN {
     mapping(uint256 proposalId => mapping(address voter => bytes32 voteHash)) private _votersVote;
 
 
+    function setProposalCore(
+        uint256 proposalId,
+        address proposer_,
+        address ballotContract_,
+        uint16 quorum_,
+        uint32 voteDuration_,
+        uint48 voteStart_,
+        uint48 etaSeconds_) public {
+            _proposals[proposalId].proposer = proposer_;
+            _proposals[proposalId].ballotContract = ballotContract_;
+            _proposals[proposalId].quorum = quorum_;
+            _proposals[proposalId].voteDuration = voteDuration_;
+            _proposals[proposalId].voteStart = voteStart_;
+            _proposals[proposalId].etaSeconds = etaSeconds_;
+        }
+
+
+    function setProposalState(uint256 proposalState, uint256 proposalId) public {
+        if (2 >= proposalState || proposalState >= 5) {
+            revert stateIsInvalid(proposalState);
+        }
+        if (proposalState == 4) {
+            _proposals[proposalId].Succeeded = true;
+
+        } else if (proposalState == 3) {
+            _proposals[proposalId].Defeated = true;
+
+        } else if (proposalState == 5) {
+            _proposals[proposalId].executed = true;
+
+        } else {
+            _proposals[proposalId].canceled = true;
+        }
+    }
+
+
 
     function setActivityTimeToken(uint256 time, uint16 tokenId, bytes32 varName) public {
         bytes32 varName_ = keccak256(abi.encodePacked(varName));
@@ -89,22 +125,6 @@ contract storageTCN {
     }
 
 
-    function setProposalState(uint256 proposalState, uint256 proposalId) public {
-        if (2 >= proposalState || proposalState >= 5) {
-            revert stateIsInvalid(proposalState);
-        }
-        if (proposalState == 4) {
-            _proposals[proposalId].Succeeded = true;
-
-        } else if (proposalState == 3) {
-            _proposals[proposalId].Defeated = true;
-
-        } else if (proposalState == 5) {
-            _proposals[proposalId].executed = true;
-
-        } else {
-            _proposals[proposalId].canceled = true;
-        }
-    }
+    
 
 }
