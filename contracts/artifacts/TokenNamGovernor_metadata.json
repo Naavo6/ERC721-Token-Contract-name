@@ -372,24 +372,14 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "target",
-						"type": "address"
-					},
-					{
 						"internalType": "uint256",
 						"name": "value",
 						"type": "uint256"
 					},
 					{
-						"internalType": "bytes",
-						"name": "callData",
-						"type": "bytes"
-					},
-					{
-						"internalType": "bytes32",
-						"name": "descriptionHash",
-						"type": "bytes32"
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
 					},
 					{
 						"internalType": "address",
@@ -400,21 +390,6 @@
 						"internalType": "address",
 						"name": "ballotAddress",
 						"type": "address"
-					},
-					{
-						"internalType": "uint16",
-						"name": "quorum",
-						"type": "uint16"
-					},
-					{
-						"internalType": "uint32",
-						"name": "voteDuration",
-						"type": "uint32"
-					},
-					{
-						"internalType": "uint48",
-						"name": "voteStart",
-						"type": "uint48"
 					}
 				],
 				"name": "proposal",
@@ -591,12 +566,20 @@
 				"dweb:/ipfs/QmVBEei6aTnvYNZp2CHYVNKyZS4q1KkjANfY39WVXZXVoT"
 			]
 		},
-		"contracts/Governance.sol": {
-			"keccak256": "0x891db35f179e39be269251a7f50ac46622989bcb0f1f2136f00bf6c94e3e01bf",
+		"contracts/3_Ballot.sol": {
+			"keccak256": "0x092eee3bec8e557d5ad6b9443333b9c43c6094bd9f85cef8702e2cc45e6b1a18",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3f66fc1bbe359a035262dc71606e8d35a62d59e5c5a69989759cee945c558153",
-				"dweb:/ipfs/Qmerpvd1WnZbY8BVMcfxVwjkvUjqu5NWz14yyqS97YuKiZ"
+				"bzz-raw://e968716b7a6dd2b0a9c0fd2735e4b27ea50b5a2f5b1994020771f8883978b7fe",
+				"dweb:/ipfs/QmdpxGraLNf7MkdZHMmFgTqtYwscSS4UUyRFZ9gHUnVWTA"
+			]
+		},
+		"contracts/Governance.sol": {
+			"keccak256": "0x63df908b25949d8ccc365e8b53505c46e6b60b8a66ca09988bcb15ea7898f7d2",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://50e344dbede1313cfa0049560206fbf909c60e75ca93aa51e245c043a60c57ad",
+				"dweb:/ipfs/QmPRQDisrUsWuaygJoS16gy8BwRdpV1P9NY5SjfTDZSoxa"
 			]
 		},
 		"contracts/storageTokenContractName.sol": {

@@ -176,19 +176,14 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
 
     function setBallotForupdateMintInfo(
         uint256 value,
-        bytes memory callData,
-        bytes32 descriptionHash,
-        address ballotAddress,
-        uint16 quorum,
-        uint32 voteDuration,
-        uint48 voteStart) public returns (uint256 proposalId) {
+        address ballotAddress) public returns (uint256 proposalId) {
 
             require(_msgSender() == mintInfo.executor, "You do not have access to this function");
 
             (,bytes memory data) = _governance.call(
                 abi.encodeWithSignature(
-                "propose(address,uint256,bytes,bytes32,address,address,uint16,uint32,uint48)",
-                address(this), value, callData, descriptionHash, msg.sender, ballotAddress, quorum, voteDuration, voteStart
+                "propose(uint256,address,address,address)",
+                value, address(this), msg.sender, ballotAddress
                 )
                 );
                 proposalId = abi.decode(data, (uint256));

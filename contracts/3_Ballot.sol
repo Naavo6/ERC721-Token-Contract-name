@@ -8,6 +8,8 @@ pragma solidity ^0.8.20;
  */
 contract BallotTCN {
 
+    error invalidProposer(address proposer);
+
     struct Voter {
         uint weight; // weight is accumulated by delegation
         bool voted;  // if true, that person already voted
@@ -22,34 +24,40 @@ contract BallotTCN {
         uint voteCount; // number of accumulated votes
     }
 
-    struct votingTime {
+    struct VOTINGPARAM {
+        uint16 quorum;
         uint32 voteDuration;
         uint48 voteStart;
         uint48 etaSeconds;
     }
 
-    votingTime private votingTimes;
+    VOTINGPARAM private _votingParams;
 
     struct CALLDATAPARAM {
-    string signature;
-    // uint16 newmaxMint;
-    // uint256 newregistrationStartTime;
-    // address newexecutor;
-    // address newbankAddress;
-    // uint256 newmintPrice;
-    // uint16[1201] newTokenId;
-    bytes32 descriptionHash;
-    address governance;
+        string signature;
+        // uint16 newmaxMint;
+        // uint256 newregistrationStartTime;
+        // address newexecutor;
+        // address newbankAddress;
+        // uint256 newmintPrice;
+        // uint16[1201] newTokenId;
+        bytes32  descriptionHash;
+        address governance;
     }
 
-    CALLDATAPARAM  public callDataParam;
+    CALLDATAPARAM  private _callDataParam;
 
-    address immutable public target;
-    uint256 immutable public value;
+    struct PROPOSALPARAM {
+        address  target;
+        address  proposer;
+        uint256  value;
+    }
 
+    PROPOSALPARAM private _proposalParams;
 
     address public chairperson;
 
+    mapping(address proposerAdd => address targetAdd) private _targetConnectors;
     mapping(address => Voter) public voters;
 
     Proposal[] public proposals;
@@ -58,9 +66,30 @@ contract BallotTCN {
     //  * @dev Create a new ballot to choose one of 'proposalNames'.
     //  * @param proposalNames names of proposals
     //  */
-    constructor(address target_, uint256 value_) {//bytes32[] memory proposalNames
-        target = target_
-        value = value_;
+    constructor(
+        CALLDATAPARAM memory callDataParam_, string memory description_,
+        uint256 value_,
+        VOTINGPARAM memory votingParams_) { //bytes32[] memory proposalNames
+
+        // calldata param
+        _callDataParam.signature = callDataParam_.signature;
+        _callDataParam.descriptionHash = keccak256(abi.encode(description_));
+        _callDataParam.governance = callDataParam_.governance;
+
+        // proposal param
+        _proposalParams.proposer = msg.sender;
+        _proposalParams.target = _targetConnectors[_proposalParams.proposer];
+        if (_proposalParams.target == address(0)) {
+            revert invalidProposer(_proposalParams.proposer);
+        }
+        _proposalParams.value = value_;
+
+        // voting param
+        _votingParams.quorum = votingParams_.quorum;
+        _votingParams.voteDuration = votingParams_.voteDuration;
+        _votingParams.voteStart = votingParams_.voteStart;
+        _votingParams.etaSeconds = votingParams_.etaSeconds;
+
         // chairperson = msg.sender;
         // voters[chairperson].weight = 1;
 
@@ -75,10 +104,24 @@ contract BallotTCN {
         // }
     }
 
-    function setVotingTimes(uint32 voteDuration_, uint48 voteStart_, uint48 etaSeconds_) public {
-        votingTimes.voteDuration = voteDuration_;
-        votingTimes.voteStart = voteStart_;
-        votingTimes.etaSeconds = etaSeconds_;
+    function getBallotCallDataParams() public view returns (CALLDATAPARAM memory callData_) {
+        return _callDataParam;
+    }
+
+    function getBallotProposalParams() public view returns (PROPOSALPARAM memor) {
+        return _proposalParams;
+    }
+
+    function getBalootVotingParams() public view returns (VOTINGPARAM memory VotingParam_) {
+        return _votingParams;
+    }
+
+    function getBallotCallData() public view virtual  returns (bytes memory callData) {
+        callData = abi.encodeWithSignature(_callDataParam.signature);
+    }
+
+    function getBallotProposalId() public view returns (uint256 proposalId) {
+        proposalId = uint256(keccak256(abi.encode(_proposalParams.target, _proposalParams.value, getBallotCallData(), _callDataParam.descriptionHash)));
     }
 
 
