@@ -104,7 +104,7 @@ contract BallotTCN {
         // }
     }
 
-    function getBallotCallDataParams() public view returns (CALLDATAPARAM memory callData_) {
+    function getBallotCallDataParams() public view returns (CALLDATAPARAM memry callData_) {
         return _callDataParam;
     }
 
