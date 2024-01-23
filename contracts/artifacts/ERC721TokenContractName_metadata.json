@@ -614,34 +614,9 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "bytes",
-						"name": "callData",
-						"type": "bytes"
-					},
-					{
-						"internalType": "bytes32",
-						"name": "descriptionHash",
-						"type": "bytes32"
-					},
-					{
 						"internalType": "address",
 						"name": "ballotAddress",
 						"type": "address"
-					},
-					{
-						"internalType": "uint16",
-						"name": "quorum",
-						"type": "uint16"
-					},
-					{
-						"internalType": "uint32",
-						"name": "voteDuration",
-						"type": "uint32"
-					},
-					{
-						"internalType": "uint48",
-						"name": "voteStart",
-						"type": "uint48"
 					}
 				],
 				"name": "setBallotForupdateMintInfo",
@@ -951,11 +926,11 @@
 			]
 		},
 		"contracts/ERC721TokenContractName.sol": {
-			"keccak256": "0xb080152102d1e3ddd8664d49c5daebfca9534ba77f9bff87db7047448fffed36",
+			"keccak256": "0x96ae33435fc276ec184c9ade829e0567341aa40efdf09126e80a627ad349bb37",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3ac1a63aca63ea64a26b348f88b75d3022d9a8e502c4aff57bb56016d8382ece",
-				"dweb:/ipfs/QmaV9gLWWjPe8JNFLUQN4Qq4gC54RKSgoWcM9xSh77hjTG"
+				"bzz-raw://230504872681b300b8dabb332f29dd1d75b06752cfd18180a115a69f474a5db3",
+				"dweb:/ipfs/QmcAdgru4gAkxyL8XSMJURQ8qLtofPgAVXfnogwLMKH7Fj"
 			]
 		},
 		"contracts/IERc721TokenContractNameReceiver.sol": {

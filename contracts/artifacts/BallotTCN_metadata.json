@@ -15,6 +15,11 @@
 								"type": "string"
 							},
 							{
+								"internalType": "string",
+								"name": "description",
+								"type": "string"
+							},
+							{
 								"internalType": "bytes32",
 								"name": "descriptionHash",
 								"type": "bytes32"
@@ -125,26 +130,24 @@
 				"name": "getBallotCallDataParams",
 				"outputs": [
 					{
-						"components": [
-							{
-								"internalType": "string",
-								"name": "signature",
-								"type": "string"
-							},
-							{
-								"internalType": "bytes32",
-								"name": "descriptionHash",
-								"type": "bytes32"
-							},
-							{
-								"internalType": "address",
-								"name": "governance",
-								"type": "address"
-							}
-						],
-						"internalType": "struct BallotTCN.CALLDATAPARAM",
-						"name": "callData_",
-						"type": "tuple"
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -168,26 +171,19 @@
 				"name": "getBallotProposalParams",
 				"outputs": [
 					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "target",
-								"type": "address"
-							},
-							{
-								"internalType": "address",
-								"name": "proposer",
-								"type": "address"
-							},
-							{
-								"internalType": "uint256",
-								"name": "value",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct BallotTCN.PROPOSALPARAM",
-						"name": "proposalParam",
-						"type": "tuple"
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -198,31 +194,24 @@
 				"name": "getBalootVotingParams",
 				"outputs": [
 					{
-						"components": [
-							{
-								"internalType": "uint16",
-								"name": "quorum",
-								"type": "uint16"
-							},
-							{
-								"internalType": "uint32",
-								"name": "voteDuration",
-								"type": "uint32"
-							},
-							{
-								"internalType": "uint48",
-								"name": "voteStart",
-								"type": "uint48"
-							},
-							{
-								"internalType": "uint48",
-								"name": "etaSeconds",
-								"type": "uint48"
-							}
-						],
-						"internalType": "struct BallotTCN.VOTINGPARAM",
-						"name": "VotingParam_",
-						"type": "tuple"
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint32",
+						"name": "",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint48",
+						"name": "",
+						"type": "uint48"
+					},
+					{
+						"internalType": "uint48",
+						"name": "",
+						"type": "uint48"
 					}
 				],
 				"stateMutability": "view",
@@ -400,11 +389,11 @@
 	},
 	"sources": {
 		"contracts/3_Ballot.sol": {
-			"keccak256": "0xb2f5eee9ac1dea610385c81849424b4c1cf7f8337988ea9ec9366f2fbd728588",
+			"keccak256": "0x238dab8d1094105e8f82a586fe12ad0a1acc3b1531581537d3896fab023d486d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c27b27e28e0a5d2ee67e7d3904a8cec96625ce673d1165e9217a209c63ed9468",
-				"dweb:/ipfs/QmWLGzkNv348MHx38CQLkz7GHWTD3Skuv3fiFMDRUa5HAe"
+				"bzz-raw://09a7d093c5dc9c8cb36bbc1a9e16b8fd4e096b539131a0af550a77e68e9f2f20",
+				"dweb:/ipfs/QmXUzE9xG5HwJu6hznak3Y6qbPjCYKbdGkjBGhWajm1T2V"
 			]
 		}
 	},

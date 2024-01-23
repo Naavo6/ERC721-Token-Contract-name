@@ -30,6 +30,17 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "governances_",
+						"type": "address"
+					}
+				],
+				"name": "GovernanceContractNotMatch",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "proposalId",
 						"type": "uint256"
@@ -39,8 +50,61 @@
 				"type": "error"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "target_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "proposer_",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value_",
+						"type": "uint256"
+					}
+				],
+				"name": "InavlidProposalParams",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint16",
+						"name": "quorum",
+						"type": "uint16"
+					}
+				],
+				"name": "InvalidQuorum",
+				"type": "error"
+			},
+			{
 				"inputs": [],
 				"name": "InvalidShortString",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint32",
+						"name": "voteDuration_",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint48",
+						"name": "voteStart_",
+						"type": "uint48"
+					},
+					{
+						"internalType": "uint48",
+						"name": "etaSeconds_",
+						"type": "uint48"
+					}
+				],
+				"name": "InvalidVotingTImeParams",
 				"type": "error"
 			},
 			{
@@ -84,50 +148,12 @@
 			{
 				"inputs": [
 					{
-						"internalType": "bytes",
-						"name": "callData",
-						"type": "bytes"
-					},
-					{
-						"internalType": "bytes32",
-						"name": "descriptionHash",
-						"type": "bytes32"
+						"internalType": "uint256",
+						"name": "proposalId_",
+						"type": "uint256"
 					}
 				],
-				"name": "invalidProposalParam",
-				"type": "error"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint16",
-						"name": "quorum",
-						"type": "uint16"
-					}
-				],
-				"name": "invalidQuorum",
-				"type": "error"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint48",
-						"name": "voteStart",
-						"type": "uint48"
-					}
-				],
-				"name": "invalidVoteStart",
-				"type": "error"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint32",
-						"name": "voteDuration",
-						"type": "uint32"
-					}
-				],
-				"name": "invalidvoteDuration",
+				"name": "ThisProposalExists",
 				"type": "error"
 			},
 			{
@@ -153,6 +179,32 @@
 				"anonymous": false,
 				"inputs": [],
 				"name": "EIP712DomainChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "SetProposal",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "ballotAddress",
+						"type": "address"
+					}
+				],
+				"name": "ValidBallotcontract",
 				"type": "event"
 			},
 			{
@@ -192,37 +244,6 @@
 					}
 				],
 				"name": "changeVoteDuration",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": true,
-						"internalType": "address",
-						"name": "ballotContract",
-						"type": "address"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint32",
-						"name": "voteDuration",
-						"type": "uint32"
-					},
-					{
-						"indexed": true,
-						"internalType": "uint48",
-						"name": "voteStart",
-						"type": "uint48"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint48",
-						"name": "_etaSeconds",
-						"type": "uint48"
-					}
-				],
-				"name": "setBallotVotingTimes",
 				"type": "event"
 			},
 			{
@@ -357,6 +378,24 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "isEtaSecondsValid",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "name",
 				"outputs": [
@@ -393,7 +432,13 @@
 					}
 				],
 				"name": "proposal",
-				"outputs": [],
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -567,27 +612,27 @@
 			]
 		},
 		"contracts/3_Ballot.sol": {
-			"keccak256": "0x092eee3bec8e557d5ad6b9443333b9c43c6094bd9f85cef8702e2cc45e6b1a18",
+			"keccak256": "0x238dab8d1094105e8f82a586fe12ad0a1acc3b1531581537d3896fab023d486d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e968716b7a6dd2b0a9c0fd2735e4b27ea50b5a2f5b1994020771f8883978b7fe",
-				"dweb:/ipfs/QmdpxGraLNf7MkdZHMmFgTqtYwscSS4UUyRFZ9gHUnVWTA"
+				"bzz-raw://09a7d093c5dc9c8cb36bbc1a9e16b8fd4e096b539131a0af550a77e68e9f2f20",
+				"dweb:/ipfs/QmXUzE9xG5HwJu6hznak3Y6qbPjCYKbdGkjBGhWajm1T2V"
 			]
 		},
 		"contracts/Governance.sol": {
-			"keccak256": "0x63df908b25949d8ccc365e8b53505c46e6b60b8a66ca09988bcb15ea7898f7d2",
+			"keccak256": "0x090c32f1e65b25766027dcc764e8f1ad3f3e1ed6895b0b74cdb967da9ddfba3b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://50e344dbede1313cfa0049560206fbf909c60e75ca93aa51e245c043a60c57ad",
-				"dweb:/ipfs/QmPRQDisrUsWuaygJoS16gy8BwRdpV1P9NY5SjfTDZSoxa"
+				"bzz-raw://3c4042d03ed5dace5d6aae80d022c3cdbb4982bfbd4a1d7c152c111643a0e8ef",
+				"dweb:/ipfs/QmYSEhKtR6dvF32FQ77Y8wCTWT9WPiJyyo9x2bPULpd3YV"
 			]
 		},
 		"contracts/storageTokenContractName.sol": {
-			"keccak256": "0x5426aacb76f294261e66d0bac29994b0085d41027607ec252229134200105d7b",
+			"keccak256": "0x413609de0a214c858ab42f5dbf3621a8a4b773d37c9afcd02d2875fc65e52983",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://efaecb3b2a70ff68a3b3016a10f6dc19d6b7425c8f1f1f47a1593ad0f95f890a",
-				"dweb:/ipfs/QmQVceo7RALDm9C4A3ziLc8AfLMuuCXe5QPjs9i741AvCT"
+				"bzz-raw://5bc03f626400ab9da6ef3017ee5b56de3e3483d2c180472913a2fec088e6cd85",
+				"dweb:/ipfs/QmQXztoBkLSYifgkfJDwq8a2Hf5EBYZr3BFYA4xjSMdogR"
 			]
 		}
 	},

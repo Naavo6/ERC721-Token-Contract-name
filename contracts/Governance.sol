@@ -16,16 +16,18 @@ contract TokenNamGovernor is EIP712 {
     event changeVoteDuration(uint32 indexed  time);
     event changeEtaSeconds(uint32 indexed  time);
     event changeVoteDelay(uint32 indexed  time);
-    event setBallotVotingTimes(address indexed  ballotContract, uint32 voteDuration,uint48 indexed voteStart, uint48 _etaSeconds);
+    event ValidBallotcontract(address indexed  ballotAddress);
+    event SetProposal(uint indexed proposalId);
 
     error GovernorNonexistentProposal(uint256 proposalId);
     error AddressNotReturnVoteCount(address ballot);
     error StorageContractS_invalidAccess(address Applicant);
     error StorageContractS_invalidState(address storageContract, uint256 proposalId);
-    error invalidProposalParam(bytes callData, bytes32 descriptionHash);
-    error invalidQuorum(uint16 quorum);
-    error invalidVoteStart(uint48 voteStart);
-    error invalidvoteDuration(uint32 voteDuration);
+    error InvalidQuorum(uint16 quorum);
+    error ThisProposalExists(uint256 proposalId_);
+    error GovernanceContractNotMatch(address governances_);
+    error InavlidProposalParams(address target_, address proposer_, uint256 value_);
+    error InvalidVotingTImeParams(uint32 voteDuration_, uint48 voteStart_, uint48 etaSeconds_);
 
 
     struct ProposalCore { // mitoone nabashe
@@ -148,38 +150,49 @@ contract TokenNamGovernor is EIP712 {
         uint256 value,
         address target,
         address proposer,
-        address ballotAddress) public {
+        address ballotAddress) public returns (uint256 proposalId) {
+            require(target == msg.sender,"invalid access");
+            storageTCN contractStorage_ = storageTCN(_storageConnectors[target]);
             BallotTCN ballotContract = BallotTCN(ballotAddress);
-            (,,address governances) = ballotContract.getBallotCallDataParams();
-        // (,bytes memory ballotCallData) = ballotAddress.call(abi.encodeWithSignature("getCallData()"));
-        // (,bytes memory ballotDescriptionHash) = ballotAddress.call(abi.encodeWithSignature("getDescriptionHash()"));
-        // bytes32 ballotDescriptionHash_ = abi.decode(ballotDescriptionHash, (bytes32));
-        // if (!((keccak256(ballotCallData) == keccak256(callData)) && (ballotDescriptionHash_ == descriptionHash))) {
-        //     revert invalidProposalParam(callData, descriptionHash);
-        // }
-        // if (!isQuorumValid(quorum)) {// governance ballot
-        //     revert invalidQuorum(quorum);// chek shavad ghablansabt nashode bashad
-        // }
+            proposalId = ballotContract.getBallotProposalId();
+            storageTCN.ProposalCore memory proposal_ = contractStorage_.proposals(proposalId);
 
-        // if (voteStart < (block.timestamp + _voteDelay)) {
-        //     revert invalidVoteStart(voteStart);
-        // }
+            if (proposal_.voteStart != 0) {
+                revert ThisProposalExists(proposalId);
+            }
 
-        // if (voteDuration < _voteDuration) {
-        //     revert invalidvoteDuration(voteDuration);
-        // }
+            (,,,address governances_) = ballotContract.getBallotCallDataParams();
 
-        // (bool suc,) = ballotAddress.call(abi.encodeWithSignature("setVotingTimes(uint32,uint48,uint48)", voteDuration, voteStart, _etaSeconds));
-        // if (suc) {
-        //     emit setBallotVotingTimes(ballotAddress, voteDuration, voteStart, _etaSeconds);
-        // }
-        
-        // uint256 proposalId = hashProposal(target, value, callData, descriptionHash);
+            if (governances_ != address(this)) {
+                revert GovernanceContractNotMatch(governances_);
+            }
 
-        storageTCN contractStorage_ = storageTCN(_storageConnectors[msg.sender]);
-        //contractStorage_.setProposalCore();
+            (address target_, address proposer_, uint256 value_) = ballotContract.getBallotProposalParams();
 
-        //(bool suc,) = IQuorumvalid
+            if ((target != target_) || (proposer != proposer_) || (value != value_)) {
+                revert InavlidProposalParams(target_, proposer_, value_);
+            }
+
+            (uint16 quorum_, uint32 voteDuration_, uint48 voteStart_, uint48 etaSeconds_) = ballotContract.getBalootVotingParams();
+
+            if (!isQuorumValid(quorum_)) {
+                revert InvalidQuorum(quorum_);
+
+            } else if ((voteDuration_ < _voteDuration) || (voteStart_ < (block.timestamp + _voteDelay)) || (etaSeconds_ < _etaSeconds)) {
+                revert InvalidVotingTImeParams(voteDuration_, voteStart_, etaSeconds_);
+            }
+            address ballotContract_ = ballotAddress;
+            emit ValidBallotcontract(ballotContract_);
+
+            contractStorage_.setProposalCore(proposalId, quorum_, voteDuration_, voteStart_, etaSeconds_, proposer_,ballotContract_);
+            emit SetProposal(proposalId);
+
+            return proposalId;
+
+    }
+
+    function isEtaSecondsValid(address target, uint256 proposalId) public {
+
     }
 
     function execute(address target, uint256 value, bytes memory callData, bytes32 descriptionHash) public {

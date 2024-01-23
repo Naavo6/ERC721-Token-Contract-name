@@ -41,18 +41,18 @@ contract storageTCN {
 
     function setProposalCore(
         uint256 proposalId,
-        address proposer_,
-        address ballotContract_,
         uint16 quorum_,
         uint32 voteDuration_,
         uint48 voteStart_,
-        uint48 etaSeconds_) public {
-            _proposals[proposalId].proposer = proposer_;
-            _proposals[proposalId].ballotContract = ballotContract_;
+        uint48 etaSeconds_,
+        address proposer_,
+        address ballotContract_) public {
             _proposals[proposalId].quorum = quorum_;
             _proposals[proposalId].voteDuration = voteDuration_;
             _proposals[proposalId].voteStart = voteStart_;
             _proposals[proposalId].etaSeconds = etaSeconds_;
+            _proposals[proposalId].proposer = proposer_;
+            _proposals[proposalId].ballotContract = ballotContract_;
         }
 
 

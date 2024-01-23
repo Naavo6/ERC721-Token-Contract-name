@@ -137,16 +137,6 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "address",
-						"name": "proposer_",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "ballotContract_",
-						"type": "address"
-					},
-					{
 						"internalType": "uint16",
 						"name": "quorum_",
 						"type": "uint16"
@@ -165,6 +155,16 @@
 						"internalType": "uint48",
 						"name": "etaSeconds_",
 						"type": "uint48"
+					},
+					{
+						"internalType": "address",
+						"name": "proposer_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "ballotContract_",
+						"type": "address"
 					}
 				],
 				"name": "setProposalCore",
@@ -219,11 +219,11 @@
 	},
 	"sources": {
 		"contracts/storageTokenContractName.sol": {
-			"keccak256": "0x5426aacb76f294261e66d0bac29994b0085d41027607ec252229134200105d7b",
+			"keccak256": "0x413609de0a214c858ab42f5dbf3621a8a4b773d37c9afcd02d2875fc65e52983",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://efaecb3b2a70ff68a3b3016a10f6dc19d6b7425c8f1f1f47a1593ad0f95f890a",
-				"dweb:/ipfs/QmQVceo7RALDm9C4A3ziLc8AfLMuuCXe5QPjs9i741AvCT"
+				"bzz-raw://5bc03f626400ab9da6ef3017ee5b56de3e3483d2c180472913a2fec088e6cd85",
+				"dweb:/ipfs/QmQXztoBkLSYifgkfJDwq8a2Hf5EBYZr3BFYA4xjSMdogR"
 			]
 		}
 	},

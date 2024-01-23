@@ -41,7 +41,8 @@ contract BallotTCN {
         // address newbankAddress;
         // uint256 newmintPrice;
         // uint16[1201] newTokenId;
-        bytes32  descriptionHash;
+        string description;
+        bytes32 descriptionHash;
         address governance;
     }
 
@@ -104,16 +105,17 @@ contract BallotTCN {
         // }
     }
 
-    function getBallotCallDataParams() public view returns (CALLDATAPARAM memry callData_) {
-        return _callDataParam;
+
+    function getBallotCallDataParams() public view returns (string memory, string memory, bytes32, address) {
+        return (_callDataParam.signature, _callDataParam.description,  _callDataParam.descriptionHash, _callDataParam.governance);
     }
 
-    function getBallotProposalParams() public view returns (PROPOSALPARAM memor) {
-        return _proposalParams;
+    function getBallotProposalParams() public view returns (address, address, uint256) {
+        return (_proposalParams.target, _proposalParams.proposer, _proposalParams.value);
     }
 
-    function getBalootVotingParams() public view returns (VOTINGPARAM memory VotingParam_) {
-        return _votingParams;
+    function getBalootVotingParams() public view returns (uint16, uint32, uint48, uint48) {
+        return (_votingParams.quorum, _votingParams.voteDuration, _votingParams.voteStart, _votingParams.etaSeconds);
     }
 
     function getBallotCallData() public view virtual  returns (bytes memory callData) {
