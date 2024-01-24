@@ -35,11 +35,6 @@
 						"type": "tuple"
 					},
 					{
-						"internalType": "string",
-						"name": "description_",
-						"type": "string"
-					},
-					{
 						"internalType": "uint256",
 						"name": "value_",
 						"type": "uint256"
@@ -70,10 +65,37 @@
 						"internalType": "struct BallotTCN.VOTINGPARAM",
 						"name": "votingParams_",
 						"type": "tuple"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "name_",
+						"type": "bytes32"
 					}
 				],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint48",
+						"name": "_voteStart",
+						"type": "uint48"
+					}
+				],
+				"name": "VotingHasNotStarted",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_deadLine",
+						"type": "uint256"
+					}
+				],
+				"name": "VotingIsOver",
+				"type": "error"
 			},
 			{
 				"inputs": [
@@ -87,13 +109,61 @@
 				"type": "error"
 			},
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "_this",
+						"type": "address"
+					}
+				],
+				"name": "TheVoteWasRegistered",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "_this",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint48",
+						"name": "_etaSeconds",
+						"type": "uint48"
+					}
+				],
+				"name": "etaSecondsIsActivated",
+				"type": "event"
+			},
+			{
 				"inputs": [],
-				"name": "chairperson",
+				"name": "_ballotParam",
 				"outputs": [
 					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
+						"internalType": "bytes32",
+						"name": "name",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint16",
+						"name": "voteCount",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint16",
+						"name": "observed",
+						"type": "uint16"
 					}
 				],
 				"stateMutability": "view",
@@ -148,6 +218,29 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getBallotParam",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "name",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint16",
+						"name": "voteCount",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint16",
+						"name": "observed",
+						"type": "uint16"
 					}
 				],
 				"stateMutability": "view",
@@ -233,33 +326,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "proposals",
-				"outputs": [
-					{
-						"internalType": "bytes32",
-						"name": "name",
-						"type": "bytes32"
-					},
-					{
-						"internalType": "uint256",
-						"name": "voteCount",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "proposal",
-						"type": "uint256"
+						"internalType": "bool",
+						"name": "opinion",
+						"type": "bool"
 					}
 				],
 				"name": "vote",
@@ -291,9 +360,14 @@
 				"name": "voters",
 				"outputs": [
 					{
-						"internalType": "uint256",
+						"internalType": "uint16",
 						"name": "weight",
-						"type": "uint256"
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint16",
+						"name": "delegateWeight",
+						"type": "uint16"
 					},
 					{
 						"internalType": "bool",
@@ -307,21 +381,8 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "vote",
+						"name": "votedTime",
 						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "winnerName",
-				"outputs": [
-					{
-						"internalType": "bytes32",
-						"name": "winnerName_",
-						"type": "bytes32"
 					}
 				],
 				"stateMutability": "view",
@@ -344,22 +405,16 @@
 						"voter": "address of voter"
 					}
 				},
-				"vote(uint256)": {
-					"details": "Give your vote (including votes delegated to you) to proposal 'proposals[proposal].name'.",
+				"vote(bool)": {
+					"details": "Give your vote (including votes delegated to you).",
 					"params": {
-						"proposal": "index of proposal in the proposals array"
+						"opinion": "index of opinion in the vote function"
 					}
 				},
 				"voteCountProposal()": {
 					"details": "Computes the winning proposal taking all previous votes into account.",
 					"returns": {
 						"winningProposal_": "index of winning proposal in the proposals array"
-					}
-				},
-				"winnerName()": {
-					"details": "Calls winningProposal() function to get the index of the winner contained in the proposals array and then",
-					"returns": {
-						"winnerName_": "the name of the winner"
 					}
 				}
 			},
@@ -389,11 +444,11 @@
 	},
 	"sources": {
 		"contracts/3_Ballot.sol": {
-			"keccak256": "0x238dab8d1094105e8f82a586fe12ad0a1acc3b1531581537d3896fab023d486d",
+			"keccak256": "0xc677d4866071d6ea5d28ed669da9b76e8443e6113ebd83d142b1a0710dcb0fff",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://09a7d093c5dc9c8cb36bbc1a9e16b8fd4e096b539131a0af550a77e68e9f2f20",
-				"dweb:/ipfs/QmXUzE9xG5HwJu6hznak3Y6qbPjCYKbdGkjBGhWajm1T2V"
+				"bzz-raw://6685ab163063f5fc97f133e2e10b05a8249c29edd0db65601599e821336ad1e1",
+				"dweb:/ipfs/QmVY4rhrXx1Tydr9gDjpKM1irPkJrKtEgSqk8QuMHAUZA7"
 			]
 		}
 	},
