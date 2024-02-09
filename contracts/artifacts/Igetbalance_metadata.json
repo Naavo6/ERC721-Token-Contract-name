@@ -1,0 +1,45 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/3_Ballot.sol": "Igetbalance"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/3_Ballot.sol": {
+			"keccak256": "0x9cd5d3dd9af8cdb786dd81bd3137fe85ec49caccf1ca72f4b945d96bc1271e7c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c27a1b93ddb3dca2445c48af3f95b09d7ffa5a33260b4e915af2bfc3b2a5e16d",
+				"dweb:/ipfs/QmacE11Tb4ocjNvdVYqaF2eJaUMG5JYKVCao2HWbHMHiAe"
+			]
+		}
+	},
+	"version": 1
+}

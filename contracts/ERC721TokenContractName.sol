@@ -56,7 +56,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
 
     address[1201] private _owners;
 
-    bool[1201] private ban;
+    bool[1201] private _ban;
 
     mapping(address owner => uint16[1201]) private _balanceAndTokId;
 
@@ -149,7 +149,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
 
         address previousOwner = _requireOwned(tokenId);
 
-        require(!ban[tokenId], "The transfer of this token is currently banned");
+        require(!_ban[tokenId], "The transfer of this token is currently banned");
 
         if (!(_msgSender() == previousOwner || isApprovedForAll(previousOwner, _msgSender()) || getApproved(tokenId) == _msgSender())) {
             revert ERC721InsufficientApproval(_msgSender(), tokenId);
@@ -277,18 +277,19 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         }
     }
 
-    function setBan(uint16 tokenId, bool set_) public returns (bool) {
+    // in set bayad tvasote ye contrct set anjam beshe va da dastres bashe. 
+    // yani jaye in tabe faghat bayad contract set be _ban dastresi dashte bashe.
+    // pas in cod badan avaz khahad shod va alan ebtedayi hastesh.
+    function setBan(uint16 tokenId, bool set_) public { 
         address owner = _requireOwned(tokenId);
-        bool ownerBan;
-        bool governorBan;
+
         if (_msgSender() == owner) {
-            ownerBan = set_;
+            _ban[tokenId] = set_;
         } else if (governoraccess(_msgSender())) {
-            governorBan = set_;
+            _ban[tokenId] = set_;
         } else {
             revert ERC721AccessIsNotApproved(_msgSender());
         }
-        return (governorBan || ownerBan);
     }
 
     function setAccessAddress(address address_, bytes32 varName) public {

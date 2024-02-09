@@ -644,13 +644,7 @@
 					}
 				],
 				"name": "setBan",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
+				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -926,11 +920,11 @@
 			]
 		},
 		"contracts/ERC721TokenContractName.sol": {
-			"keccak256": "0x96ae33435fc276ec184c9ade829e0567341aa40efdf09126e80a627ad349bb37",
+			"keccak256": "0x95973670ede03b69b68fd4691ef397220225790ad2b4f5ebe92e2c4e68fa05e7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://230504872681b300b8dabb332f29dd1d75b06752cfd18180a115a69f474a5db3",
-				"dweb:/ipfs/QmcAdgru4gAkxyL8XSMJURQ8qLtofPgAVXfnogwLMKH7Fj"
+				"bzz-raw://7fd204042f836e4424feb817f5a6ec1ac8ff47a3c222b81292f5487dfa276caa",
+				"dweb:/ipfs/QmThtaAnpYrEt4rhaTN7h5UAJahJyV5dWYMnpgXFW4nTW4"
 			]
 		},
 		"contracts/IERc721TokenContractNameReceiver.sol": {

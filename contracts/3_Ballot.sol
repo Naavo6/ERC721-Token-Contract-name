@@ -2,6 +2,14 @@
 
 pragma solidity ^0.8.20;
 
+//import {ERC721TokenContractName} from "contracts/ERC721TokenContractName.sol";
+
+
+interface IgetBalance {
+
+    function balanceOf(address owner) external view returns (uint16);
+}
+
 /** 
  * @title Ballot
  * @dev Implements voting process along with vote delegation
@@ -67,7 +75,8 @@ contract BallotTCN {
     PROPOSALPARAM private _proposalParams;
 
     mapping(address proposerAdd => address targetAdd) private _targetConnectors;
-    mapping(address => Voter) public voters;
+    mapping(address => Voter) private _voters;
+    mapping(address => uint16[1201]) private _targetSociety;
 
 
 
@@ -101,6 +110,9 @@ contract BallotTCN {
         _ballotParam.name = name_;
         _ballotParam.voteCount = 0;
         _ballotParam.observed = 0;
+
+        // _setVoters()
+
     }
 
 
@@ -117,7 +129,7 @@ contract BallotTCN {
     }
 
     function getBallotCallData() public view virtual  returns (bytes memory callData) {
-        callData = abi.encodeWithSignature(_callDataParam.signature);
+        callData = abi.encodeWithSignature(_callDataParam.signature); // parametrhaye signature bayad ezafe shavad
     }
 
     function getBallotProposalId() public view returns (uint256 proposalId) {
@@ -133,21 +145,21 @@ contract BallotTCN {
      * @dev Give 'voter' the right to vote on this ballot. May only be called by 'chairperson'.
      * @param voter address of voter
      */
-    function giveRightToVote(address voter) public {
-        if (!isVotingDeadLine()) {
-            revert VotingIsOver(_deadLine);
-        }
-        require(
-            msg.sender == _proposalParams.proposer,
-            "Only proposer can give right to vote."
-        );
-        require(
-            !voters[voter].voted,
-            "The voter already voted."
-        );
-        require(voters[voter].weight == 0);
-        voters[voter].weight = 1;
-    }
+    // function giveRightToVote(address voter) public {
+    //     if (!isVotingDeadLine()) {
+    //         revert VotingIsOver(_deadLine);
+    //     }
+    //     require(
+    //         msg.sender == _proposalParams.proposer,
+    //         "Only proposer can give right to vote."
+    //     );
+    //     require(
+    //         !_voters[voter].voted,
+    //         "The voter already voted."
+    //     );
+    //     require(_voters[voter].weight == 0);
+    //     _voters[voter].weight = 1;
+    // }
 
     /**
      * @dev Delegate your vote to the voter 'to'.
@@ -157,12 +169,13 @@ contract BallotTCN {
         if (!isVotingDeadLine()) {
             revert VotingIsOver(_deadLine);
         }
-        Voter storage sender = voters[msg.sender];
-        require(!sender.voted, "You already voted.");
+        require(!_voters[msg.sender].voted, "Already voted.");
+        _votersPermission();
+        Voter storage sender = _voters[msg.sender];
         require(to != msg.sender, "Self-delegation is disallowed.");
 
-        while (voters[to].delegate != address(0)) {
-            to = voters[to].delegate;
+        while (_voters[to].delegate != address(0)) {
+            to = _voters[to].delegate;
 
             // We found a loop in the delegation, not allowed.
             require(to != msg.sender, "Found loop in delegation.");
@@ -170,7 +183,7 @@ contract BallotTCN {
         sender.voted = true;
         _ballotParam.observed += sender.weight;
         sender.delegate = to;
-        Voter storage delegate_ = voters[to];
+        Voter storage delegate_ = _voters[to];
         if (delegate_.voted) {
             // If the delegate already voted,
             // directly add to the number of votes
@@ -193,10 +206,9 @@ contract BallotTCN {
         } else if (!isVotingDeadLine()) {
             revert VotingIsOver(_deadLine);
         }
-        
-        Voter storage sender = voters[msg.sender];
-        require(sender.weight != 0 || sender.delegateWeight != 0, "Has no right to vote");
-        require(!sender.voted, "Already voted.");
+        require(!_voters[msg.sender].voted, "Already voted.");
+        _votersPermission();
+        Voter storage sender = _voters[msg.sender];
         sender.voted = true;
         sender.votedTime = block.timestamp;
         if (opinion) {
@@ -220,6 +232,14 @@ contract BallotTCN {
         //         winningProposal_ = p;
         //     }
         // }
+    }
+
+    function _votersPermission() private {
+        uint16 weight_ = IgetBalance(_proposalParams.target).balanceOf(msg.sender);
+        if (weight_ > 0) {
+            _voters[msg.sender].weight = weight_;
+        }
+        require(_voters[msg.sender].weight != 0 || _voters[msg.sender].delegateWeight != 0, "Has no right to vote");
     }
 
     function isVotingDeadLine() private returns (bool) {

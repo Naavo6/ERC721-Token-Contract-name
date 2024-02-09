@@ -313,19 +313,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "voter",
-						"type": "address"
-					}
-				],
-				"name": "giveRightToVote",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "bool",
 						"name": "opinion",
 						"type": "bool"
@@ -348,45 +335,6 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "voters",
-				"outputs": [
-					{
-						"internalType": "uint16",
-						"name": "weight",
-						"type": "uint16"
-					},
-					{
-						"internalType": "uint16",
-						"name": "delegateWeight",
-						"type": "uint16"
-					},
-					{
-						"internalType": "bool",
-						"name": "voted",
-						"type": "bool"
-					},
-					{
-						"internalType": "address",
-						"name": "delegate",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "votedTime",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -397,12 +345,6 @@
 					"details": "Delegate your vote to the voter 'to'.",
 					"params": {
 						"to": "address to which vote is delegated"
-					}
-				},
-				"giveRightToVote(address)": {
-					"details": "Give 'voter' the right to vote on this ballot. May only be called by 'chairperson'.",
-					"params": {
-						"voter": "address of voter"
 					}
 				},
 				"vote(bool)": {
@@ -444,11 +386,11 @@
 	},
 	"sources": {
 		"contracts/3_Ballot.sol": {
-			"keccak256": "0xc677d4866071d6ea5d28ed669da9b76e8443e6113ebd83d142b1a0710dcb0fff",
+			"keccak256": "0x9cf9031bb2c35c5424e32d81a25d1194c4bcc067bd41351b4900431218c456f4",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6685ab163063f5fc97f133e2e10b05a8249c29edd0db65601599e821336ad1e1",
-				"dweb:/ipfs/QmVY4rhrXx1Tydr9gDjpKM1irPkJrKtEgSqk8QuMHAUZA7"
+				"bzz-raw://710292c82f3a2f733ab7afe736e55f5e7a90cfcb23c5f4fa7eeab06577669665",
+				"dweb:/ipfs/Qme5AQCFcSG4usvD4cBCYPSNYMQiaidJs6QBkWeXuyZHBf"
 			]
 		}
 	},
