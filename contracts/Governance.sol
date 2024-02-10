@@ -18,6 +18,7 @@ contract TokenNamGovernor is EIP712 {
     event changeVoteDelay(uint32 indexed  time);
     event ValidBallotcontract(address indexed  ballotAddress);
     event SetProposal(uint indexed proposalId);
+    event ProposalCanceled(uint256 indexed proposalId);
 
     error GovernorNonexistentProposal(uint256 proposalId);
     error AddressNotReturnVoteCount(address ballot);
@@ -28,6 +29,7 @@ contract TokenNamGovernor is EIP712 {
     error GovernanceContractNotMatch(address governances_);
     error InavlidProposalParams(address target_, address proposer_, uint256 value_);
     error InvalidVotingTImeParams(uint32 voteDuration_, uint48 voteStart_, uint48 etaSeconds_);
+    error StateProposalIsSpecified(uint256 proposalId);
 
 
     struct ProposalCore { // mitoone nabashe
@@ -83,6 +85,7 @@ contract TokenNamGovernor is EIP712 {
         return "Time stamp";
     }
 
+    // yek zaman bandi payei dar kol zistboom vojood darad ke mitavan in zamanhaye paye ra ba in tabe taghir dad.
     function setvoteTiming(uint32 time, bytes32 varName) public {
         bytes32 varName_ = keccak256(abi.encodePacked(varName));
         uint32 time_ = uint32(time);
@@ -118,6 +121,15 @@ contract TokenNamGovernor is EIP712 {
         return ProposalState.Canceled;
        }
 
+       if (proposal_.Defeated) {
+            return ProposalState.Defeated;
+        }
+
+       if (proposal_.Succeeded) {
+            return ProposalState.Succeeded;
+        }
+
+
        uint256 snapshot = proposal_.voteStart;
 
        if (snapshot == 0) {
@@ -130,15 +142,13 @@ contract TokenNamGovernor is EIP712 {
         return ProposalState.Pending;
        }
 
-       uint256 deadline = snapshot + proposal_.voteDuration;
+       address ballot = proposal_.ballotContract;
+       BallotTCN ballotContract = BallotTCN(ballot);
+       uint256 deadline = ballotContract.getDeadline();
 
        if (currentTimePoint <= deadline) {
         return ProposalState.Active;
-       } else if (proposal_.Succeeded) {
-            return ProposalState.Succeeded;
-        } else if (proposal_.Defeated) {
-            return ProposalState.Defeated;
-        } else {
+       } else {
             ProposalState result = _voteResult(proposal_);
             uint256 state_ = uint256(result);
             contractStorage.setProposalState(state_, proposalId);
@@ -191,22 +201,37 @@ contract TokenNamGovernor is EIP712 {
 
     }
 
-    function isEtaSecondsValid(address target, uint256 proposalId) public {
 
-    }
 
     function execute(address target, uint256 value, bytes memory callData, bytes32 descriptionHash) public {
         if (target == msg.sender){ 
             uint256 proposalId = hashProposal(target, value, callData, descriptionHash);
             ProposalState proState = state(proposalId);
 
-            if(proState == ProposalState.Succeeded) {
+            if (proState == ProposalState.Succeeded) {
                 storageTCN contractStorage_ = storageTCN(_storageConnectors[msg.sender]);
                 contractStorage_.setProposalState(5, proposalId);
                 emit ChangeStateToExecutedAndContinue(_storageConnectors[msg.sender], proposalId);
 
             } else revert StorageContractS_invalidState(_storageConnectors[msg.sender], proposalId);
 
+        } else revert StorageContractS_invalidAccess(msg.sender);
+    }
+
+
+    function cancel(address target, uint256 value, bytes memory callData, bytes32 descriptionHash) public {
+        uint256 proposalId = hashProposal(target, value, callData, descriptionHash);
+        address storageAddress = _storageConnectors[msg.sender];
+        if (storageAddress != address(0)) {
+            ProposalState proState = state(proposalId);
+            if (proState == ProposalState.Executed || proState == ProposalState.Canceled) {
+                revert StateProposalIsSpecified(proposalId);
+            } else {
+                storageTCN contractStorage_ = storageTCN(storageAddress);
+                storageTCN.ProposalCore memory proposal_ = contractStorage_.proposals(proposalId);
+                proposal_.canceled = true;
+                emit ProposalCanceled(proposalId);
+            }
         } else revert StorageContractS_invalidAccess(msg.sender);
     }
 
@@ -226,23 +251,24 @@ contract TokenNamGovernor is EIP712 {
         }
         if (quorumProposal > (i/2)) {
             return true;
-        }else if (((quorumProposal/activeToken) * 100) > 70) {
+        } else if (((quorumProposal/activeToken) * 100) > 70) {
             return true;
-        }else return false;
+        } else return false;
     }
 
 
     function _voteResult(storageTCN.ProposalCore memory proposal_) private returns (ProposalState) {
         address ballot = proposal_.ballotContract;
-        (bool result, bytes memory data) = ballot.call(abi.encodeWithSignature("voteCountProposal()"));
-        if (result) {
-            uint256 voteCount = abi.decode(data, (uint256));
-            if (voteCount > proposal_.quorum) {
+        BallotTCN ballotContract = BallotTCN(ballot);
+            bool result = ballotContract.votingResult();
+            if (result) {
                 return ProposalState.Succeeded;
             } else return ProposalState.Defeated;
-        } else revert AddressNotReturnVoteCount(ballot);
-
     }
+
+    function governoraccess (address) public returns (bool) {
+
+    }// bardashte mishe badan
 
 
 }

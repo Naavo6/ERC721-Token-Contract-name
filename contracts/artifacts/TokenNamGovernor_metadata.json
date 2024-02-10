@@ -110,6 +110,17 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "StateProposalIsSpecified",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "Applicant",
 						"type": "address"
@@ -179,6 +190,19 @@
 				"anonymous": false,
 				"inputs": [],
 				"name": "EIP712DomainChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "proposalId",
+						"type": "uint256"
+					}
+				],
+				"name": "ProposalCanceled",
 				"type": "event"
 			},
 			{
@@ -273,6 +297,34 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "callData",
+						"type": "bytes"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "descriptionHash",
+						"type": "bytes32"
+					}
+				],
+				"name": "cancel",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "eip712Domain",
 				"outputs": [
@@ -347,6 +399,25 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "governoraccess",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "target",
 						"type": "address"
 					},
@@ -375,24 +446,6 @@
 					}
 				],
 				"stateMutability": "pure",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "target",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "proposalId",
-						"type": "uint256"
-					}
-				],
-				"name": "isEtaSecondsValid",
-				"outputs": [],
-				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -612,19 +665,19 @@
 			]
 		},
 		"contracts/3_Ballot.sol": {
-			"keccak256": "0x238dab8d1094105e8f82a586fe12ad0a1acc3b1531581537d3896fab023d486d",
+			"keccak256": "0x1496108cb790272585155f45649b440d7b7c0da188c110710e661721c29074b2",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://09a7d093c5dc9c8cb36bbc1a9e16b8fd4e096b539131a0af550a77e68e9f2f20",
-				"dweb:/ipfs/QmXUzE9xG5HwJu6hznak3Y6qbPjCYKbdGkjBGhWajm1T2V"
+				"bzz-raw://31a0213bd62ef9a7530c108efe5396718d91a576536f749da6a0f9469f17676a",
+				"dweb:/ipfs/QmSU3HsSt6BoghwHhQBmPDA1UeCLgkoTaVTjKArxG1bEB8"
 			]
 		},
 		"contracts/Governance.sol": {
-			"keccak256": "0x090c32f1e65b25766027dcc764e8f1ad3f3e1ed6895b0b74cdb967da9ddfba3b",
+			"keccak256": "0x1864ced472879086b88fabecb578703a1c1a60e84f18cb4b3481005d23d77f4d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3c4042d03ed5dace5d6aae80d022c3cdbb4982bfbd4a1d7c152c111643a0e8ef",
-				"dweb:/ipfs/QmYSEhKtR6dvF32FQ77Y8wCTWT9WPiJyyo9x2bPULpd3YV"
+				"bzz-raw://295f43f95681c98202cab36198d5450b4fa8d1394bc75446a3f236023f6c912c",
+				"dweb:/ipfs/QmXSJ7QMoLsCjG8PkH57mvQspfpTNFNoFbMkk9LigL4BBV"
 			]
 		},
 		"contracts/storageTokenContractName.sol": {

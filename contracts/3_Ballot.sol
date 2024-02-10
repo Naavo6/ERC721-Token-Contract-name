@@ -22,11 +22,13 @@ contract BallotTCN {
     error invalidProposer(address proposer);
     error VotingHasNotStarted(uint48 _voteStart);
     error VotingIsOver(uint256 _deadLine);
+    error VotingIsNotOver(uint256 _deadLine);
 
     struct Voter {
         uint16 weight; // weight is accumulated by delegation
         uint16 delegateWeight;
         bool voted;  // if true, that person already voted
+        bool opinion;
         address delegate; // person delegated to
         uint256 votedTime;   // index of the voted proposal
     }
@@ -140,6 +142,24 @@ contract BallotTCN {
         return (_ballotParam.name, _ballotParam.voteCount, _ballotParam.observed);
     }
 
+    function getDeadline() public view returns (uint256) {
+        return _deadLine;
+    }
+
+    function getvote(address voter_) public view returns (Voter memory) {
+        return _voters[voter_];
+    }
+
+    function getVoterOpinion(address voter_) public view returns (bool opinion_) {
+        if (_voters[voter_].delegate != address(0)) {
+            while (_voters[voter_].delegate != address(0)) {
+                voter_ = _voters[voter_].delegate;
+            }
+            return _voters[voter_].opinion;
+            
+        } else _voters[voter_].opinion;
+    }
+
 
     /** 
      * @dev Give 'voter' the right to vote on this ballot. May only be called by 'chairperson'.
@@ -181,6 +201,7 @@ contract BallotTCN {
             require(to != msg.sender, "Found loop in delegation.");
         }
         sender.voted = true;
+        sender.votedTime = block.timestamp;
         _ballotParam.observed += sender.weight;
         sender.delegate = to;
         Voter storage delegate_ = _voters[to];
@@ -198,9 +219,9 @@ contract BallotTCN {
 
     /**
      * @dev Give your vote (including votes delegated to you).
-     * @param opinion index of opinion in the vote function
+     * @param opinion_ index of opinion in the vote function
      */
-    function vote(bool opinion) public {
+    function vote(bool opinion_) public {
         if (block.timestamp < _votingParams.voteStart) { 
             revert VotingHasNotStarted(_votingParams.voteStart);
         } else if (!isVotingDeadLine()) {
@@ -211,27 +232,24 @@ contract BallotTCN {
         Voter storage sender = _voters[msg.sender];
         sender.voted = true;
         sender.votedTime = block.timestamp;
-        if (opinion) {
+        if (opinion_) {
             _ballotParam.observed += sender.weight;
             _ballotParam.voteCount += (sender.weight + sender.delegateWeight);
+            sender.opinion = opinion_;
         } else _ballotParam.observed += sender.weight;
         emit TheVoteWasRegistered(msg.sender,address(this));
     }
 
     /** 
      * @dev Computes the winning proposal taking all previous votes into account.
-     * @return winningProposal_ index of winning proposal in the proposals array
+     * @return result index of winning proposal in the proposals array
      */
-    function voteCountProposal() public view
-            returns (uint26 winningProposal_)
-    {
-        // uint winningVoteCount = 0;
-        // for (uint p = 0; p < proposals.length; p++) {
-        //     if (proposals[p].voteCount > winningVoteCount) {
-        //         winningVoteCount = proposals[p].voteCount;
-        //         winningProposal_ = p;
-        //     }
-        // }
+    function votingResult() public returns (bool) {
+        if (!isVotingDeadLine()) {
+            if (_ballotParam.observed >= _votingParams.quorum && _ballotParam.voteCount > ((_ballotParam.observed * 50) / 100)) {
+                return true;
+            } else return false;
+        } else revert VotingIsNotOver(_deadLine);
     }
 
     function _votersPermission() private {
@@ -246,7 +264,7 @@ contract BallotTCN {
         uint48 currentTime = uint48(block.timestamp);
         if (currentTime <= _deadLine) {
             return true;
-        } else if (_ballotParam.observed < _votingParams.quorum) {
+        } else if (_ballotParam.observed < (_votingParams.quorum + ((_votingParams.quorum * 20) / 100))) {
             if (currentTime <= (_votingParams.voteStart + _votingParams.voteDuration + _votingParams.etaSeconds)) {
                 _deadLine += _votingParams.etaSeconds;
                 emit etaSecondsIsActivated(address(this), _votingParams.etaSeconds);
