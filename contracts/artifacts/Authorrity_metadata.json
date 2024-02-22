@@ -1,0 +1,85 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "getRepublic_GAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "RG",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newPresident",
+						"type": "address"
+					}
+				],
+				"name": "setPresident",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/authority.sol": "Authorrity"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/Republic_S.sol": {
+			"keccak256": "0x4a7c977603cfdfbb505aecab9ae9bc44f553f8bf1fad50a4e0082793024903df",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://284cdb71a103617bbaedb49bd6a4036d1ce60bedb70bdf7a6b9782491b35b465",
+				"dweb:/ipfs/QmPwLwydX2htC6VSa1ZzQ6zv4K4QN9SLQQc3x7xs5hKCiP"
+			]
+		},
+		"contracts/authority.sol": {
+			"keccak256": "0x0879e2b00ce03cd50cd4b0cc57e183f5108d9ea2998f68e1fbb1e3f2de1d98e3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://08ddca0bc421d4676997e3f0c7cfb83cb559eaf5b1e12741dcd8373d7e335825",
+				"dweb:/ipfs/QmXes1VGjPSHuiZfRtSW1nRqaQ49FW3G32YEwQXXoyN16V"
+			]
+		}
+	},
+	"version": 1
+}
