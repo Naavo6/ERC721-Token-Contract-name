@@ -12,12 +12,144 @@
 			},
 			{
 				"inputs": [],
+				"name": "AccessOnlyForThePendigPresident",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "NewGCAddress",
+						"type": "address"
+					}
+				],
+				"name": "TheAddressIsNotValidForGC",
+				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "GCAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "version",
+						"type": "uint32"
+					}
+				],
+				"name": "TheNewGCAddressWasConfirmed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "presidentAdd",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "nonce",
+						"type": "uint32"
+					}
+				],
+				"name": "TheNewPresidentWasConfirmed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newGCAddress",
+						"type": "address"
+					}
+				],
+				"name": "TheNextGCAddressWasElected",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newPresidentAdd",
+						"type": "address"
+					}
+				],
+				"name": "TheNextPresidentWasElected",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "getGovernance",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getPresidentAdd",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getPresidentBan",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "getRepublic_GAddress",
 				"outputs": [
 					{
 						"internalType": "address",
 						"name": "RG",
 						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getgovernanceVersion",
+				"outputs": [
+					{
+						"internalType": "uint32",
+						"name": "",
+						"type": "uint32"
 					}
 				],
 				"stateMutability": "view",
@@ -31,7 +163,40 @@
 						"type": "address"
 					}
 				],
-				"name": "setPresident",
+				"name": "setPendigPresident",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newGCAddress",
+						"type": "address"
+					}
+				],
+				"name": "setPendingGovernanceContractAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "pendingGCAdd",
+						"type": "address"
+					}
+				],
+				"name": "transferGovernanceContractAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "transferPresident",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -73,11 +238,11 @@
 			]
 		},
 		"contracts/authority.sol": {
-			"keccak256": "0x0879e2b00ce03cd50cd4b0cc57e183f5108d9ea2998f68e1fbb1e3f2de1d98e3",
+			"keccak256": "0xbc6658a176fb182889a81ae77b93cce845c8511389c37f3bc732650b0d1e8a54",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://08ddca0bc421d4676997e3f0c7cfb83cb559eaf5b1e12741dcd8373d7e335825",
-				"dweb:/ipfs/QmXes1VGjPSHuiZfRtSW1nRqaQ49FW3G32YEwQXXoyN16V"
+				"bzz-raw://db0e9762de537b20b43d08ded4517a6b90578f4912ad1f77594eb14cac0bf8d0",
+				"dweb:/ipfs/QmYDiKQCsgoWmMUvciSyNikNBML8QbsoSDZrHaWqKWDhJD"
 			]
 		}
 	},
