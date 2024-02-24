@@ -5,10 +5,15 @@ pragma solidity ^0.8.20;
 import {Republic_S} from "contracts/Republic_S.sol";
 
 
+interface Igovernance_set {
+    function setBanedAllActivities(bool baned) external returns (bool done); 
+}
 
 
 
-contract Authorrity is Republic_S {
+
+
+contract Authority is Republic_S {
 
     error AccessOnlyForThePendigPresident();
     error TheAddressIsNotValidForGC(address NewGCAddress);
@@ -18,6 +23,7 @@ contract Authorrity is Republic_S {
     event TheNewPresidentWasConfirmed(address indexed presidentAdd, uint32 indexed nonce);
     event TheNextGCAddressWasElected(address indexed newGCAddress);
     event TheNewGCAddressWasConfirmed(address indexed GCAddress, uint32 indexed version);
+    event TheStatusOfBanningAllActivitiesAndDone(bool indexed baned, bool indexed done);
 
 
    address private _pendingGCAddress;
@@ -55,7 +61,9 @@ contract Authorrity is Republic_S {
     _president.nonce++;
    }
 
-
+    function getAuthorityAddress() public view returns (address) {
+        return  address(this);
+    }
 
    function setPendigPresident(address newPresident) public onlyRepublic {
     _pendigPresident = newPresident;
@@ -68,6 +76,9 @@ contract Authorrity is Republic_S {
         delete _pendigPresident;
         _president.rolAdd = msg.sender;
         _president.nonce++;
+        if (_president.baned){
+             _setPresidentBaned(false);
+        }
         emit TheNewPresidentWasConfirmed(_president.rolAdd, _president.nonce);
 
     } else revert AccessOnlyForThePendigPresident();
@@ -92,6 +103,7 @@ contract Authorrity is Republic_S {
 
    function transferGovernanceContractAddress(address pendingGCAdd) public onlyPresident {
     if (_pendingGCAddress == pendingGCAdd) {
+        delete _pendingGCAddress;
         _governance.rolAdd = pendingGCAdd;
         _governance.nonce++;
         emit TheNewGCAddressWasConfirmed(_governance.rolAdd, _governance.nonce);
@@ -104,10 +116,20 @@ contract Authorrity is Republic_S {
    }
 
    function getgovernanceVersion() public view returns (uint32) {
-    return _governance.nonce
+    return _governance.nonce;
    }
 
-   function setban
+   function setPresidentBaned(bool baned) public onlyRepublic {
+    _setPresidentBaned(baned);
+   }
+
+   function _setPresidentBaned(bool baned) private {
+    _president.baned = baned;
+    if (Igovernance_set(_governance.rolAdd).setBanedAllActivities(baned)){
+        emit TheStatusOfBanningAllActivitiesAndDone(baned, true);
+
+    } else emit TheStatusOfBanningAllActivitiesAndDone(baned, false);
+   }  
 
 
 

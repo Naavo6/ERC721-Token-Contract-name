@@ -1,0 +1,295 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "AccessOnlyForThePendigPresident",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "NewGCAddress",
+						"type": "address"
+					}
+				],
+				"name": "TheAddressIsNotValidForGC",
+				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "GCAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "version",
+						"type": "uint32"
+					}
+				],
+				"name": "TheNewGCAddressWasConfirmed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "presidentAdd",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "nonce",
+						"type": "uint32"
+					}
+				],
+				"name": "TheNewPresidentWasConfirmed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newGCAddress",
+						"type": "address"
+					}
+				],
+				"name": "TheNextGCAddressWasElected",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newPresidentAdd",
+						"type": "address"
+					}
+				],
+				"name": "TheNextPresidentWasElected",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bool",
+						"name": "baned",
+						"type": "bool"
+					},
+					{
+						"indexed": true,
+						"internalType": "bool",
+						"name": "done",
+						"type": "bool"
+					}
+				],
+				"name": "TheStatusOfBanningAllActivitiesAndDone",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "getAuthorityAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getGovernance",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getPresidentAdd",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getPresidentBan",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getRepublic_GAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "RG",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getgovernanceVersion",
+				"outputs": [
+					{
+						"internalType": "uint32",
+						"name": "",
+						"type": "uint32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newPresident",
+						"type": "address"
+					}
+				],
+				"name": "setPendigPresident",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newGCAddress",
+						"type": "address"
+					}
+				],
+				"name": "setPendingGovernanceContractAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "baned",
+						"type": "bool"
+					}
+				],
+				"name": "setPresidentBaned",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "pendingGCAdd",
+						"type": "address"
+					}
+				],
+				"name": "transferGovernanceContractAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "transferPresident",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/authority.sol": "Authority"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/Republic_S.sol": {
+			"keccak256": "0x4a7c977603cfdfbb505aecab9ae9bc44f553f8bf1fad50a4e0082793024903df",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://284cdb71a103617bbaedb49bd6a4036d1ce60bedb70bdf7a6b9782491b35b465",
+				"dweb:/ipfs/QmPwLwydX2htC6VSa1ZzQ6zv4K4QN9SLQQc3x7xs5hKCiP"
+			]
+		},
+		"contracts/authority.sol": {
+			"keccak256": "0x25b8ad5572cbc1a4678f8412f84a1be9f8f9d20a22db2179d7863e398f874d08",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://aa188b175fdbe98592f12ce8c5526db4a82c6a8f086f0c8d7aba658c318de8fe",
+				"dweb:/ipfs/QmXj8bbGY5gSh5oZytEhJe5skxZW7BQAuSsx8dQbpNHAs7"
+			]
+		}
+	},
+	"version": 1
+}

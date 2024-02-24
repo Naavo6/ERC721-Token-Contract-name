@@ -1,0 +1,73 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "baned",
+						"type": "bool"
+					}
+				],
+				"name": "setBanedAllActivities",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "done",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/authority.sol": "Igovernance_set"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/Republic_S.sol": {
+			"keccak256": "0x4a7c977603cfdfbb505aecab9ae9bc44f553f8bf1fad50a4e0082793024903df",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://284cdb71a103617bbaedb49bd6a4036d1ce60bedb70bdf7a6b9782491b35b465",
+				"dweb:/ipfs/QmPwLwydX2htC6VSa1ZzQ6zv4K4QN9SLQQc3x7xs5hKCiP"
+			]
+		},
+		"contracts/authority.sol": {
+			"keccak256": "0x25b8ad5572cbc1a4678f8412f84a1be9f8f9d20a22db2179d7863e398f874d08",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://aa188b175fdbe98592f12ce8c5526db4a82c6a8f086f0c8d7aba658c318de8fe",
+				"dweb:/ipfs/QmXj8bbGY5gSh5oZytEhJe5skxZW7BQAuSsx8dQbpNHAs7"
+			]
+		}
+	},
+	"version": 1
+}

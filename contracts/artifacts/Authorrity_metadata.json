@@ -184,6 +184,19 @@
 			{
 				"inputs": [
 					{
+						"internalType": "bool",
+						"name": "baned",
+						"type": "bool"
+					}
+				],
+				"name": "setPresidentBaned",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "pendingGCAdd",
 						"type": "address"
@@ -238,11 +251,11 @@
 			]
 		},
 		"contracts/authority.sol": {
-			"keccak256": "0xbc6658a176fb182889a81ae77b93cce845c8511389c37f3bc732650b0d1e8a54",
+			"keccak256": "0x2184ddb4d0f2fd75caa6bedfdcdfaa3312ed09d7972a94c5221f5b5536f9a891",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://db0e9762de537b20b43d08ded4517a6b90578f4912ad1f77594eb14cac0bf8d0",
-				"dweb:/ipfs/QmYDiKQCsgoWmMUvciSyNikNBML8QbsoSDZrHaWqKWDhJD"
+				"bzz-raw://61187c6880504ddf815204a223de52fcd5f1ee577004d9c5a20e4efc931407cc",
+				"dweb:/ipfs/QmWFLNUczgiNjGVr81XMfDZyzFEEb7RQtprXdbfbd5E4iJ"
 			]
 		}
 	},

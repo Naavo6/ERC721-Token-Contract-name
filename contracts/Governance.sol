@@ -4,13 +4,14 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 import {storageTCN} from "contracts/storageTokenContractName.sol";
 import {BallotTCN} from "contracts/3_Ballot.sol";
+import {Authority} from "contracts/authority.sol";
 
 
 
 
 
 
-contract TokenNamGovernor is EIP712 {
+contract TokenNamGovernor is EIP712, Authority {
 
     event ChangeStateToExecutedAndContinue(address indexed  storageContract, uint256 indexed proposalId);
     event changeVoteDuration(uint32 indexed  time);
@@ -269,6 +270,12 @@ contract TokenNamGovernor is EIP712 {
     function governoraccess (address) public returns (bool) {
 
     }// bardashte mishe badan
+
+    function setBanedAllActivities(bool baned) public returns (bool done) {
+        require(Authority.getAuthorityAddress() == msg.sender, "Access is not valid");
+        // _banedAllActivities = baned;
+        done = true;
+    }
 
 
 }

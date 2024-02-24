@@ -47,11 +47,11 @@
 	},
 	"sources": {
 		"contracts/Republic_S.sol": {
-			"keccak256": "0x4a7c977603cfdfbb505aecab9ae9bc44f553f8bf1fad50a4e0082793024903df",
+			"keccak256": "0xa78415bc70c99044176b4e5df20bb4836f1664b82664c04c76779f6862975a85",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://284cdb71a103617bbaedb49bd6a4036d1ce60bedb70bdf7a6b9782491b35b465",
-				"dweb:/ipfs/QmPwLwydX2htC6VSa1ZzQ6zv4K4QN9SLQQc3x7xs5hKCiP"
+				"bzz-raw://bc7ba06216368166d47d01188f46488bb122aa615a8b53b24cce3bcc452168ba",
+				"dweb:/ipfs/QmVjkNypWM7ShTV2Fpv4zH1FQJmn9ePW7riG9FAAKiq4Dm"
 			]
 		}
 	},
