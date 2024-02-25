@@ -4,7 +4,21 @@
 	},
 	"language": "Solidity",
 	"output": {
-		"abi": [],
+		"abi": [
+			{
+				"inputs": [],
+				"name": "getRepublicAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "RG",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
 		"devdoc": {
 			"kind": "dev",
 			"methods": {},
@@ -18,7 +32,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/Republic.sol": "Republic"
+			"contracts/Republic_S.sol": "Republic"
 		},
 		"evmVersion": "shanghai",
 		"libraries": {},
@@ -32,12 +46,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/Republic.sol": {
-			"keccak256": "0xfb72ef4cd5805bd29ac5b88839706fabe8a3927460a18820787f745bcacf0a22",
+		"contracts/Republic_S.sol": {
+			"keccak256": "0x981e2780bff8d6855548f6f7fb79cdd15929a7d8a5cd07586062acd3f5a27591",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b21d9ffab9d691434a6472ef28ebb01da7f1fa3e7168056d75745ac7ab6ea94f",
-				"dweb:/ipfs/Qma2cXVwDVL2oiRzdH78EMsTnqFV6o4RufsvK2pSxJqUsv"
+				"bzz-raw://d0be3c8a34158ae414086f81f7a68492ca6f29853d5759c18c34b247af60ad72",
+				"dweb:/ipfs/QmS6DyRNXGbFacB2MCWJUZ3kXRu9DSdRrSAsjpBkbiH3kQ"
 			]
 		}
 	},

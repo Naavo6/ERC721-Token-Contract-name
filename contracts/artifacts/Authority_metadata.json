@@ -18,12 +18,34 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint48",
+						"name": "reminingTime",
+						"type": "uint48"
+					}
+				],
+				"name": "RemainingTimeUntilTheConfirmationDeadline",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "NewGCAddress",
 						"type": "address"
 					}
 				],
 				"name": "TheAddressIsNotValidForGC",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newRAddress",
+						"type": "address"
+					}
+				],
+				"name": "TheAddressIsNotValidForRAddress",
 				"type": "error"
 			},
 			{
@@ -70,6 +92,25 @@
 					{
 						"indexed": true,
 						"internalType": "address",
+						"name": "RepublicAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "version",
+						"type": "uint32"
+					}
+				],
+				"name": "TheNewRepublicAddressWasConfirmed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
 						"name": "newGCAddress",
 						"type": "address"
 					}
@@ -95,6 +136,32 @@
 				"inputs": [
 					{
 						"indexed": true,
+						"internalType": "address",
+						"name": "PRAddress",
+						"type": "address"
+					}
+				],
+				"name": "TheNextRepublicAddressWasCancelled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newRepublicAddress",
+						"type": "address"
+					}
+				],
+				"name": "TheNextRepublicAddressWasElected",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
 						"internalType": "bool",
 						"name": "baned",
 						"type": "bool"
@@ -108,6 +175,19 @@
 				],
 				"name": "TheStatusOfBanningAllActivitiesAndDone",
 				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "PRAdress",
+						"type": "address"
+					}
+				],
+				"name": "cancelPendingRepublicAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			},
 			{
 				"inputs": [],
@@ -163,7 +243,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "getRepublic_GAddress",
+				"name": "getRepublicAddress",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -216,6 +296,19 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "newRAddress",
+						"type": "address"
+					}
+				],
+				"name": "setPendingRepublicAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "bool",
 						"name": "baned",
 						"type": "bool"
@@ -242,6 +335,19 @@
 			{
 				"inputs": [],
 				"name": "transferPresident",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "RAddress",
+						"type": "address"
+					}
+				],
+				"name": "transferRepublicAddress",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -274,20 +380,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/Republic_S.sol": {
-			"keccak256": "0x4a7c977603cfdfbb505aecab9ae9bc44f553f8bf1fad50a4e0082793024903df",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://284cdb71a103617bbaedb49bd6a4036d1ce60bedb70bdf7a6b9782491b35b465",
-				"dweb:/ipfs/QmPwLwydX2htC6VSa1ZzQ6zv4K4QN9SLQQc3x7xs5hKCiP"
-			]
-		},
 		"contracts/authority.sol": {
-			"keccak256": "0x25b8ad5572cbc1a4678f8412f84a1be9f8f9d20a22db2179d7863e398f874d08",
+			"keccak256": "0xeb7dac378549a9d6c67bf9054f52b6844db880f24740d9939c3af97577cdfdf9",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://aa188b175fdbe98592f12ce8c5526db4a82c6a8f086f0c8d7aba658c318de8fe",
-				"dweb:/ipfs/QmXj8bbGY5gSh5oZytEhJe5skxZW7BQAuSsx8dQbpNHAs7"
+				"bzz-raw://fab5735897f00ca69875671e179b155295745dd744782bb95b0f62bdf79a28a3",
+				"dweb:/ipfs/QmP8MsDo83LQghDQMZw8roLKUDESzQjSHggEXATxGLRsXB"
 			]
 		}
 	},

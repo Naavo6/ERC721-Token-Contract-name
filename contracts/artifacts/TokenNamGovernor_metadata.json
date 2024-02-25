@@ -115,6 +115,17 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint48",
+						"name": "reminingTime",
+						"type": "uint48"
+					}
+				],
+				"name": "RemainingTimeUntilTheConfirmationDeadline",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "proposalId",
 						"type": "uint256"
@@ -170,6 +181,17 @@
 					}
 				],
 				"name": "TheAddressIsNotValidForGC",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newRAddress",
+						"type": "address"
+					}
+				],
+				"name": "TheAddressIsNotValidForRAddress",
 				"type": "error"
 			},
 			{
@@ -278,6 +300,25 @@
 					{
 						"indexed": true,
 						"internalType": "address",
+						"name": "RepublicAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "version",
+						"type": "uint32"
+					}
+				],
+				"name": "TheNewRepublicAddressWasConfirmed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
 						"name": "newGCAddress",
 						"type": "address"
 					}
@@ -296,6 +337,19 @@
 					}
 				],
 				"name": "TheNextPresidentWasElected",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newRepublicAddress",
+						"type": "address"
+					}
+				],
+				"name": "TheNextRepublicAddressWasElected",
 				"type": "event"
 			},
 			{
@@ -548,7 +602,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "getRepublic_GAddress",
+				"name": "getRepublicAddress",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -738,6 +792,19 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "newRAddress",
+						"type": "address"
+					}
+				],
+				"name": "setPendingRepublicAddress",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "bool",
 						"name": "baned",
 						"type": "bool"
@@ -801,6 +868,19 @@
 			{
 				"inputs": [],
 				"name": "transferPresident",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "RAddress",
+						"type": "address"
+					}
+				],
+				"name": "transferRepublicAddress",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -935,20 +1015,12 @@
 				"dweb:/ipfs/QmUajaj3dGEBHNE8TC3Q67c3ba7gUcWnC7xwZrqsWXUtJX"
 			]
 		},
-		"contracts/Republic_S.sol": {
-			"keccak256": "0x4a7c977603cfdfbb505aecab9ae9bc44f553f8bf1fad50a4e0082793024903df",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://284cdb71a103617bbaedb49bd6a4036d1ce60bedb70bdf7a6b9782491b35b465",
-				"dweb:/ipfs/QmPwLwydX2htC6VSa1ZzQ6zv4K4QN9SLQQc3x7xs5hKCiP"
-			]
-		},
 		"contracts/authority.sol": {
-			"keccak256": "0x25b8ad5572cbc1a4678f8412f84a1be9f8f9d20a22db2179d7863e398f874d08",
+			"keccak256": "0xa8a6dc46d8cbe93cab178184d1bb79f83732a8ba27502b84e1e5a565f825ef73",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://aa188b175fdbe98592f12ce8c5526db4a82c6a8f086f0c8d7aba658c318de8fe",
-				"dweb:/ipfs/QmXj8bbGY5gSh5oZytEhJe5skxZW7BQAuSsx8dQbpNHAs7"
+				"bzz-raw://3bd6cbac88c4a11d49258464afb34d1a459122cf24eecf2b6bbf5221c4946afe",
+				"dweb:/ipfs/QmX7hkAa8LbA6miQxYBvCvKFzwPk8ufBZSqPxN2ib97f3Z"
 			]
 		},
 		"contracts/storageTokenContractName.sol": {

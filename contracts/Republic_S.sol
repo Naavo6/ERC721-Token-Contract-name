@@ -4,15 +4,14 @@ pragma solidity ^0.8.20;
 
 
 
-contract Republic_S {
+contract Republic {
 
-    address private _RepublicGAddress;
-    address private _pendigRepublic_GAddress
+    address private _RepublicAddress;
+    address private _pendigRepublicAddress;
+ 
 
-    function setPendingRepublic_GAddress(address)
-
-    function getRepublic_GAddress() public view returns (address RG) {
-        return _RepublicGAddress;
+    function getRepublicAddress() public view returns (address RG) {
+        return _RepublicAddress;
     }
 
 }

@@ -2,7 +2,6 @@
 pragma solidity ^0.8.20;
 
 
-import {Republic_S} from "contracts/Republic_S.sol";
 
 
 interface Igovernance_set {
@@ -13,10 +12,12 @@ interface Igovernance_set {
 
 
 
-contract Authority is Republic_S {
+contract Authority {
 
+    error TheAddressIsNotValidForRAddress(address newRAddress);
     error AccessOnlyForThePendigPresident();
     error TheAddressIsNotValidForGC(address NewGCAddress);
+    error RemainingTimeUntilTheConfirmationDeadline(uint48 reminingTime);
 
 
     event TheNextPresidentWasElected(address indexed newPresidentAdd);
@@ -24,112 +25,166 @@ contract Authority is Republic_S {
     event TheNextGCAddressWasElected(address indexed newGCAddress);
     event TheNewGCAddressWasConfirmed(address indexed GCAddress, uint32 indexed version);
     event TheStatusOfBanningAllActivitiesAndDone(bool indexed baned, bool indexed done);
+    event TheNextRepublicAddressWasElected(address indexed newRepublicAddress);
+    event TheNewRepublicAddressWasConfirmed(address indexed RepublicAddress, uint32 indexed version);
+    event TheNextRepublicAddressWasCancelled(address indexed PRAddress);
+
+    address private _pendigRepublicAddress;
+    address private _pendingGCAddress;
+    address private _pendigPresident;
+    uint48 immutable TimeFirstElection;
+    uint48 private _delayConfirmRepublicAddress;
 
 
-   address private _pendingGCAddress;
-   address private _pendigPresident;
-   uint48 immutable TimeFirstElection;
-
-   struct access {
-    address rolAdd;
-    bool baned;
-    uint32 nonce;
-   }
-
-   access private _president;
-   access private _governance;
-   // access private _primeMinister;
-   
-   modifier onlyRepublic() {
-    if (TimeFirstElection < block.timestamp) {
-        require(msg.sender == getRepublic_GAddress(), "Access is not valid");
-
-    } else require(msg.sender == getPresidentAdd() && getPresidentBan(), "Access is not valid");
-
-    _;
-   }
-
-   modifier onlyPresident() {
-    require(msg.sender == getPresidentAdd() && getPresidentBan(), "Access is not valid");
-
-    _;
-   }
-
-   constructor() {
-    TimeFirstElection = uint48(block.timestamp + 4400 days);
-    _president.rolAdd = msg.sender;
-    _president.nonce++;
-   }
-
-    function getAuthorityAddress() public view returns (address) {
-        return  address(this);
+    struct access {
+        address rolAdd;
+        bool baned;
+        uint32 nonce;
     }
 
-   function setPendigPresident(address newPresident) public onlyRepublic {
-    _pendigPresident = newPresident;
+        
+    access private _president;
+    access private _governance;
+    access private _Republic;
+    // access private _primeMinister;
+    
+    modifier onlyRepublic() {
+        if (TimeFirstElection < block.timestamp) {
+            require(msg.sender == getRepublicAddress(), "Access is not valid");
 
-    emit TheNextPresidentWasElected(newPresident);
-   }
+        } else require(msg.sender == getPresidentAdd() && getPresidentBan(), "Access is not valid");
 
-   function transferPresident() public {
-    if (_pendigPresident == msg.sender) {
-        delete _pendigPresident;
+        _;
+    }
+
+    modifier onlyPresident() {
+        require(msg.sender == getPresidentAdd() && getPresidentBan(), "Access is not valid");
+
+        _;
+    }
+
+    constructor() {
+        TimeFirstElection = uint48(block.timestamp + 4400 days);
         _president.rolAdd = msg.sender;
         _president.nonce++;
-        if (_president.baned){
-             _setPresidentBaned(false);
+    }
+
+    function setPendingRepublicAddress(address newRAddress) public onlyRepublic {
+        if (newRAddress.code.length > 0) {
+            if (_president.rolAdd == msg.sender) {
+                _transferRepublicAddress(newRAddress);
+
+            } else {
+                _delayConfirmRepublicAddress = uint48(block.timestamp + 15 days);
+                _pendigRepublicAddress = newRAddress;
+                emit TheNextRepublicAddressWasElected(newRAddress);
+            }
+
+        } else revert TheAddressIsNotValidForRAddress(newRAddress);
+
+    }
+
+    function transferRepublicAddress(address RAddress) public onlyRepublic {
+        if (_delayConfirmRepublicAddress < block.timestamp) {
+            require(_delayConfirmRepublicAddress != 0,"The request is invalid");
+            if (_pendigRepublicAddress == RAddress) {
+                delete _delayConfirmRepublicAddress;
+                delete _pendigRepublicAddress;
+                _transferRepublicAddress(RAddress);
+
+            } else revert TheAddressIsNotValidForRAddress(RAddress);
+
+        } else revert RemainingTimeUntilTheConfirmationDeadline(_delayConfirmRepublicAddress - uint48(block.timestamp));
+    }
+
+    function cancelPendingRepublicAddress(address PRAdress) public onlyRepublic {
+        if (_pendigRepublicAddress == PRAdress) {
+                delete _delayConfirmRepublicAddress;
+                delete _pendigRepublicAddress;
+                emit  TheNextRepublicAddressWasCancelled(PRAdress);
+
+        } else revert TheAddressIsNotValidForRAddress(PRAdress);
+    }
+
+    function getRepublicAddress() public view returns (address RG) {
+            return _Republic.rolAdd;
         }
-        emit TheNewPresidentWasConfirmed(_president.rolAdd, _president.nonce);
 
-    } else revert AccessOnlyForThePendigPresident();
-   }
+        function getAuthorityAddress() public view returns (address) {
+            return  address(this);
+        }
 
-   function getPresidentAdd() public view returns (address) {
-    return _president.rolAdd;
-   }
+    function setPendigPresident(address newPresident) public onlyRepublic {
+        _pendigPresident = newPresident;
 
-   function getPresidentBan() public view returns (bool) {
-    return _president.baned;
-   }
+        emit TheNextPresidentWasElected(newPresident);
+    }
 
-   function setPendingGovernanceContractAddress(address newGCAddress) public onlyRepublic {
-    if (newGCAddress.code.length > 0) {
-        _pendingGCAddress = newGCAddress;
-        emit TheNextGCAddressWasElected(newGCAddress);
+    function transferPresident() public {
+        if (_pendigPresident == msg.sender) {
+            delete _pendigPresident;
+            _president.rolAdd = msg.sender;
+            _president.nonce++;
+            if (_president.baned){
+                _setPresidentBaned(false);
+            }
+            emit TheNewPresidentWasConfirmed(_president.rolAdd, _president.nonce);
 
-    } else revert TheAddressIsNotValidForGC(newGCAddress);
+        } else revert AccessOnlyForThePendigPresident();
+    }
 
-   }
+    function getPresidentAdd() public view returns (address) {
+        return _president.rolAdd;
+    }
 
-   function transferGovernanceContractAddress(address pendingGCAdd) public onlyPresident {
-    if (_pendingGCAddress == pendingGCAdd) {
-        delete _pendingGCAddress;
-        _governance.rolAdd = pendingGCAdd;
-        _governance.nonce++;
-        emit TheNewGCAddressWasConfirmed(_governance.rolAdd, _governance.nonce);
+    function getPresidentBan() public view returns (bool) {
+        return _president.baned;
+    }
 
-    } else revert TheAddressIsNotValidForGC(pendingGCAdd);
-   }
+    function setPendingGovernanceContractAddress(address newGCAddress) public onlyRepublic {
+        if (newGCAddress.code.length > 0) {
+            _pendingGCAddress = newGCAddress;
+            emit TheNextGCAddressWasElected(newGCAddress);
 
-   function getGovernance() public view returns (address) {
-    return _governance.rolAdd;
-   }
+        } else revert TheAddressIsNotValidForGC(newGCAddress);
 
-   function getgovernanceVersion() public view returns (uint32) {
-    return _governance.nonce;
-   }
+    }
 
-   function setPresidentBaned(bool baned) public onlyRepublic {
-    _setPresidentBaned(baned);
-   }
+    function transferGovernanceContractAddress(address pendingGCAdd) public onlyPresident {
+        if (_pendingGCAddress == pendingGCAdd) {
+            delete _pendingGCAddress;
+            _governance.rolAdd = pendingGCAdd;
+            _governance.nonce++;
+            emit TheNewGCAddressWasConfirmed(_governance.rolAdd, _governance.nonce);
 
-   function _setPresidentBaned(bool baned) private {
-    _president.baned = baned;
-    if (Igovernance_set(_governance.rolAdd).setBanedAllActivities(baned)){
-        emit TheStatusOfBanningAllActivitiesAndDone(baned, true);
+        } else revert TheAddressIsNotValidForGC(pendingGCAdd);
+    }
 
-    } else emit TheStatusOfBanningAllActivitiesAndDone(baned, false);
-   }  
+    function getGovernance() public view returns (address) {
+        return _governance.rolAdd;
+    }
+
+    function getgovernanceVersion() public view returns (uint32) {
+        return _governance.nonce;
+    }
+
+    function setPresidentBaned(bool baned) public onlyRepublic {
+        _setPresidentBaned(baned);
+    }
+
+    function _transferRepublicAddress(address RAddress) private {
+        _Republic.rolAdd = RAddress;
+        _Republic.nonce++;
+        emit TheNewRepublicAddressWasConfirmed(_Republic.rolAdd, _Republic.nonce);
+    }
+
+    function _setPresidentBaned(bool baned) private {
+        _president.baned = baned;
+        if (Igovernance_set(_governance.rolAdd).setBanedAllActivities(baned)){
+            emit TheStatusOfBanningAllActivitiesAndDone(baned, true);
+
+        } else emit TheStatusOfBanningAllActivitiesAndDone(baned, false);
+    }  
 
 
 
