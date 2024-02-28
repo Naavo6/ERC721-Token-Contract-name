@@ -49,23 +49,33 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"setBanedAllActivities(bool)": "f4e25380"
+			"AccessControl(address,address,bytes4)": "e35b31b7"
 		}
 	},
 	"abi": [
 		{
 			"inputs": [
 				{
-					"internalType": "bool",
-					"name": "baned",
-					"type": "bool"
+					"internalType": "address",
+					"name": "caller",
+					"type": "address"
+				},
+				{
+					"internalType": "address",
+					"name": "target",
+					"type": "address"
+				},
+				{
+					"internalType": "bytes4",
+					"name": "Fselector",
+					"type": "bytes4"
 				}
 			],
-			"name": "setBanedAllActivities",
+			"name": "AccessControl",
 			"outputs": [
 				{
 					"internalType": "bool",
-					"name": "done",
+					"name": "accessed",
 					"type": "bool"
 				}
 			],

@@ -76,7 +76,7 @@ contract BallotTCN {
 
     PROPOSALPARAM private _proposalParams;
 
-    mapping(address proposerAdd => address targetAdd) private _targetConnectors;
+    mapping(address proposerAdd => address targetAdd) private _targetConnectors;// barasase governance taghir bede*****
     mapping(address => Voter) private _voters;
     mapping(address => uint16[1201]) private _targetSociety;
 
@@ -98,7 +98,7 @@ contract BallotTCN {
 
         // proposal param
         _proposalParams.proposer = msg.sender;
-        _proposalParams.target = _targetConnectors[_proposalParams.proposer];
+        _proposalParams.target = _targetConnectors[_proposalParams.proposer];// barasase governance taghir bede******
         if (_proposalParams.target == address(0)) {
             revert invalidProposer(_proposalParams.proposer);
         }

@@ -271,10 +271,15 @@ contract TokenNamGovernor is EIP712, Authority {
 
     }// bardashte mishe badan
 
-    function setBanedAllActivities(bool baned) public returns (bool done) {
-        require(Authority.getAuthorityAddress() == msg.sender, "Access is not valid");
-        // _banedAllActivities = baned;
-        done = true;
+    // function setBanedAllActivities(bool baned) public returns (bool done) {
+    //     require(Authority.getAuthorityAddress() == msg.sender, "Access is not valid");
+    //     // _banedAllActivities = baned;
+    //     bytes4 n = msg.sig;
+    //     done = true;
+    // } in hazf shod dar authority ama ban ro rosh fekr kon yani president betone bane koli kone
+
+    function AccessControl(address caller, address target, bytes4 Fselector) public returns (bool accessed) {
+
     }
 
 

@@ -5,7 +5,7 @@ pragma solidity ^0.8.20;
 
 
 interface Igovernance_set {
-    function setBanedAllActivities(bool baned) external returns (bool done); 
+    function AccessControl(address caller, address target, bytes4 Fselector) external returns (bool accessed);
 }
 
 
@@ -52,14 +52,20 @@ contract Authority {
         if (TimeFirstElection < block.timestamp) {
             require(msg.sender == getRepublicAddress(), "Access is not valid");
 
-        } else require(msg.sender == getPresidentAdd() && getPresidentBan(), "Access is not valid");
+        } else require(msg.sender == getPresidentAdd() && !getPresidentBan(), "Access is not valid");
 
         _;
     }
 
     modifier onlyPresident() {
-        require(msg.sender == getPresidentAdd() && getPresidentBan(), "Access is not valid");
+        require(msg.sender == getPresidentAdd() && !getPresidentBan(), "Access is not valid");
 
+        _;
+    }
+
+    modifier AccessCheck(address caller) {
+        require(!getPresidentBan() && Igovernance_set(_governance.rolAdd).AccessControl(caller, msg.sender, msg.sig), "Access is not valid");
+        
         _;
     }
 
@@ -172,6 +178,8 @@ contract Authority {
         _setPresidentBaned(baned);
     }
 
+
+
     function _transferRepublicAddress(address RAddress) private {
         _Republic.rolAdd = RAddress;
         _Republic.nonce++;
@@ -180,10 +188,6 @@ contract Authority {
 
     function _setPresidentBaned(bool baned) private {
         _president.baned = baned;
-        if (Igovernance_set(_governance.rolAdd).setBanedAllActivities(baned)){
-            emit TheStatusOfBanningAllActivitiesAndDone(baned, true);
-
-        } else emit TheStatusOfBanningAllActivitiesAndDone(baned, false);
     }  
 
 

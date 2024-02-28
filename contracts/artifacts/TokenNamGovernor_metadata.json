@@ -345,6 +345,19 @@
 					{
 						"indexed": true,
 						"internalType": "address",
+						"name": "PRAddress",
+						"type": "address"
+					}
+				],
+				"name": "TheNextRepublicAddressWasCancelled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
 						"name": "newRepublicAddress",
 						"type": "address"
 					}
@@ -424,6 +437,35 @@
 				"type": "event"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "caller",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes4",
+						"name": "Fselector",
+						"type": "bytes4"
+					}
+				],
+				"name": "AccessControl",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "accessed",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "CLOCK_MODE",
 				"outputs": [
@@ -473,6 +515,19 @@
 					}
 				],
 				"name": "cancel",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "PRAdress",
+						"type": "address"
+					}
+				],
+				"name": "cancelPendingRepublicAddress",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -721,25 +776,6 @@
 						"internalType": "uint256",
 						"name": "proposalId",
 						"type": "uint256"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "bool",
-						"name": "baned",
-						"type": "bool"
-					}
-				],
-				"name": "setBanedAllActivities",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "done",
-						"type": "bool"
 					}
 				],
 				"stateMutability": "nonpayable",
@@ -1008,19 +1044,19 @@
 			]
 		},
 		"contracts/Governance.sol": {
-			"keccak256": "0x74db30bf8fa870e299cee0e99a1b0b13493f1ebf66f372569c0adc70a2062ad2",
+			"keccak256": "0x90c26e881d6bfb265a4cf5b820a350e83af9d04b04167cfd6c0320135597de16",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://aca4bfa3216263b7c5356f18b8d5b5aa2e012267549db28f6c25b937ad718755",
-				"dweb:/ipfs/QmUajaj3dGEBHNE8TC3Q67c3ba7gUcWnC7xwZrqsWXUtJX"
+				"bzz-raw://34482002c6b9e723af1ce605c6f7be9ed2352b55454f77dd544a964c13d43809",
+				"dweb:/ipfs/QmVtmfFDjfYk3VXhqFAZjuwHKquXcxz2q5kuv9GWuSCNaB"
 			]
 		},
 		"contracts/authority.sol": {
-			"keccak256": "0xa8a6dc46d8cbe93cab178184d1bb79f83732a8ba27502b84e1e5a565f825ef73",
+			"keccak256": "0xa1b1115be36deeb142db975bb0df1360763ba7d6ef6f228697010c03cc0bc0ef",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3bd6cbac88c4a11d49258464afb34d1a459122cf24eecf2b6bbf5221c4946afe",
-				"dweb:/ipfs/QmX7hkAa8LbA6miQxYBvCvKFzwPk8ufBZSqPxN2ib97f3Z"
+				"bzz-raw://867292bc1637b6a824c43303e3bf5b10c5412aac7d6bd0c6fe09a89aa7bcf9db",
+				"dweb:/ipfs/QmaQ5xGP6Po72nJU7EQtb7oGHrzBGGkHA28dqpHPzE4FFS"
 			]
 		},
 		"contracts/storageTokenContractName.sol": {
