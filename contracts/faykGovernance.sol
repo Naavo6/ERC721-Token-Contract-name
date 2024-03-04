@@ -12,34 +12,39 @@ import "@openzeppelin/contracts/utils/types/Time.sol";
 contract faykGovernance is Authority {
     //using Time for *;
 
-    struct People {
-        bytes32 commName;
-        mapping(bytes32 targetName => address targetAddress) Targets;
-        //mapping()
-    }
-    mapping(address caller => people.commName) private pep;
-    
-    struct TargetConfig {
-        mapping(bytes4 selector => uint32 rolId) allowedRols;
-        Time.Delay adminDelay;
-        bool closed;
-    }
 
-    struct Status {
+
+
+    struct CallerInfo {
+        bytes32 peopleName_satrap; // be in nokte tavajoh kon ke etelaate peopleName va satrap mitavanad dar yek bitmap Zakhire shavad badha avazesh kon
+        uint32 roleId;
         uint48 since;
         Time.Delay delay;
     }
 
-    struct Rol {
-        mapping(address user => Status status) members;
-        bytes32 rolLabel;
-        bytes32 peopleName;
+    struct TargetConfig {
+        uint32 roleId;
+        bytes32 peopleName_satrap;
+        Time.Delay adminDelay;
+        bool closed;
+    }
+
+    struct Role {
+        bytes32 roleLabel;
         uint32 admin;
         uint32 guardian;
         Time.Delay grantDelay;
     }
 
-    address _pendingPrimeMinister;
-    access private _primeMinister;
-    //mapping()
+    mapping(address caller => CallerInfo callerInfo) private _callerInfo;
+    mapping(bytes32 contractTypeName => mapping (bytes32 peopleName_satrap => address addContract)) private _connectorMapping;
+    mapping(uint32 roleId => mapping (bytes32 peopleName_satrap => Role roleInfo)) private _roleinfo;
+    mapping(address target => mapping(bytes4 selector => TargetConfig roleAccess)) private _targets;
+
+
+
+
+    
+    
+   
 }

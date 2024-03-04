@@ -87,6 +87,25 @@
 					{
 						"indexed": true,
 						"internalType": "address",
+						"name": "primeMinisterAdd",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "nonce",
+						"type": "uint32"
+					}
+				],
+				"name": "TheNewPrimeMinisterWasConfirmed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
 						"name": "RepublicAddress",
 						"type": "address"
 					},
@@ -124,6 +143,19 @@
 					}
 				],
 				"name": "TheNextPresidentWasElected",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newPrimeMinister",
+						"type": "address"
+					}
+				],
+				"name": "TheNextPrimeMinisterWasElected",
 				"type": "event"
 			},
 			{
@@ -238,6 +270,32 @@
 			},
 			{
 				"inputs": [],
+				"name": "getPrimeMinisterAdd",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getPrimeMinisterBan",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "getRepublicAddress",
 				"outputs": [
 					{
@@ -292,6 +350,19 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "newPM",
+						"type": "address"
+					}
+				],
+				"name": "setPendingPrimeMinister",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "newRAddress",
 						"type": "address"
 					}
@@ -317,6 +388,19 @@
 			{
 				"inputs": [
 					{
+						"internalType": "bool",
+						"name": "baned",
+						"type": "bool"
+					}
+				],
+				"name": "setPrimeMinister",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "pendingGCAdd",
 						"type": "address"
@@ -330,6 +414,13 @@
 			{
 				"inputs": [],
 				"name": "transferPresident",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "transferPrimeMinister",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -400,19 +491,19 @@
 			]
 		},
 		"contracts/authority.sol": {
-			"keccak256": "0xa1b1115be36deeb142db975bb0df1360763ba7d6ef6f228697010c03cc0bc0ef",
+			"keccak256": "0x08f1479d8d7d22526442dab112ca3c586d49602de2c30f1ec1d6b9c9dfe9631d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://867292bc1637b6a824c43303e3bf5b10c5412aac7d6bd0c6fe09a89aa7bcf9db",
-				"dweb:/ipfs/QmaQ5xGP6Po72nJU7EQtb7oGHrzBGGkHA28dqpHPzE4FFS"
+				"bzz-raw://64c4aa93ce79ddacb6033d9ac709593b45405fcc988cb6a9ee72bd886245dd2f",
+				"dweb:/ipfs/QmdVH9sLaGTJRzFN38pEcKxQiVMqeRRzpn6iq9SQzyYYQg"
 			]
 		},
 		"contracts/faykGovernance.sol": {
-			"keccak256": "0xb7fe2327f37c71e87f716bceb346a2456ac918709545b6c5a727315c63871854",
+			"keccak256": "0x86beeb368eb0459ac411305ef01cfdbc330f9ec952a05e2d58fa8cca13f5aa31",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3928045c19b41ac9ae19b79c196c6c040a401dcde9836a140313cd5055c43b41",
-				"dweb:/ipfs/QmWcj5UKsmHxns1jxEREGptUL2QDHHMBVPmJTGtPpTFHvR"
+				"bzz-raw://27ad87849bee0f713f323db40bd7607bc301260d31a2c26d20735c09feff18b9",
+				"dweb:/ipfs/QmRqL7daun9ZTS9GHjAne1Yygczr6tzMsfu5VhnUPiDg5F"
 			]
 		}
 	},

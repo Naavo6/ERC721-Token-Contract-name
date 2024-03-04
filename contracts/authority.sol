@@ -28,22 +28,29 @@ contract Authority {
     event TheNextRepublicAddressWasElected(address indexed newRepublicAddress);
     event TheNewRepublicAddressWasConfirmed(address indexed RepublicAddress, uint32 indexed version);
     event TheNextRepublicAddressWasCancelled(address indexed PRAddress);
+    event TheNextPrimeMinisterWasElected(address indexed newPrimeMinister);
+    event TheNewPrimeMinisterWasConfirmed(address indexed primeMinisterAdd, uint32 indexed nonce);
+
+    
+    
 
     address private _pendigRepublicAddress;
     address private _pendingGCAddress;
     address private _pendigPresident;
+    address _pendingPrimeMinister;
     uint48 immutable TimeFirstElection;
     uint48 private _delayConfirmRepublicAddress;
 
 
     struct access {
-        address rolAdd;
+        address roleAdd;
         bool baned;
         uint32 nonce;
     }
 
         
     access private _president;
+    access private _primeMinister;
     access private _governance;
     access private _Republic;
     // access private _primeMinister;
@@ -64,20 +71,20 @@ contract Authority {
     }
 
     modifier AccessCheck(address caller) {
-        require(!getPresidentBan() && Igovernance_set(_governance.rolAdd).AccessControl(caller, msg.sender, msg.sig), "Access is not valid");
+        require(!getPresidentBan() && Igovernance_set(_governance.roleAdd).AccessControl(caller, msg.sender, msg.sig), "Access is not valid");
         
         _;
     }
 
     constructor() {
         TimeFirstElection = uint48(block.timestamp + 4400 days);
-        _president.rolAdd = msg.sender;
+        _president.roleAdd = msg.sender;
         _president.nonce++;
     }
 
     function setPendingRepublicAddress(address newRAddress) public onlyRepublic {
         if (newRAddress.code.length > 0) {
-            if (_president.rolAdd == msg.sender) {
+            if (_president.roleAdd == msg.sender) {
                 _transferRepublicAddress(newRAddress);
 
             } else {
@@ -113,7 +120,7 @@ contract Authority {
     }
 
     function getRepublicAddress() public view returns (address RG) {
-            return _Republic.rolAdd;
+            return _Republic.roleAdd;
         }
 
         function getAuthorityAddress() public view returns (address) {
@@ -122,6 +129,8 @@ contract Authority {
 
     function setPendigPresident(address newPresident) public onlyRepublic {
         _pendigPresident = newPresident;
+        _setPresidentBaned(true);
+        _setPrimeMinisterBaned(true);
 
         emit TheNextPresidentWasElected(newPresident);
     }
@@ -129,23 +138,50 @@ contract Authority {
     function transferPresident() public {
         if (_pendigPresident == msg.sender) {
             delete _pendigPresident;
-            _president.rolAdd = msg.sender;
+            _president.roleAdd = msg.sender;
             _president.nonce++;
-            if (_president.baned){
-                _setPresidentBaned(false);
-            }
-            emit TheNewPresidentWasConfirmed(_president.rolAdd, _president.nonce);
+            _setPresidentBaned(false);
+
+            emit TheNewPresidentWasConfirmed(_president.roleAdd, _president.nonce);
 
         } else revert AccessOnlyForThePendigPresident();
     }
 
     function getPresidentAdd() public view returns (address) {
-        return _president.rolAdd;
+        return _president.roleAdd;
     }
 
     function getPresidentBan() public view returns (bool) {
         return _president.baned;
     }
+
+    function setPendingPrimeMinister(address newPM) public onlyPresident {
+        _pendingPrimeMinister = newPM;
+
+        emit TheNextPrimeMinisterWasElected(newPM);
+    }
+
+    function transferPrimeMinister() public {
+        if (_pendingPrimeMinister == msg.sender) {
+            delete _pendingPrimeMinister;
+            _primeMinister.roleAdd = msg.sender;
+            _primeMinister.nonce++;
+            if (_primeMinister.baned){
+                _setPrimeMinisterBaned(false);
+            }
+            emit TheNewPrimeMinisterWasConfirmed(_primeMinister.roleAdd, _primeMinister.nonce);
+
+        } else revert AccessOnlyForThePendigPresident();
+    }
+
+    function getPrimeMinisterAdd() public view returns (address) {
+        return _primeMinister.roleAdd;
+    }
+
+    function getPrimeMinisterBan() public view returns (bool) {
+        return _primeMinister.baned;
+    }
+
 
     function setPendingGovernanceContractAddress(address newGCAddress) public onlyRepublic {
         if (newGCAddress.code.length > 0) {
@@ -159,15 +195,15 @@ contract Authority {
     function transferGovernanceContractAddress(address pendingGCAdd) public onlyPresident {
         if (_pendingGCAddress == pendingGCAdd) {
             delete _pendingGCAddress;
-            _governance.rolAdd = pendingGCAdd;
+            _governance.roleAdd = pendingGCAdd;
             _governance.nonce++;
-            emit TheNewGCAddressWasConfirmed(_governance.rolAdd, _governance.nonce);
+            emit TheNewGCAddressWasConfirmed(_governance.roleAdd, _governance.nonce);
 
         } else revert TheAddressIsNotValidForGC(pendingGCAdd);
     }
 
     function getGovernance() public view returns (address) {
-        return _governance.rolAdd;
+        return _governance.roleAdd;
     }
 
     function getgovernanceVersion() public view returns (uint32) {
@@ -176,27 +212,28 @@ contract Authority {
 
     function setPresidentBaned(bool baned) public onlyRepublic {
         _setPresidentBaned(baned);
+        _setPrimeMinisterBaned(baned);
+    }
+
+    function setPrimeMinister(bool baned) public onlyPresident {
+        _setPrimeMinisterBaned(baned);
     }
 
 
 
     function _transferRepublicAddress(address RAddress) private {
-        _Republic.rolAdd = RAddress;
+        _Republic.roleAdd = RAddress;
         _Republic.nonce++;
-        emit TheNewRepublicAddressWasConfirmed(_Republic.rolAdd, _Republic.nonce);
+        emit TheNewRepublicAddressWasConfirmed(_Republic.roleAdd, _Republic.nonce);
     }
 
     function _setPresidentBaned(bool baned) private {
         _president.baned = baned;
-    }  
+    }
 
-
-
-
-
-
-
-
+    function _setPrimeMinisterBaned(bool baned) private {
+        _primeMinister.baned = baned;
+    }
 
 
 }
