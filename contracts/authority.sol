@@ -15,7 +15,7 @@ interface Igovernance_set {
 contract Authority {
 
     error TheAddressIsNotValidForRAddress(address newRAddress);
-    error AccessOnlyForThePendigPresident();
+    error AccessOnlyForThePendig();
     error TheAddressIsNotValidForGC(address NewGCAddress);
     error RemainingTimeUntilTheConfirmationDeadline(uint48 reminingTime);
 
@@ -144,7 +144,7 @@ contract Authority {
 
             emit TheNewPresidentWasConfirmed(_president.roleAdd, _president.nonce);
 
-        } else revert AccessOnlyForThePendigPresident();
+        } else revert AccessOnlyForThePendig();
     }
 
     function getPresidentAdd() public view returns (address) {
@@ -171,7 +171,7 @@ contract Authority {
             }
             emit TheNewPrimeMinisterWasConfirmed(_primeMinister.roleAdd, _primeMinister.nonce);
 
-        } else revert AccessOnlyForThePendigPresident();
+        } else revert AccessOnlyForThePendig();
     }
 
     function getPrimeMinisterAdd() public view returns (address) {

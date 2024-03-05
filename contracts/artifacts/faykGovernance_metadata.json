@@ -7,7 +7,7 @@
 		"abi": [
 			{
 				"inputs": [],
-				"name": "AccessOnlyForThePendigPresident",
+				"name": "AccessOnlyForThePendig",
 				"type": "error"
 			},
 			{
@@ -42,6 +42,56 @@
 				],
 				"name": "TheAddressIsNotValidForRAddress",
 				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newCaller",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					}
+				],
+				"name": "AnOfficialWasConfirmed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newCaller",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					}
+				],
+				"name": "AnOfficialWasElected",
+				"type": "event"
 			},
 			{
 				"anonymous": false,
@@ -324,6 +374,39 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "oldCaller",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "newCaller",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint48",
+						"name": "delay",
+						"type": "uint48"
+					}
+				],
+				"name": "setCallerInfo",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "newPresident",
 						"type": "address"
 					}
@@ -394,6 +477,13 @@
 					}
 				],
 				"name": "setPrimeMinister",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "transferCallerInfo",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -491,19 +581,19 @@
 			]
 		},
 		"contracts/authority.sol": {
-			"keccak256": "0x08f1479d8d7d22526442dab112ca3c586d49602de2c30f1ec1d6b9c9dfe9631d",
+			"keccak256": "0xcff68988eef9095e2433d2202925430367d085c7272fdfc7b84ff5d21ba6112e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://64c4aa93ce79ddacb6033d9ac709593b45405fcc988cb6a9ee72bd886245dd2f",
-				"dweb:/ipfs/QmdVH9sLaGTJRzFN38pEcKxQiVMqeRRzpn6iq9SQzyYYQg"
+				"bzz-raw://d66df4b68587f7dd7c9c8e467fc4bd34448b0959dbccb6f0104628ea544de044",
+				"dweb:/ipfs/QmVLueVfVntP8dvtMYizC6DgMgCaAXoEuKUr8F7wFqngm8"
 			]
 		},
 		"contracts/faykGovernance.sol": {
-			"keccak256": "0x86beeb368eb0459ac411305ef01cfdbc330f9ec952a05e2d58fa8cca13f5aa31",
+			"keccak256": "0x6176a0e196e352b310a52575ae3328f0d90a9ea62e1904ec266e9db762162f07",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://27ad87849bee0f713f323db40bd7607bc301260d31a2c26d20735c09feff18b9",
-				"dweb:/ipfs/QmRqL7daun9ZTS9GHjAne1Yygczr6tzMsfu5VhnUPiDg5F"
+				"bzz-raw://54c127afded64d2bb9347dcfbb2415dd0b7cc733f104100de6021a02e92cc4ea",
+				"dweb:/ipfs/QmTEVKYae4m7nasdh3oXSVfpRTF7tamnkh8X9uKxHJiNVZ"
 			]
 		}
 	},

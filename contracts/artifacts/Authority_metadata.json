@@ -12,7 +12,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "AccessOnlyForThePendigPresident",
+				"name": "AccessOnlyForThePendig",
 				"type": "error"
 			},
 			{
@@ -472,11 +472,11 @@
 	},
 	"sources": {
 		"contracts/authority.sol": {
-			"keccak256": "0x08f1479d8d7d22526442dab112ca3c586d49602de2c30f1ec1d6b9c9dfe9631d",
+			"keccak256": "0xcff68988eef9095e2433d2202925430367d085c7272fdfc7b84ff5d21ba6112e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://64c4aa93ce79ddacb6033d9ac709593b45405fcc988cb6a9ee72bd886245dd2f",
-				"dweb:/ipfs/QmdVH9sLaGTJRzFN38pEcKxQiVMqeRRzpn6iq9SQzyYYQg"
+				"bzz-raw://d66df4b68587f7dd7c9c8e467fc4bd34448b0959dbccb6f0104628ea544de044",
+				"dweb:/ipfs/QmVLueVfVntP8dvtMYizC6DgMgCaAXoEuKUr8F7wFqngm8"
 			]
 		}
 	},
