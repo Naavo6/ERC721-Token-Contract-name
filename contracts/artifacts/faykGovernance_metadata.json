@@ -97,6 +97,44 @@
 				"anonymous": false,
 				"inputs": [
 					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "baned",
+						"type": "bool"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					}
+				],
+				"name": "ChangeBanedOfThisRole",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint48",
+						"name": "newPeriodTime",
+						"type": "uint48"
+					}
+				],
+				"name": "NewValueForTheDefaultTimePeriod",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
 						"indexed": true,
 						"internalType": "address",
 						"name": "GCAddress",
@@ -280,6 +318,43 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					}
+				],
+				"name": "getBaned",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getDefaultPeriodTime",
+				"outputs": [
+					{
+						"internalType": "uint48",
+						"name": "",
+						"type": "uint48"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "getGovernance",
 				"outputs": [
@@ -373,6 +448,34 @@
 			{
 				"inputs": [
 					{
+						"internalType": "bool",
+						"name": "baned",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					}
+				],
+				"name": "setBaned",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "deletedOldCaller",
+						"type": "bool"
+					},
+					{
 						"internalType": "address",
 						"name": "oldCaller",
 						"type": "address"
@@ -394,11 +497,24 @@
 					},
 					{
 						"internalType": "uint48",
-						"name": "delay",
+						"name": "periodTime",
 						"type": "uint48"
 					}
 				],
 				"name": "setCallerInfo",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint48",
+						"name": "newPeriodTime",
+						"type": "uint48"
+					}
+				],
+				"name": "setDefaultPeriodTime",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -589,11 +705,11 @@
 			]
 		},
 		"contracts/faykGovernance.sol": {
-			"keccak256": "0x6176a0e196e352b310a52575ae3328f0d90a9ea62e1904ec266e9db762162f07",
+			"keccak256": "0xf688ecfb65821d94cced8c20be93b847874ca746ef422a194659715b168e98c6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://54c127afded64d2bb9347dcfbb2415dd0b7cc733f104100de6021a02e92cc4ea",
-				"dweb:/ipfs/QmTEVKYae4m7nasdh3oXSVfpRTF7tamnkh8X9uKxHJiNVZ"
+				"bzz-raw://4256c470e08356696f06461171a057acba6776ab7771bd27db211147a3487ed9",
+				"dweb:/ipfs/QmebWhyw481RGDC7DyVyB7owxhCnbaakLDq9VrELaAE6pA"
 			]
 		}
 	},

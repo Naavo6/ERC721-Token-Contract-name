@@ -15,6 +15,10 @@ contract faykGovernance is Authority {
 
     event AnOfficialWasElected(address indexed newCaller, bytes32 indexed  peopleName_satrap, uint32 indexed roleId);
     event AnOfficialWasConfirmed(address indexed newCaller, bytes32 indexed  peopleName_satrap, uint32 indexed roleId);
+    event NewValueForTheDefaultTimePeriod(uint48 indexed newPeriodTime);
+    event ChangeBanedOfThisRole(bool baned, uint32 indexed  roleId, bytes32 indexed peopleName_satrap);
+
+    uint48 private _defaultPeriodTime;
 
 
     struct CallerInfo {
@@ -22,6 +26,7 @@ contract faykGovernance is Authority {
         uint32 roleId;
         uint48 since;
         uint48 EndSession;
+        address oldCaller;
     }
 
     struct TargetConfig {
@@ -35,7 +40,7 @@ contract faykGovernance is Authority {
         bytes32 roleLabel;
         uint32 admin;
         uint32 guardian;
-        uint48 periodTime;
+        bool baned;
     }
 
     mapping(address caller => CallerInfo callerInfo) private _callerInfo;
@@ -59,47 +64,90 @@ contract faykGovernance is Authority {
         _;
     }
 
-    modifier onlyAdmin(uint32 roleId, bytes32 peopleName_satrap) {
-        CallerInfo memory _admin = _callerInfo[msg.sender];
-        require(_admin.roleId == _roleinfo[roleId][peopleName_satrap].admin && _admin.roleId, "Access is not valid");
+    modifier onlyAdminOrGuardian(uint8 adminOrGuardian, uint32 roleId, bytes32 peopleName_satrap) {
+        CallerInfo memory caller = _callerInfo[msg.sender];
+        if (adminOrGuardian == 1) {
+            require(caller.roleId == _roleinfo[roleId][peopleName_satrap].admin, "Access is not valid");
+
+        } else require(caller.roleId == _roleinfo[roleId][peopleName_satrap].guardian, "Access is not valid");
+
+        require(!getBaned(roleId, peopleName_satrap) && caller.EndSession > block.timestamp, "Access is not valid");
 
         _;
     }
+
+    function setBaned(bool baned, uint32 roleId, bytes32 peopleName_satrap) public onlyAdminOrGuardian(2, roleId, peopleName_satrap) {
+        _roleinfo[roleId][peopleName_satrap].baned = baned;
+
+        emit ChangeBanedOfThisRole(baned, roleId, peopleName_satrap);
+    }
+
+    function getBaned(uint32 roleId, bytes32 peopleName_satrap) public view returns (bool) {
+        return _roleinfo[roleId][peopleName_satrap].baned;
+    }
+
+    function setDefaultPeriodTime(uint48 newPeriodTime) public onlyPrimeRepublic {
+        require(newPeriodTime >= 365 days, "The amount must be at least one year");
+        _defaultPeriodTime = newPeriodTime;
+
+        emit NewValueForTheDefaultTimePeriod(newPeriodTime);
+    }
+
+    function getDefaultPeriodTime() public view returns (uint48) {
+        return _defaultPeriodTime;
+    }
+
 
     function setCallerInfo (
     bool deletedOldCaller,
     address oldCaller,
     address newCaller,
     bytes32 peopleName_satrap,
-    uint32 roleId) 
-    public onlyAdmin(roleId, peopleName_satrap) {
+    uint32 roleId,
+    uint48 periodTime) 
+    public onlyAdminOrGuardian(1,roleId, peopleName_satrap) {
         if (oldCaller == newCaller) {
-            _callerInfo[newCaller].EndSession += _roleinfo[roleId][peopleName_satrap].periodTime;
+            _callerInfo[newCaller].EndSession += periodTime;
+            if (getBaned(roleId, peopleName_satrap)) {
+                _roleinfo[roleId][peopleName_satrap].baned = false;
+            }
 
         } else if (deletedOldCaller) {
-            _callerInfo[newCaller].EndSession = (_callerInfo[oldCaller].EndSession + _roleinfo[roleId][peopleName_satrap].periodTime);
-            _callerInfo[newCaller].since = block.timestamp;
-            delete _callerInfo[oldCaller];
-        } else if (_callerInfo[oldCaller].since == 0) {
-            _callerInfo[newCaller].since = block.timestamp;
-            _callerInfo[newCaller].EndSession = (block.timestamp + _roleinfo[roleId][peopleName_satrap].periodTime);
-        } else {
+            _callerInfo[newCaller].EndSession = (_callerInfo[oldCaller].EndSession + periodTime);
+            _callerInfo[newCaller].since = uint48(block.timestamp);
+             delete _callerInfo[oldCaller];
 
+            if (getBaned(roleId, peopleName_satrap)) {
+                _roleinfo[roleId][peopleName_satrap].baned = false;
+            }
+
+        } else if (_callerInfo[oldCaller].since == 0) {
+            _callerInfo[newCaller].since = uint48(block.timestamp);
+            _callerInfo[newCaller].EndSession = uint48(block.timestamp) + _defaultPeriodTime;
+
+        } else {
+            _callerInfo[newCaller].since = _callerInfo[oldCaller].EndSession;
+            _callerInfo[newCaller].oldCaller = oldCaller;
         }
 
-            _callerInfo[newCaller].peopleName_satrap = peopleName_satrap;
-            _callerInfo[newCaller].roleId = roleId;
+        _callerInfo[newCaller].peopleName_satrap = peopleName_satrap;
+        _callerInfo[newCaller].roleId = roleId;
 
         emit AnOfficialWasElected(newCaller, peopleName_satrap, roleId);
     }
+
     
     function transferCallerInfo() public {
-       if (_callerInfo[msg.sender].roleId > 0 && _callerInfo[msg.sender].since == 0) {
-        _callerInfo[msg.sender];
+        CallerInfo memory caller = _callerInfo[msg.sender];
+        if (caller.roleId > 0 && caller.since < block.timestamp && caller.EndSession == 0) {
+            _callerInfo[msg.sender].EndSession = getDefaultPeriodTime();
+            delete _callerInfo[caller.oldCaller];
 
-        emit AnOfficialWasConfirmed(msg.sender, _callerInfo[msg.sender].peopleName_satrap, _callerInfo[msg.sender].roleId);
+            emit AnOfficialWasConfirmed(msg.sender, caller.peopleName_satrap, caller.roleId);
 
-       } else revert AccessOnlyForThePendig();
+        } else revert AccessOnlyForThePendig();
     }
+
+    
    
 }
