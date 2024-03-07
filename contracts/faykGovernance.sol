@@ -17,6 +17,10 @@ contract faykGovernance is Authority {
     event AnOfficialWasConfirmed(address indexed newCaller, bytes32 indexed  peopleName_satrap, uint32 indexed roleId);
     event NewValueForTheDefaultTimePeriod(uint48 indexed newPeriodTime);
     event ChangeBanedOfThisRole(bool baned, uint32 indexed  roleId, bytes32 indexed peopleName_satrap);
+    event AddressConnectedToConnector(bytes32 indexed  contractTypeName, bytes32 indexed  peopleName_satrap, address indexed  addContract);
+
+
+    error TheAddressIsInvalid(address addContract);
 
     uint48 private _defaultPeriodTime;
 
@@ -44,8 +48,8 @@ contract faykGovernance is Authority {
     }
 
     mapping(address caller => CallerInfo callerInfo) private _callerInfo;
-    mapping(bytes32 contractTypeName => mapping (bytes32 peopleName_satrap => address addContract)) private _connectorMapping;
-    mapping(uint32 roleId => mapping (bytes32 peopleName_satrap => Role roleInfo)) private _roleinfo;
+    mapping(bytes32 contractTypeName => mapping (bytes32 peopleName_satrap => address addContract)) private _connectorMapping; //hatman onlyprimeRepublic
+    mapping(uint32 roleId => mapping (bytes32 peopleName_satrap => Role roleInfo)) private _roleInfo; //hatman onlyprimeRepublic
     mapping(address target => mapping(bytes4 selector => TargetConfig roleAccess)) private _targets;
 
 
@@ -67,9 +71,9 @@ contract faykGovernance is Authority {
     modifier onlyAdminOrGuardian(uint8 adminOrGuardian, uint32 roleId, bytes32 peopleName_satrap) {
         CallerInfo memory caller = _callerInfo[msg.sender];
         if (adminOrGuardian == 1) {
-            require(caller.roleId == _roleinfo[roleId][peopleName_satrap].admin, "Access is not valid");
+            require(caller.roleId == _roleInfo[roleId][peopleName_satrap].admin, "Access is not valid");
 
-        } else require(caller.roleId == _roleinfo[roleId][peopleName_satrap].guardian, "Access is not valid");
+        } else require(caller.roleId == _roleInfo[roleId][peopleName_satrap].guardian, "Access is not valid");
 
         require(!getBaned(roleId, peopleName_satrap) && caller.EndSession > block.timestamp, "Access is not valid");
 
@@ -77,13 +81,13 @@ contract faykGovernance is Authority {
     }
 
     function setBaned(bool baned, uint32 roleId, bytes32 peopleName_satrap) public onlyAdminOrGuardian(2, roleId, peopleName_satrap) {
-        _roleinfo[roleId][peopleName_satrap].baned = baned;
+        _roleInfo[roleId][peopleName_satrap].baned = baned;
 
         emit ChangeBanedOfThisRole(baned, roleId, peopleName_satrap);
     }
 
     function getBaned(uint32 roleId, bytes32 peopleName_satrap) public view returns (bool) {
-        return _roleinfo[roleId][peopleName_satrap].baned;
+        return _roleInfo[roleId][peopleName_satrap].baned;
     }
 
     function setDefaultPeriodTime(uint48 newPeriodTime) public onlyPrimeRepublic {
@@ -98,18 +102,18 @@ contract faykGovernance is Authority {
     }
 
 
-    function setCallerInfo (
+    function setCaller (
     bool deletedOldCaller,
     address oldCaller,
     address newCaller,
     bytes32 peopleName_satrap,
     uint32 roleId,
     uint48 periodTime) 
-    public onlyAdminOrGuardian(1,roleId, peopleName_satrap) {
+    public onlyAdminOrGuardian(1,roleId, peopleName_satrap) {// dar inja bayad deghat shavad ke admin role ha badha republic khahad bod
         if (oldCaller == newCaller) {
             _callerInfo[newCaller].EndSession += periodTime;
             if (getBaned(roleId, peopleName_satrap)) {
-                _roleinfo[roleId][peopleName_satrap].baned = false;
+                _roleInfo[roleId][peopleName_satrap].baned = false;
             }
 
         } else if (deletedOldCaller) {
@@ -118,7 +122,7 @@ contract faykGovernance is Authority {
              delete _callerInfo[oldCaller];
 
             if (getBaned(roleId, peopleName_satrap)) {
-                _roleinfo[roleId][peopleName_satrap].baned = false;
+                _roleInfo[roleId][peopleName_satrap].baned = false;
             }
 
         } else if (_callerInfo[oldCaller].since == 0) {
@@ -137,7 +141,7 @@ contract faykGovernance is Authority {
     }
 
     
-    function transferCallerInfo() public {
+    function transferCaller() public {
         CallerInfo memory caller = _callerInfo[msg.sender];
         if (caller.roleId > 0 && caller.since < block.timestamp && caller.EndSession == 0) {
             _callerInfo[msg.sender].EndSession = getDefaultPeriodTime();
@@ -148,6 +152,19 @@ contract faykGovernance is Authority {
         } else revert AccessOnlyForThePendig();
     }
 
+
+    function setConnectorMapping(bytes32 contractTypeName, bytes32 peopleName_satrap, address addContract) public onlyPrimeRepublic {
+        if (addContract.code.length > 0) {
+            _connectorMapping[contractTypeName][peopleName_satrap] = addContract;
+
+            emit AddressConnectedToConnector(contractTypeName, peopleName_satrap, addContract);
+
+        } else revert TheAddressIsInvalid(addContract);
+    }
+
+    function getConnectorMapping(bytes32 contractTypeName, bytes32 peopleName_satrap) public view returns (address) {
+        return  _connectorMapping[contractTypeName][peopleName_satrap];
+    }
     
    
 }

@@ -25,6 +25,17 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "addContract",
+						"type": "address"
+					}
+				],
+				"name": "TheAddressIsInvalid",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "NewGCAddress",
 						"type": "address"
 					}
@@ -42,6 +53,31 @@
 				],
 				"name": "TheAddressIsNotValidForRAddress",
 				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "contractTypeName",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "addContract",
+						"type": "address"
+					}
+				],
+				"name": "AddressConnectedToConnector",
+				"type": "event"
 			},
 			{
 				"anonymous": false,
@@ -342,6 +378,30 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "contractTypeName",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					}
+				],
+				"name": "getConnectorMapping",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "getDefaultPeriodTime",
 				"outputs": [
@@ -501,7 +561,30 @@
 						"type": "uint48"
 					}
 				],
-				"name": "setCallerInfo",
+				"name": "setCaller",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "contractTypeName",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "addContract",
+						"type": "address"
+					}
+				],
+				"name": "setConnectorMapping",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -599,7 +682,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "transferCallerInfo",
+				"name": "transferCaller",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -705,11 +788,11 @@
 			]
 		},
 		"contracts/faykGovernance.sol": {
-			"keccak256": "0xf688ecfb65821d94cced8c20be93b847874ca746ef422a194659715b168e98c6",
+			"keccak256": "0x9c862eaace254a8be6576015fefe6821cff8b1b0462369b7dbe598092ab5baf5",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4256c470e08356696f06461171a057acba6776ab7771bd27db211147a3487ed9",
-				"dweb:/ipfs/QmebWhyw481RGDC7DyVyB7owxhCnbaakLDq9VrELaAE6pA"
+				"bzz-raw://2d5963452b6760786799a7305bcfc61c252c46bfeac49f6df3b2a0a175750e4e",
+				"dweb:/ipfs/QmXLs9Q4GJMbowoGq752nPhFPB9ZXUsgmtLt3S5M3RbAbL"
 			]
 		}
 	},
