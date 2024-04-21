@@ -18,7 +18,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "AccessOnlyForThePendigPresident",
+				"name": "AccessOnlyForThePendig",
 				"type": "error"
 			},
 			{
@@ -300,6 +300,25 @@
 					{
 						"indexed": true,
 						"internalType": "address",
+						"name": "primeMinisterAdd",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "nonce",
+						"type": "uint32"
+					}
+				],
+				"name": "TheNewPrimeMinisterWasConfirmed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
 						"name": "RepublicAddress",
 						"type": "address"
 					},
@@ -337,6 +356,19 @@
 					}
 				],
 				"name": "TheNextPresidentWasElected",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newPrimeMinister",
+						"type": "address"
+					}
+				],
+				"name": "TheNextPrimeMinisterWasElected",
 				"type": "event"
 			},
 			{
@@ -657,6 +689,32 @@
 			},
 			{
 				"inputs": [],
+				"name": "getPrimeMinisterAdd",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getPrimeMinisterBan",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "getRepublicAddress",
 				"outputs": [
 					{
@@ -829,6 +887,19 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "newPM",
+						"type": "address"
+					}
+				],
+				"name": "setPendingPrimeMinister",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "newRAddress",
 						"type": "address"
 					}
@@ -847,6 +918,19 @@
 					}
 				],
 				"name": "setPresidentBaned",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "baned",
+						"type": "bool"
+					}
+				],
+				"name": "setPrimeMinister",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -904,6 +988,13 @@
 			{
 				"inputs": [],
 				"name": "transferPresident",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "transferPrimeMinister",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -1036,11 +1127,11 @@
 			]
 		},
 		"contracts/3_Ballot.sol": {
-			"keccak256": "0x67339cfcd639e2d3aeb3789830e254749abb7505fc8a9ead2e48d0e878300152",
+			"keccak256": "0xfcec36b58d68ce1a88eaafcbde245988d5d3249af582d0be0f65d46cb33ca282",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2cfea0afcf9ab3047e19bc9c93e82072a175830dd578ada7319be33013562e9a",
-				"dweb:/ipfs/QmXkjj656pSJc8XS5DTwa8nkqBE7Qpa8RzX2QtUtav7H7N"
+				"bzz-raw://35672ab3a1fc84e3442429797be27930659d05750d1c53a211bae2538e8ccac3",
+				"dweb:/ipfs/QmQU65WKFTbPMuH97gPisDkDndnrucZot2k6Ld15ZDDV9X"
 			]
 		},
 		"contracts/Governance.sol": {
@@ -1052,11 +1143,11 @@
 			]
 		},
 		"contracts/authority.sol": {
-			"keccak256": "0xa1b1115be36deeb142db975bb0df1360763ba7d6ef6f228697010c03cc0bc0ef",
+			"keccak256": "0xcff68988eef9095e2433d2202925430367d085c7272fdfc7b84ff5d21ba6112e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://867292bc1637b6a824c43303e3bf5b10c5412aac7d6bd0c6fe09a89aa7bcf9db",
-				"dweb:/ipfs/QmaQ5xGP6Po72nJU7EQtb7oGHrzBGGkHA28dqpHPzE4FFS"
+				"bzz-raw://d66df4b68587f7dd7c9c8e467fc4bd34448b0959dbccb6f0104628ea544de044",
+				"dweb:/ipfs/QmVLueVfVntP8dvtMYizC6DgMgCaAXoEuKUr8F7wFqngm8"
 			]
 		},
 		"contracts/storageTokenContractName.sol": {

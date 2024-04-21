@@ -398,7 +398,7 @@
 						"type": "bool"
 					}
 				],
-				"name": "setPrimeMinister",
+				"name": "setPrimeMinisterBaned",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -472,11 +472,11 @@
 	},
 	"sources": {
 		"contracts/authority.sol": {
-			"keccak256": "0xcff68988eef9095e2433d2202925430367d085c7272fdfc7b84ff5d21ba6112e",
+			"keccak256": "0x22f800ef15b8b6b9e05256c82247fdc908b1cde5f7827bbfcea75b6318937605",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d66df4b68587f7dd7c9c8e467fc4bd34448b0959dbccb6f0104628ea544de044",
-				"dweb:/ipfs/QmVLueVfVntP8dvtMYizC6DgMgCaAXoEuKUr8F7wFqngm8"
+				"bzz-raw://130ec2828a645adcd1ad5c44c764a7da55c462ac6a70faa82222e5a89fb0eb2f",
+				"dweb:/ipfs/QmPm9QTTy9S5AUZjqKiey9xXkSEYKo3zDm4di5xcPe7ymW"
 			]
 		}
 	},

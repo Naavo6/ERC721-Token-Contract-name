@@ -215,7 +215,7 @@ contract Authority {
         _setPrimeMinisterBaned(baned);
     }
 
-    function setPrimeMinister(bool baned) public onlyPresident {
+    function setPrimeMinisterBaned(bool baned) public onlyPresident {
         _setPrimeMinisterBaned(baned);
     }
 
