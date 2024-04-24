@@ -14,7 +14,7 @@ interface Igovernance_set {
 
 contract Authority {
 
-    error TheAddressIsNotValidForRAddress(address newRAddress);
+    error TheAddressIsNotValidForRAddress(address newRGAddress);
     error AccessOnlyForThePendig();
     error TheAddressIsNotValidForGC(address NewGCAddress);
     error RemainingTimeUntilTheConfirmationDeadline(uint48 reminingTime);
@@ -25,21 +25,22 @@ contract Authority {
     event TheNextGCAddressWasElected(address indexed newGCAddress);
     event TheNewGCAddressWasConfirmed(address indexed GCAddress, uint32 indexed version);
     event TheStatusOfBanningAllActivitiesAndDone(bool indexed baned, bool indexed done);
-    event TheNextRepublicAddressWasElected(address indexed newRepublicAddress);
-    event TheNewRepublicAddressWasConfirmed(address indexed RepublicAddress, uint32 indexed version);
-    event TheNextRepublicAddressWasCancelled(address indexed PRAddress);
+    event TheNextRepublicGAddressWasElected(address indexed newRepublicGAddress);
+    event TheNewRepublicGAddressWasConfirmed(address indexed RepublicGAddress, uint32 indexed version);
+    event TheNextRepublicGAddressWasCancelled(address indexed PRGAddress);
     event TheNextPrimeMinisterWasElected(address indexed newPrimeMinister);
     event TheNewPrimeMinisterWasConfirmed(address indexed primeMinisterAdd, uint32 indexed nonce);
 
     
     
 
-    address private _pendigRepublicAddress;
+    address private _pendigRepublicGAddress;
     address private _pendingGCAddress;
     address private _pendigPresident;
     address _pendingPrimeMinister;
+    address immutable Republic = address(0); // in hatman bayad tagyir konad be address contract Republic
     uint48 immutable TimeFirstElection;
-    uint48 private _delayConfirmRepublicAddress;
+    uint48 private _delayConfirmRepublicGAddress;
 
 
     struct access {
@@ -52,12 +53,23 @@ contract Authority {
     access private _president;
     access private _primeMinister;
     access private _governance;
-    access private _Republic;
+    access private _RepublicG;
     // access private _primeMinister;
-    
+
+
     modifier onlyRepublic() {
         if (TimeFirstElection < block.timestamp) {
             require(msg.sender == getRepublicAddress(), "Access is not valid");
+
+        } else require(msg.sender == getPresidentAdd() && !getPresidentBan(), "Access is not valid");
+
+        _;
+    }
+
+    
+    modifier onlyRepublicG() {
+        if (TimeFirstElection < block.timestamp) {
+            require(msg.sender == getRepublicGAddress(), "Access is not valid");
 
         } else require(msg.sender == getPresidentAdd() && !getPresidentBan(), "Access is not valid");
 
@@ -82,45 +94,49 @@ contract Authority {
         _president.nonce++;
     }
 
-    function setPendingRepublicAddress(address newRAddress) public onlyRepublic {
-        if (newRAddress.code.length > 0) {
+    function setPendingRepublicGAddress(address newRGAddress) public onlyRepublic {
+        if (newRGAddress.code.length > 0) {
             if (_president.roleAdd == msg.sender) {
-                _transferRepublicAddress(newRAddress);
+                _transferRepublicGAddress(newRGAddress);
 
             } else {
-                _delayConfirmRepublicAddress = uint48(block.timestamp + 15 days);
-                _pendigRepublicAddress = newRAddress;
-                emit TheNextRepublicAddressWasElected(newRAddress);
+                _delayConfirmRepublicGAddress = uint48(block.timestamp + 15 days);
+                _pendigRepublicGAddress = newRGAddress;
+                emit TheNextRepublicGAddressWasElected(newRGAddress);
             }
 
-        } else revert TheAddressIsNotValidForRAddress(newRAddress);
+        } else revert TheAddressIsNotValidForRAddress(newRGAddress);
 
     }
 
-    function transferRepublicAddress(address RAddress) public onlyRepublic {
-        if (_delayConfirmRepublicAddress < block.timestamp) {
-            require(_delayConfirmRepublicAddress != 0,"The request is invalid");
-            if (_pendigRepublicAddress == RAddress) {
-                delete _delayConfirmRepublicAddress;
-                delete _pendigRepublicAddress;
-                _transferRepublicAddress(RAddress);
+    function transferRepublicGAddress(address RGAddress) public onlyRepublic {
+        if (_delayConfirmRepublicGAddress < block.timestamp) {
+            require(_delayConfirmRepublicGAddress != 0,"The request is invalid");
+            if (_pendigRepublicGAddress == RGAddress) {
+                delete _delayConfirmRepublicGAddress;
+                delete _pendigRepublicGAddress;
+                _transferRepublicGAddress(RGAddress);
 
-            } else revert TheAddressIsNotValidForRAddress(RAddress);
+            } else revert TheAddressIsNotValidForRAddress(RGAddress);
 
-        } else revert RemainingTimeUntilTheConfirmationDeadline(_delayConfirmRepublicAddress - uint48(block.timestamp));
+        } else revert RemainingTimeUntilTheConfirmationDeadline(_delayConfirmRepublicGAddress - uint48(block.timestamp));
     }
 
-    function cancelPendingRepublicAddress(address PRAdress) public onlyRepublic {
-        if (_pendigRepublicAddress == PRAdress) {
-                delete _delayConfirmRepublicAddress;
-                delete _pendigRepublicAddress;
-                emit  TheNextRepublicAddressWasCancelled(PRAdress);
+    function cancelPendingRepublicGAddress(address PRGAdress) public onlyRepublic {
+        if (_pendigRepublicGAddress == PRGAdress) {
+                delete _delayConfirmRepublicGAddress;
+                delete _pendigRepublicGAddress;
+                emit  TheNextRepublicGAddressWasCancelled(PRGAdress);
 
-        } else revert TheAddressIsNotValidForRAddress(PRAdress);
+        } else revert TheAddressIsNotValidForRAddress(PRGAdress);
     }
 
-    function getRepublicAddress() public view returns (address RG) {
-            return _Republic.roleAdd;
+    function getRepublicAddress() public view returns (address R) {
+            return Republic;
+        }
+
+    function getRepublicGAddress() public view returns (address RG) {
+            return _RepublicG.roleAdd;
         }
 
         function getAuthorityAddress() public view returns (address) {
@@ -221,10 +237,10 @@ contract Authority {
 
 
 
-    function _transferRepublicAddress(address RAddress) private {
-        _Republic.roleAdd = RAddress;
-        _Republic.nonce++;
-        emit TheNewRepublicAddressWasConfirmed(_Republic.roleAdd, _Republic.nonce);
+    function _transferRepublicGAddress(address RGAddress) private {
+        _RepublicG.roleAdd = RGAddress;
+        _RepublicG.nonce++;
+        emit TheNewRepublicGAddressWasConfirmed(_RepublicG.roleAdd, _RepublicG.nonce);
     }
 
     function _setPresidentBaned(bool baned) private {

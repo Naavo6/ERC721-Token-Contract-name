@@ -47,7 +47,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "newRAddress",
+						"name": "newRGAddress",
 						"type": "address"
 					}
 				],
@@ -230,7 +230,7 @@
 					{
 						"indexed": true,
 						"internalType": "address",
-						"name": "RepublicAddress",
+						"name": "RepublicGAddress",
 						"type": "address"
 					},
 					{
@@ -240,7 +240,7 @@
 						"type": "uint32"
 					}
 				],
-				"name": "TheNewRepublicAddressWasConfirmed",
+				"name": "TheNewRepublicGAddressWasConfirmed",
 				"type": "event"
 			},
 			{
@@ -288,11 +288,11 @@
 					{
 						"indexed": true,
 						"internalType": "address",
-						"name": "PRAddress",
+						"name": "PRGAddress",
 						"type": "address"
 					}
 				],
-				"name": "TheNextRepublicAddressWasCancelled",
+				"name": "TheNextRepublicGAddressWasCancelled",
 				"type": "event"
 			},
 			{
@@ -301,11 +301,11 @@
 					{
 						"indexed": true,
 						"internalType": "address",
-						"name": "newRepublicAddress",
+						"name": "newRepublicGAddress",
 						"type": "address"
 					}
 				],
-				"name": "TheNextRepublicAddressWasElected",
+				"name": "TheNextRepublicGAddressWasElected",
 				"type": "event"
 			},
 			{
@@ -331,11 +331,11 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "PRAdress",
+						"name": "PRGAdress",
 						"type": "address"
 					}
 				],
-				"name": "cancelPendingRepublicAddress",
+				"name": "cancelPendingRepublicGAddress",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -372,6 +372,30 @@
 						"internalType": "bool",
 						"name": "",
 						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "caller",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "contractTypeName",
+						"type": "bytes32"
+					}
+				],
+				"name": "getCMWitthCallerAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -482,6 +506,19 @@
 			{
 				"inputs": [],
 				"name": "getRepublicAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "R",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getRepublicGAddress",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -645,11 +682,11 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "newRAddress",
+						"name": "newRGAddress",
 						"type": "address"
 					}
 				],
-				"name": "setPendingRepublicAddress",
+				"name": "setPendingRepublicGAddress",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -675,7 +712,7 @@
 						"type": "bool"
 					}
 				],
-				"name": "setPrimeMinister",
+				"name": "setPrimeMinisterBaned",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -718,11 +755,11 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "RAddress",
+						"name": "RGAddress",
 						"type": "address"
 					}
 				],
-				"name": "transferRepublicAddress",
+				"name": "transferRepublicGAddress",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -780,19 +817,19 @@
 			]
 		},
 		"contracts/authority.sol": {
-			"keccak256": "0xcff68988eef9095e2433d2202925430367d085c7272fdfc7b84ff5d21ba6112e",
+			"keccak256": "0x9fbc6d20793c956a57eead2e58b048b164a507eed759d22874095dffe20c9b5e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d66df4b68587f7dd7c9c8e467fc4bd34448b0959dbccb6f0104628ea544de044",
-				"dweb:/ipfs/QmVLueVfVntP8dvtMYizC6DgMgCaAXoEuKUr8F7wFqngm8"
+				"bzz-raw://ff1c543c2fec3a2996a2a1d7c654d31eb71d438ceec70a2877c8410e980e7c5f",
+				"dweb:/ipfs/QmdsNzHA8hPusMuBbbut8TKw5UN541SRuMHqJmXDTpfLH7"
 			]
 		},
 		"contracts/faykGovernance.sol": {
-			"keccak256": "0x9c862eaace254a8be6576015fefe6821cff8b1b0462369b7dbe598092ab5baf5",
+			"keccak256": "0x2a389fe3051f32f416c74fbe22acc9bc9215e40916895a3e751362144f61e9b1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2d5963452b6760786799a7305bcfc61c252c46bfeac49f6df3b2a0a175750e4e",
-				"dweb:/ipfs/QmXLs9Q4GJMbowoGq752nPhFPB9ZXUsgmtLt3S5M3RbAbL"
+				"bzz-raw://c6e0cb28e007223586dfe48be5bc72233cf06606cf32f6c96b3a8982be3ce61c",
+				"dweb:/ipfs/QmbYoTRzphYhcNBWYFTf7WUhcHMTidACX7EwZUkcHr5gEt"
 			]
 		}
 	},

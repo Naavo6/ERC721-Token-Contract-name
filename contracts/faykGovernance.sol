@@ -23,6 +23,7 @@ contract faykGovernance is Authority {
     error TheAddressIsInvalid(address addContract);
 
     uint48 private _defaultPeriodTime;
+    
 
 
     struct CallerInfo {
@@ -59,9 +60,9 @@ contract faykGovernance is Authority {
         _;
     }
 
-    modifier onlyPrimeRepublic() {
+    modifier onlyPrimeRepublicG() {
          if (TimeFirstElection < block.timestamp) {
-            require(msg.sender == getRepublicAddress(), "Access is not valid");
+            require(msg.sender == getRepublicGAddress(), "Access is not valid");
 
         } else require(msg.sender == getPrimeMinisterAdd() && !getPrimeMinisterBan(), "Access is not valid");
 
@@ -90,7 +91,7 @@ contract faykGovernance is Authority {
         return _roleInfo[roleId][peopleName_satrap].baned;
     }
 
-    function setDefaultPeriodTime(uint48 newPeriodTime) public onlyPrimeRepublic {
+    function setDefaultPeriodTime(uint48 newPeriodTime) public onlyPrimeRepublicG {
         require(newPeriodTime >= 365 days, "The amount must be at least one year");
         _defaultPeriodTime = newPeriodTime;
 
@@ -153,7 +154,7 @@ contract faykGovernance is Authority {
     }
 
 
-    function setConnectorMapping(bytes32 contractTypeName, bytes32 peopleName_satrap, address addContract) public onlyPrimeRepublic {
+    function setConnectorMapping(bytes32 contractTypeName, bytes32 peopleName_satrap, address addContract) public onlyPrimeRepublicG {
         if (addContract.code.length > 0) {
             _connectorMapping[contractTypeName][peopleName_satrap] = addContract;
 
@@ -164,6 +165,11 @@ contract faykGovernance is Authority {
 
     function getConnectorMapping(bytes32 contractTypeName, bytes32 peopleName_satrap) public view returns (address) {
         return  _connectorMapping[contractTypeName][peopleName_satrap];
+    }
+
+    function getCMWitthCallerAddress(address caller, bytes32 contractTypeName) public view returns (address) {
+        CallerInfo memory caller_ = _callerInfo[caller];
+        return getConnectorMapping(contractTypeName, caller_.peopleName_satrap);
     }
     
    

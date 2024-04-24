@@ -187,7 +187,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "newRAddress",
+						"name": "newRGAddress",
 						"type": "address"
 					}
 				],
@@ -319,7 +319,7 @@
 					{
 						"indexed": true,
 						"internalType": "address",
-						"name": "RepublicAddress",
+						"name": "RepublicGAddress",
 						"type": "address"
 					},
 					{
@@ -329,7 +329,7 @@
 						"type": "uint32"
 					}
 				],
-				"name": "TheNewRepublicAddressWasConfirmed",
+				"name": "TheNewRepublicGAddressWasConfirmed",
 				"type": "event"
 			},
 			{
@@ -377,11 +377,11 @@
 					{
 						"indexed": true,
 						"internalType": "address",
-						"name": "PRAddress",
+						"name": "PRGAddress",
 						"type": "address"
 					}
 				],
-				"name": "TheNextRepublicAddressWasCancelled",
+				"name": "TheNextRepublicGAddressWasCancelled",
 				"type": "event"
 			},
 			{
@@ -390,11 +390,11 @@
 					{
 						"indexed": true,
 						"internalType": "address",
-						"name": "newRepublicAddress",
+						"name": "newRepublicGAddress",
 						"type": "address"
 					}
 				],
-				"name": "TheNextRepublicAddressWasElected",
+				"name": "TheNextRepublicGAddressWasElected",
 				"type": "event"
 			},
 			{
@@ -555,11 +555,11 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "PRAdress",
+						"name": "PRGAdress",
 						"type": "address"
 					}
 				],
-				"name": "cancelPendingRepublicAddress",
+				"name": "cancelPendingRepublicGAddress",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -716,6 +716,19 @@
 			{
 				"inputs": [],
 				"name": "getRepublicAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "R",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getRepublicGAddress",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -900,11 +913,11 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "newRAddress",
+						"name": "newRGAddress",
 						"type": "address"
 					}
 				],
-				"name": "setPendingRepublicAddress",
+				"name": "setPendingRepublicGAddress",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -930,7 +943,7 @@
 						"type": "bool"
 					}
 				],
-				"name": "setPrimeMinister",
+				"name": "setPrimeMinisterBaned",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -1003,11 +1016,11 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "RAddress",
+						"name": "RGAddress",
 						"type": "address"
 					}
 				],
-				"name": "transferRepublicAddress",
+				"name": "transferRepublicGAddress",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -1143,11 +1156,11 @@
 			]
 		},
 		"contracts/authority.sol": {
-			"keccak256": "0xcff68988eef9095e2433d2202925430367d085c7272fdfc7b84ff5d21ba6112e",
+			"keccak256": "0x9fbc6d20793c956a57eead2e58b048b164a507eed759d22874095dffe20c9b5e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d66df4b68587f7dd7c9c8e467fc4bd34448b0959dbccb6f0104628ea544de044",
-				"dweb:/ipfs/QmVLueVfVntP8dvtMYizC6DgMgCaAXoEuKUr8F7wFqngm8"
+				"bzz-raw://ff1c543c2fec3a2996a2a1d7c654d31eb71d438ceec70a2877c8410e980e7c5f",
+				"dweb:/ipfs/QmdsNzHA8hPusMuBbbut8TKw5UN541SRuMHqJmXDTpfLH7"
 			]
 		},
 		"contracts/storageTokenContractName.sol": {
