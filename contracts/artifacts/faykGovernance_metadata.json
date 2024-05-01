@@ -640,6 +640,13 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "setJomhorInfo",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -715,6 +722,51 @@
 				"name": "setPrimeMinisterBaned",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "people_satrap",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint32[]",
+						"name": "roleId_",
+						"type": "uint32[]"
+					},
+					{
+						"components": [
+							{
+								"internalType": "bytes32",
+								"name": "roleLabel",
+								"type": "bytes32"
+							},
+							{
+								"internalType": "uint32",
+								"name": "admin",
+								"type": "uint32"
+							},
+							{
+								"internalType": "uint32",
+								"name": "guardian",
+								"type": "uint32"
+							},
+							{
+								"internalType": "bool",
+								"name": "baned",
+								"type": "bool"
+							}
+						],
+						"internalType": "struct faykGovernance.Role[]",
+						"name": "roleInfo_",
+						"type": "tuple[]"
+					}
+				],
+				"name": "setRoleInfo",
+				"outputs": [],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -825,11 +877,11 @@
 			]
 		},
 		"contracts/faykGovernance.sol": {
-			"keccak256": "0x2a389fe3051f32f416c74fbe22acc9bc9215e40916895a3e751362144f61e9b1",
+			"keccak256": "0xfedd312c777f09ed46b53cd005a3703ee76ad2f67b910b702a2728a5d66d2e34",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c6e0cb28e007223586dfe48be5bc72233cf06606cf32f6c96b3a8982be3ce61c",
-				"dweb:/ipfs/QmbYoTRzphYhcNBWYFTf7WUhcHMTidACX7EwZUkcHr5gEt"
+				"bzz-raw://11675af7ecdff4c89f573e7e9e41d915dc50ee3cd254d1b23c10133ad0123ec1",
+				"dweb:/ipfs/QmeRaZyaYsbUTDf4fbnLZPP3DL6pZDg4ytXBUs8qtAFDnM"
 			]
 		}
 	},

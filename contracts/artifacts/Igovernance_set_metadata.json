@@ -33,6 +33,67 @@
 				],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "baned",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					}
+				],
+				"name": "setBaned",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "deletedOldCaller",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "oldCaller",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "newCaller",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint48",
+						"name": "periodTime",
+						"type": "uint48"
+					}
+				],
+				"name": "setCaller",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -63,11 +124,11 @@
 	},
 	"sources": {
 		"contracts/authority.sol": {
-			"keccak256": "0x9fbc6d20793c956a57eead2e58b048b164a507eed759d22874095dffe20c9b5e",
+			"keccak256": "0xfb842f5844267b41b7742a1c08f46f026f16fbd746d31bdae39887ed8fa8ff5f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ff1c543c2fec3a2996a2a1d7c654d31eb71d438ceec70a2877c8410e980e7c5f",
-				"dweb:/ipfs/QmdsNzHA8hPusMuBbbut8TKw5UN541SRuMHqJmXDTpfLH7"
+				"bzz-raw://3b708439497f58362c4e81f81a34f8490da03a36362746e300fba8064aacef1f",
+				"dweb:/ipfs/Qmeyu7vx3u7LRKvpykTbS4HahLQhMH6SM8pjTk68t36PZ3"
 			]
 		}
 	},

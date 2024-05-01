@@ -48,6 +48,12 @@ contract faykGovernance is Authority {
         bool baned;
     }
 
+    struct Jomhor {
+        mapping(bytes32 => bool) existContractTypeName;
+        mapping(uint32 => bool) existRoleId;
+    }
+
+    mapping(bytes32 peopleName_satrap => Jomhor peopleInfo) private _jomhorInfo;
     mapping(address caller => CallerInfo callerInfo) private _callerInfo;
     mapping(bytes32 contractTypeName => mapping (bytes32 peopleName_satrap => address addContract)) private _connectorMapping; //hatman onlyprimeRepublic
     mapping(uint32 roleId => mapping (bytes32 peopleName_satrap => Role roleInfo)) private _roleInfo; //hatman onlyprimeRepublic
@@ -71,14 +77,49 @@ contract faykGovernance is Authority {
 
     modifier onlyAdminOrGuardian(uint8 adminOrGuardian, uint32 roleId, bytes32 peopleName_satrap) {
         CallerInfo memory caller = _callerInfo[msg.sender];
+        if (caller.roleId > 10) {
+            require(caller.peopleName_satrap == peopleName_satrap, "Access is not valid");
+        }
+
+        require(!getBaned(roleId, caller.peopleName_satrap) && caller.EndSession > block.timestamp, "Access is not valid");
+
         if (adminOrGuardian == 1) {
             require(caller.roleId == _roleInfo[roleId][peopleName_satrap].admin, "Access is not valid");
 
         } else require(caller.roleId == _roleInfo[roleId][peopleName_satrap].guardian, "Access is not valid");
 
-        require(!getBaned(roleId, peopleName_satrap) && caller.EndSession > block.timestamp, "Access is not valid");
-
         _;
+    }
+
+    constructor() {
+        _callerInfo[getAuthorityAddress()].peopleName_satrap = "All";
+        _callerInfo[getAuthorityAddress()].roleId = 1;
+        _callerInfo[getAuthorityAddress()].since = uint48(block.timestamp);
+        _callerInfo[getAuthorityAddress()].EndSession = 43830 days;
+
+        _callerInfo[getRepublicGAddress()].peopleName_satrap = "All";
+        _callerInfo[getRepublicGAddress()].roleId = 2;
+        _callerInfo[getRepublicGAddress()].since = uint48(block.timestamp);
+        _callerInfo[getRepublicGAddress()].EndSession = 43830 days;
+
+        _callerInfo[getPrimeMinisterAdd()].peopleName_satrap = "All";
+        _callerInfo[getPrimeMinisterAdd()].roleId = 4;
+        _callerInfo[getPrimeMinisterAdd()].since = uint48(block.timestamp);
+        _callerInfo[getPrimeMinisterAdd()].EndSession = 43830 days;
+
+        _jomhorInfo["All"].existContractTypeName["Authority"] = true;
+        _jomhorInfo["All"].existContractTypeName["RepublicG"] = true;
+        _jomhorInfo["All"].existRoleId[1] = true;
+        _jomhorInfo["All"].existRoleId[2] = true;
+        _jomhorInfo["All"].existRoleId[4] = true;
+
+        _roleInfo[1]["All"].admin = 1;
+        _roleInfo[1]["All"].guardian = 1;
+        _roleInfo[2]["All"].admin = 1;
+        _roleInfo[2]["All"].guardian = 1;
+        _roleInfo[4]["All"].admin = 1;
+        _roleInfo[4]["All"].guardian = 1;
+
     }
 
     function setBaned(bool baned, uint32 roleId, bytes32 peopleName_satrap) public onlyAdminOrGuardian(2, roleId, peopleName_satrap) {
@@ -100,6 +141,10 @@ contract faykGovernance is Authority {
 
     function getDefaultPeriodTime() public view returns (uint48) {
         return _defaultPeriodTime;
+    }
+
+    function setJomhorInfo() public onlyPrimeRepublicG {
+        
     }
 
 
@@ -128,6 +173,10 @@ contract faykGovernance is Authority {
 
         } else if (_callerInfo[oldCaller].since == 0) {
             _callerInfo[newCaller].since = uint48(block.timestamp);
+            if ((newCaller == getAuthorityAddress()) || roleId == 2 || roleId == 4) {  
+                _callerInfo[newCaller].EndSession = uint48(block.timestamp) + periodTime;
+            }
+
             _callerInfo[newCaller].EndSession = uint48(block.timestamp) + _defaultPeriodTime;
 
         } else {
@@ -161,6 +210,12 @@ contract faykGovernance is Authority {
             emit AddressConnectedToConnector(contractTypeName, peopleName_satrap, addContract);
 
         } else revert TheAddressIsInvalid(addContract);
+    }
+
+    function setRoleInfo(bytes32 people_satrap, uint32[] memory roleId_, Role[] memory roleInfo_) public view onlyPrimeRepublicG {
+        uint256 iL = roleId_.length;
+        require(iL == roleInfo_.length, "The length of the arrays is different");
+
     }
 
     function getConnectorMapping(bytes32 contractTypeName, bytes32 peopleName_satrap) public view returns (address) {

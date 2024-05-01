@@ -49,7 +49,9 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"AccessControl(address,address,bytes4)": "e35b31b7"
+			"AccessControl(address,address,bytes4)": "e35b31b7",
+			"setBaned(bool,uint32,bytes32)": "863ad595",
+			"setCaller(bool,address,address,bytes32,uint32,uint48)": "c92a788c"
 		}
 	},
 	"abi": [
@@ -79,6 +81,67 @@
 					"type": "bool"
 				}
 			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "bool",
+					"name": "baned",
+					"type": "bool"
+				},
+				{
+					"internalType": "uint32",
+					"name": "roleId",
+					"type": "uint32"
+				},
+				{
+					"internalType": "bytes32",
+					"name": "peopleName_satrap",
+					"type": "bytes32"
+				}
+			],
+			"name": "setBaned",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "bool",
+					"name": "deletedOldCaller",
+					"type": "bool"
+				},
+				{
+					"internalType": "address",
+					"name": "oldCaller",
+					"type": "address"
+				},
+				{
+					"internalType": "address",
+					"name": "newCaller",
+					"type": "address"
+				},
+				{
+					"internalType": "bytes32",
+					"name": "peopleName_satrap",
+					"type": "bytes32"
+				},
+				{
+					"internalType": "uint32",
+					"name": "roleId",
+					"type": "uint32"
+				},
+				{
+					"internalType": "uint48",
+					"name": "periodTime",
+					"type": "uint48"
+				}
+			],
+			"name": "setCaller",
+			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
 		}
