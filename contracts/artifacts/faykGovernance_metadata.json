@@ -7,6 +7,11 @@
 		"abi": [
 			{
 				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
 				"name": "AccessOnlyForThePendig",
 				"type": "error"
 			},
@@ -869,19 +874,19 @@
 			]
 		},
 		"contracts/authority.sol": {
-			"keccak256": "0x9fbc6d20793c956a57eead2e58b048b164a507eed759d22874095dffe20c9b5e",
+			"keccak256": "0xfb842f5844267b41b7742a1c08f46f026f16fbd746d31bdae39887ed8fa8ff5f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ff1c543c2fec3a2996a2a1d7c654d31eb71d438ceec70a2877c8410e980e7c5f",
-				"dweb:/ipfs/QmdsNzHA8hPusMuBbbut8TKw5UN541SRuMHqJmXDTpfLH7"
+				"bzz-raw://3b708439497f58362c4e81f81a34f8490da03a36362746e300fba8064aacef1f",
+				"dweb:/ipfs/Qmeyu7vx3u7LRKvpykTbS4HahLQhMH6SM8pjTk68t36PZ3"
 			]
 		},
 		"contracts/faykGovernance.sol": {
-			"keccak256": "0xfedd312c777f09ed46b53cd005a3703ee76ad2f67b910b702a2728a5d66d2e34",
+			"keccak256": "0xd9e4732eea6db0c86ea2cbeb2ffcb1cd457e68d3490825c430d15a434f9dd042",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://11675af7ecdff4c89f573e7e9e41d915dc50ee3cd254d1b23c10133ad0123ec1",
-				"dweb:/ipfs/QmeRaZyaYsbUTDf4fbnLZPP3DL6pZDg4ytXBUs8qtAFDnM"
+				"bzz-raw://430e78d9a4c9bfe132ff71e7f5ec6e604da89934e4f0b5779dadbfcf4c9afb46",
+				"dweb:/ipfs/QmX4BMwmoVRvJstkeohthq2MJv8WJ6KdSEVhZb94jaToLr"
 			]
 		}
 	},

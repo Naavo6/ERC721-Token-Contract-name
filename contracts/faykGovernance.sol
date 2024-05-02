@@ -18,6 +18,8 @@ contract faykGovernance is Authority {
     event NewValueForTheDefaultTimePeriod(uint48 indexed newPeriodTime);
     event ChangeBanedOfThisRole(bool baned, uint32 indexed  roleId, bytes32 indexed peopleName_satrap);
     event AddressConnectedToConnector(bytes32 indexed  contractTypeName, bytes32 indexed  peopleName_satrap, address indexed  addContract);
+    event ContractExistenceStateChanged(bytes32 indexed  peopleName_satrap, bytes32 indexed  contractTypeName, bool indexed exist);
+    event RpleExistenceStateChanged(bytes32 indexed  peopleName_satrap, uint32 indexed  roleId, bool indexed exist);
 
 
     error TheAddressIsInvalid(address addContract);
@@ -37,6 +39,7 @@ contract faykGovernance is Authority {
     struct TargetConfig {
         uint32 roleId;
         bytes32 peopleName_satrap;
+        bytes32 contractTypeName;
         uint48 executeDelay;
         bool closed;
     }
@@ -107,11 +110,6 @@ contract faykGovernance is Authority {
         _callerInfo[getPrimeMinisterAdd()].since = uint48(block.timestamp);
         _callerInfo[getPrimeMinisterAdd()].EndSession = 43830 days;
 
-        _jomhorInfo["All"].existContractTypeName["Authority"] = true;
-        _jomhorInfo["All"].existContractTypeName["RepublicG"] = true;
-        _jomhorInfo["All"].existRoleId[1] = true;
-        _jomhorInfo["All"].existRoleId[2] = true;
-        _jomhorInfo["All"].existRoleId[4] = true;
 
         _roleInfo[1]["All"].admin = 1;
         _roleInfo[1]["All"].guardian = 1;
@@ -143,8 +141,22 @@ contract faykGovernance is Authority {
         return _defaultPeriodTime;
     }
 
-    function setJomhorInfo() public onlyPrimeRepublicG {
-        
+    function setJomhorInfo(bytes32 peopleName_satrap, bytes32 contractTypeName, uint32 roleId, bool exist) public onlyPrimeRepublicG {
+        if (contractTypeName != bytes32(0)) {
+            _jomhorInfo[peopleName_satrap].existContractTypeName[contractTypeName] = exist;
+            emit ContractExistenceStateChanged(peopleName_satrap, contractTypeName, exist);
+        }
+        if (roleId != 0) {
+            _jomhorInfo[peopleName_satrap].existRoleId[roleId] = exist;
+            emit RpleExistenceStateChanged(peopleName_satrap, roleId, exist);
+        }
+    }
+
+    function checkExistJomhorInfo(bytes32 peopleName_satrap, bytes32 contractTypeName, uint32 roleId) public view returns(bool) {
+        if(roleId != 0) {
+            return _jomhorInfo[peopleName_satrap].existRoleId[roleId];
+
+        } else return _jomhorInfo[peopleName_satrap].existContractTypeName[contractTypeName];
     }
 
 
@@ -156,6 +168,8 @@ contract faykGovernance is Authority {
     uint32 roleId,
     uint48 periodTime) 
     public onlyAdminOrGuardian(1,roleId, peopleName_satrap) {// dar inja bayad deghat shavad ke admin role ha badha republic khahad bod
+        require(checkExistJomhorInfo("All", 0, roleId) || checkExistJomhorInfo(peopleName_satrap, 0, roleId), "roleId not exist");
+
         if (oldCaller == newCaller) {
             _callerInfo[newCaller].EndSession += periodTime;
             if (getBaned(roleId, peopleName_satrap)) {
@@ -204,6 +218,7 @@ contract faykGovernance is Authority {
 
 
     function setConnectorMapping(bytes32 contractTypeName, bytes32 peopleName_satrap, address addContract) public onlyPrimeRepublicG {
+        require(checkExistJomhorInfo("All", contractTypeName, 0) || checkExistJomhorInfo(peopleName_satrap, contractTypeName, 0), "contractTypeName not exist");
         if (addContract.code.length > 0) {
             _connectorMapping[contractTypeName][peopleName_satrap] = addContract;
 
