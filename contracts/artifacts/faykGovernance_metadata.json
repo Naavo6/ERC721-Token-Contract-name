@@ -164,12 +164,62 @@
 				"inputs": [
 					{
 						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "contractTypeName",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bool",
+						"name": "exist",
+						"type": "bool"
+					}
+				],
+				"name": "ContractExistenceStateChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
 						"internalType": "uint48",
 						"name": "newPeriodTime",
 						"type": "uint48"
 					}
 				],
 				"name": "NewValueForTheDefaultTimePeriod",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bool",
+						"name": "exist",
+						"type": "bool"
+					}
+				],
+				"name": "RpleExistenceStateChanged",
 				"type": "event"
 			},
 			{
@@ -343,6 +393,35 @@
 				"name": "cancelPendingRepublicGAddress",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "contractTypeName",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					}
+				],
+				"name": "checkExistJomhorInfo",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -645,7 +724,28 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "contractTypeName",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					},
+					{
+						"internalType": "bool",
+						"name": "exist",
+						"type": "bool"
+					}
+				],
 				"name": "setJomhorInfo",
 				"outputs": [],
 				"stateMutability": "nonpayable",
@@ -882,11 +982,11 @@
 			]
 		},
 		"contracts/faykGovernance.sol": {
-			"keccak256": "0xd9e4732eea6db0c86ea2cbeb2ffcb1cd457e68d3490825c430d15a434f9dd042",
+			"keccak256": "0x32142a83a6a57665bb4f6dcc03cadb51c3039f5ebfc3c961129d0b86aca431eb",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://430e78d9a4c9bfe132ff71e7f5ec6e604da89934e4f0b5779dadbfcf4c9afb46",
-				"dweb:/ipfs/QmX4BMwmoVRvJstkeohthq2MJv8WJ6KdSEVhZb94jaToLr"
+				"bzz-raw://c4a8052a38b86f283551b86d11b7b93606085d36fff03975280c7bea42e9279e",
+				"dweb:/ipfs/Qmf1CYQiaemPzLZQnKT97XFBS6JaTSoQNuzQEVX1TZBGyf"
 			]
 		}
 	},

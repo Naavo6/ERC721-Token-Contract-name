@@ -19,7 +19,9 @@ contract faykGovernance is Authority {
     event ChangeBanedOfThisRole(bool baned, uint32 indexed  roleId, bytes32 indexed peopleName_satrap);
     event AddressConnectedToConnector(bytes32 indexed  contractTypeName, bytes32 indexed  peopleName_satrap, address indexed  addContract);
     event ContractExistenceStateChanged(bytes32 indexed  peopleName_satrap, bytes32 indexed  contractTypeName, bool indexed exist);
-    event RpleExistenceStateChanged(bytes32 indexed  peopleName_satrap, uint32 indexed  roleId, bool indexed exist);
+    event RoleExistenceStateChanged(bytes32 indexed  peopleName_satrap, uint32 indexed  roleId, bool indexed exist);
+    event roleInfoChanged(bytes32 indexed  peopleName_satrap, uint32 indexed  roleId);
+
 
 
     error TheAddressIsInvalid(address addContract);
@@ -110,6 +112,9 @@ contract faykGovernance is Authority {
         _callerInfo[getPrimeMinisterAdd()].since = uint48(block.timestamp);
         _callerInfo[getPrimeMinisterAdd()].EndSession = 43830 days;
 
+        _jomhorInfo["All"].existRoleId[1] = true;
+        _jomhorInfo["All"].existRoleId[2] = true;
+        _jomhorInfo["All"].existRoleId[4] = true;
 
         _roleInfo[1]["All"].admin = 1;
         _roleInfo[1]["All"].guardian = 1;
@@ -147,8 +152,9 @@ contract faykGovernance is Authority {
             emit ContractExistenceStateChanged(peopleName_satrap, contractTypeName, exist);
         }
         if (roleId != 0) {
+            require(roleId > 4, "This cannot be changed");
             _jomhorInfo[peopleName_satrap].existRoleId[roleId] = exist;
-            emit RpleExistenceStateChanged(peopleName_satrap, roleId, exist);
+            emit RoleExistenceStateChanged(peopleName_satrap, roleId, exist);
         }
     }
 
@@ -227,17 +233,40 @@ contract faykGovernance is Authority {
         } else revert TheAddressIsInvalid(addContract);
     }
 
-    function setRoleInfo(bytes32 people_satrap, uint32[] memory roleId_, Role[] memory roleInfo_) public view onlyPrimeRepublicG {
+    function setRoleInfo(bytes32 peopleName_satrap, uint32[] memory roleId_, Role[] memory roleInfo_) public onlyPrimeRepublicG {
         uint256 iL = roleId_.length;
         require(iL == roleInfo_.length, "The length of the arrays is different");
+        for (uint i = 0; i < iL; i++) {
+            if (roleId_[i] < 5 || (!checkExistJomhorInfo("All", 0, roleId_[i]) && !checkExistJomhorInfo(peopleName_satrap, 0, roleId_[i]))) {
+                continue;
+            } else if ((!checkExistJomhorInfo("All", 0, roleInfo_[i].admin) && !checkExistJomhorInfo(peopleName_satrap, 0, roleInfo_[i].admin)) || 
+            (!checkExistJomhorInfo("All", 0, roleInfo_[i].guardian) && !checkExistJomhorInfo(peopleName_satrap, 0, roleInfo_[i].guardian))) {
+                continue;
+            } else  _roleInfo[roleId_[i]][peopleName_satrap] = roleInfo_[i];
 
+            emit  roleInfoChanged(peopleName_satrap, roleId_[i]);
+        }
+
+    }
+
+    function getRoleInfo(bytes32 contractTypeName, uint32 roleId) public view returns (bytes32 roleLabel, uint32 admin, uint32 guardian, bool baned) {
+        return (
+        _roleInfo[roleId][contractTypeName].roleLabel,
+        _roleInfo[roleId][contractTypeName].admin,
+        _roleInfo[roleId][contractTypeName].guardian,
+        _roleInfo[roleId][contractTypeName].baned
+        );
+    }
+
+    function setTargets(bytes32 contractTypeName, bytes32 peopleName_satrap, address target, bytes4 selector, TargetConfig memory roleAccess) public onlyPrimeRepublicG {
+        require(_connectorMapping[contractTypeName][peopleName_satrap] == target, )
     }
 
     function getConnectorMapping(bytes32 contractTypeName, bytes32 peopleName_satrap) public view returns (address) {
         return  _connectorMapping[contractTypeName][peopleName_satrap];
     }
 
-    function getCMWitthCallerAddress(address caller, bytes32 contractTypeName) public view returns (address) {
+    function getCMWithCallerAddress(address caller, bytes32 contractTypeName) public view returns (address) {
         CallerInfo memory caller_ = _callerInfo[caller];
         return getConnectorMapping(contractTypeName, caller_.peopleName_satrap);
     }

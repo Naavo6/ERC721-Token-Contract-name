@@ -1156,11 +1156,11 @@
 			]
 		},
 		"contracts/authority.sol": {
-			"keccak256": "0x9fbc6d20793c956a57eead2e58b048b164a507eed759d22874095dffe20c9b5e",
+			"keccak256": "0xb380aed957446328bfb1be863b0aad3e0ff476e8f3c3082cae7846ac65b84997",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ff1c543c2fec3a2996a2a1d7c654d31eb71d438ceec70a2877c8410e980e7c5f",
-				"dweb:/ipfs/QmdsNzHA8hPusMuBbbut8TKw5UN541SRuMHqJmXDTpfLH7"
+				"bzz-raw://6d8f6571d376152af407893cebaa00ab7284c8601dc0dcc6e0ac5a1ab1969db0",
+				"dweb:/ipfs/QmXhwNZPyMPEAHazCaiM8xefguf2oAYRYm38RSzt6PzCW8"
 			]
 		},
 		"contracts/storageTokenContractName.sol": {

@@ -182,7 +182,9 @@ contract Authority {
     function transferPrimeMinister() public {
         if (_pendingPrimeMinister == msg.sender) {
             delete _pendingPrimeMinister;
+            if (_governance.roleAdd != address(0)) {
             Igovernance_set(_governance.roleAdd).setCaller(true, _primeMinister.roleAdd, msg.sender, "All", 4, 1 days);
+            }
             _primeMinister.roleAdd = msg.sender;
             _primeMinister.nonce++;
             if (_primeMinister.baned){
@@ -254,6 +256,7 @@ contract Authority {
     function _setPrimeMinisterBaned(bool baned) private {
         _primeMinister.baned = baned;
         Igovernance_set(_governance.roleAdd).setBaned(baned, 4, "All");
+        
     }
 
 
