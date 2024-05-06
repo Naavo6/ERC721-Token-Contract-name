@@ -219,7 +219,7 @@
 						"type": "bool"
 					}
 				],
-				"name": "RpleExistenceStateChanged",
+				"name": "RoleExistenceStateChanged",
 				"type": "event"
 			},
 			{
@@ -383,6 +383,50 @@
 				"type": "event"
 			},
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					}
+				],
+				"name": "roleInfoChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes4",
+						"name": "selector",
+						"type": "bytes4"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					}
+				],
+				"name": "targetsChanged",
+				"type": "event"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -474,7 +518,7 @@
 						"type": "bytes32"
 					}
 				],
-				"name": "getCMWitthCallerAddress",
+				"name": "getCMWithCallerAddress",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -608,6 +652,45 @@
 						"internalType": "address",
 						"name": "RG",
 						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "contractTypeName",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					}
+				],
+				"name": "getRoleInfo",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "roleLabel",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "uint32",
+						"name": "admin",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint32",
+						"name": "guardian",
+						"type": "uint32"
+					},
+					{
+						"internalType": "bool",
+						"name": "baned",
+						"type": "bool"
 					}
 				],
 				"stateMutability": "view",
@@ -833,7 +916,7 @@
 				"inputs": [
 					{
 						"internalType": "bytes32",
-						"name": "people_satrap",
+						"name": "peopleName_satrap",
 						"type": "bytes32"
 					},
 					{
@@ -871,7 +954,57 @@
 				],
 				"name": "setRoleInfo",
 				"outputs": [],
-				"stateMutability": "view",
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes4",
+						"name": "selector",
+						"type": "bytes4"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint32",
+								"name": "roleId",
+								"type": "uint32"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "peopleName_satrap",
+								"type": "bytes32"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "contractTypeName",
+								"type": "bytes32"
+							},
+							{
+								"internalType": "uint48",
+								"name": "executeDelay",
+								"type": "uint48"
+							},
+							{
+								"internalType": "bool",
+								"name": "closed",
+								"type": "bool"
+							}
+						],
+						"internalType": "struct faykGovernance.TargetConfig",
+						"name": "roleAccess",
+						"type": "tuple"
+					}
+				],
+				"name": "setTargets",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -974,19 +1107,19 @@
 			]
 		},
 		"contracts/authority.sol": {
-			"keccak256": "0xfb842f5844267b41b7742a1c08f46f026f16fbd746d31bdae39887ed8fa8ff5f",
+			"keccak256": "0xb380aed957446328bfb1be863b0aad3e0ff476e8f3c3082cae7846ac65b84997",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3b708439497f58362c4e81f81a34f8490da03a36362746e300fba8064aacef1f",
-				"dweb:/ipfs/Qmeyu7vx3u7LRKvpykTbS4HahLQhMH6SM8pjTk68t36PZ3"
+				"bzz-raw://6d8f6571d376152af407893cebaa00ab7284c8601dc0dcc6e0ac5a1ab1969db0",
+				"dweb:/ipfs/QmXhwNZPyMPEAHazCaiM8xefguf2oAYRYm38RSzt6PzCW8"
 			]
 		},
 		"contracts/faykGovernance.sol": {
-			"keccak256": "0x32142a83a6a57665bb4f6dcc03cadb51c3039f5ebfc3c961129d0b86aca431eb",
+			"keccak256": "0x544040c33ba6f91e3aff43bec4af5f22a0f8f0fb38feda2780769342df964bb4",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c4a8052a38b86f283551b86d11b7b93606085d36fff03975280c7bea42e9279e",
-				"dweb:/ipfs/Qmf1CYQiaemPzLZQnKT97XFBS6JaTSoQNuzQEVX1TZBGyf"
+				"bzz-raw://6d09b7b66f56da14c884db7e8b1337ae0ac1cda6e0e4bbe12da8a8f3f5f34d93",
+				"dweb:/ipfs/QmVG7AwrBENxQ8MgUwGEPsbzohkSJxc93YiuqvZH9YAYMd"
 			]
 		}
 	},

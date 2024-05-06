@@ -21,6 +21,7 @@ contract faykGovernance is Authority {
     event ContractExistenceStateChanged(bytes32 indexed  peopleName_satrap, bytes32 indexed  contractTypeName, bool indexed exist);
     event RoleExistenceStateChanged(bytes32 indexed  peopleName_satrap, uint32 indexed  roleId, bool indexed exist);
     event roleInfoChanged(bytes32 indexed  peopleName_satrap, uint32 indexed  roleId);
+    event targetsChanged(address indexed  target, bytes4 indexed  selector,uint32 indexed roleId); 
 
 
 
@@ -159,10 +160,13 @@ contract faykGovernance is Authority {
     }
 
     function checkExistJomhorInfo(bytes32 peopleName_satrap, bytes32 contractTypeName, uint32 roleId) public view returns(bool) {
-        if(roleId != 0) {
+        if (roleId != 0) {
             return _jomhorInfo[peopleName_satrap].existRoleId[roleId];
 
-        } else return _jomhorInfo[peopleName_satrap].existContractTypeName[contractTypeName];
+        } else if (contractTypeName != bytes32(0)) {
+            return _jomhorInfo[peopleName_satrap].existContractTypeName[contractTypeName];
+
+        } else return false;
     }
 
 
@@ -258,8 +262,18 @@ contract faykGovernance is Authority {
         );
     }
 
-    function setTargets(bytes32 contractTypeName, bytes32 peopleName_satrap, address target, bytes4 selector, TargetConfig memory roleAccess) public onlyPrimeRepublicG {
-        require(_connectorMapping[contractTypeName][peopleName_satrap] == target, )
+    function setTargets(address target, bytes4 selector, TargetConfig memory roleAccess) public onlyPrimeRepublicG {
+        require(_connectorMapping[roleAccess.contractTypeName][roleAccess.peopleName_satrap] == target, "Target is not valid");
+
+        uint32 roleAdmin = _roleInfo[roleAccess.roleId][roleAccess.peopleName_satrap].admin;
+        require(checkExistJomhorInfo("All", 0, roleAccess.roleId) && checkExistJomhorInfo("All", 0, roleAdmin), "RoleId is not valid");
+        
+        (,bytes memory data) = target.call(abi.encodeWithSignature("supportsInterface(bytes4)", selector));
+        bool exist = abi.decode(data,(bool));
+        require(exist, "Selector is not valid");
+
+        _targets[target][selector] = roleAccess;
+        emit targetsChanged(target, selector, roleAccess.roleId); 
     }
 
     function getConnectorMapping(bytes32 contractTypeName, bytes32 peopleName_satrap) public view returns (address) {
