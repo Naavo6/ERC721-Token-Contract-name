@@ -5,7 +5,7 @@ pragma solidity ^0.8.20;
 
 
 interface Igovernance_set {
-    function AccessControl(address caller, address target, bytes4 Fselector) external returns (bool accessed);
+    function accessControl(address caller, address target, bytes4 Fselector) external returns (bool accessed);
     function setCaller(bool deletedOldCaller, address oldCaller, address newCaller, bytes32 peopleName_satrap, uint32 roleId, uint48 periodTime) external;
     function setBaned(bool baned, uint32 roleId, bytes32 peopleName_satrap) external;
 }
@@ -85,7 +85,7 @@ contract Authority {
     }
 
     modifier AccessCheck(address caller) {
-        require(!getPresidentBan() && Igovernance_set(_governance.roleAdd).AccessControl(caller, msg.sender, msg.sig), "Access is not valid");
+        require(!getPresidentBan() && Igovernance_set(_governance.roleAdd).accessControl(caller, msg.sender, msg.sig), "Access is not valid");
         
         _;
     }

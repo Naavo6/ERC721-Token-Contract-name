@@ -21,7 +21,10 @@ contract faykGovernance is Authority {
     event ContractExistenceStateChanged(bytes32 indexed  peopleName_satrap, bytes32 indexed  contractTypeName, bool indexed exist);
     event RoleExistenceStateChanged(bytes32 indexed  peopleName_satrap, uint32 indexed  roleId, bool indexed exist);
     event roleInfoChanged(bytes32 indexed  peopleName_satrap, uint32 indexed  roleId);
-    event targetsChanged(address indexed  target, bytes4 indexed  selector,uint32 indexed roleId); 
+    event targetsChanged(address indexed  target, bytes4 indexed  selector,uint32 indexed roleId);
+    event TargetIsNotValid(address indexed target, uint256 index);
+    event RoleIdIsNotValid(address indexed target, uint256 index);
+    event SelectorIsNotValid(address indexed target, uint256 index);
 
 
 
@@ -240,12 +243,14 @@ contract faykGovernance is Authority {
     function setRoleInfo(bytes32 peopleName_satrap, uint32[] memory roleId_, Role[] memory roleInfo_) public onlyPrimeRepublicG {
         uint256 iL = roleId_.length;
         require(iL == roleInfo_.length, "The length of the arrays is different");
-        for (uint i = 0; i < iL; i++) {
+        for (uint256 i = 0; i < iL; i++) {
             if (roleId_[i] < 5 || (!checkExistJomhorInfo("All", 0, roleId_[i]) && !checkExistJomhorInfo(peopleName_satrap, 0, roleId_[i]))) {
                 continue;
+
             } else if ((!checkExistJomhorInfo("All", 0, roleInfo_[i].admin) && !checkExistJomhorInfo(peopleName_satrap, 0, roleInfo_[i].admin)) || 
             (!checkExistJomhorInfo("All", 0, roleInfo_[i].guardian) && !checkExistJomhorInfo(peopleName_satrap, 0, roleInfo_[i].guardian))) {
                 continue;
+
             } else  _roleInfo[roleId_[i]][peopleName_satrap] = roleInfo_[i];
 
             emit  roleInfoChanged(peopleName_satrap, roleId_[i]);
@@ -262,18 +267,35 @@ contract faykGovernance is Authority {
         );
     }
 
-    function setTargets(address target, bytes4 selector, TargetConfig memory roleAccess) public onlyPrimeRepublicG {
-        require(_connectorMapping[roleAccess.contractTypeName][roleAccess.peopleName_satrap] == target, "Target is not valid");
-
-        uint32 roleAdmin = _roleInfo[roleAccess.roleId][roleAccess.peopleName_satrap].admin;
-        require(checkExistJomhorInfo("All", 0, roleAccess.roleId) && checkExistJomhorInfo("All", 0, roleAdmin), "RoleId is not valid");
+    function setTargets(address target, bytes4[] memory selector, TargetConfig[] memory roleAccess) public onlyPrimeRepublicG {
+        uint256 iL = selector.length;
+        require(iL == roleAccess.length, "The length of the arrays is different");
         
-        (,bytes memory data) = target.call(abi.encodeWithSignature("supportsInterface(bytes4)", selector));
-        bool exist = abi.decode(data,(bool));
-        require(exist, "Selector is not valid");
+         for (uint256 i = 0; i < iL; i++) {
+            uint32 roleAdmin = _roleInfo[roleAccess[i].roleId][roleAccess[i].peopleName_satrap].admin;
+            (,bytes memory data) = target.call(abi.encodeWithSignature("supportsInterface(bytes4)", selector[i]));
+            bool exist = abi.decode(data,(bool));
+            
+            if (_connectorMapping[roleAccess[i].contractTypeName][roleAccess[i].peopleName_satrap] != target) {
+                emit TargetIsNotValid(target, i);
+                continue;
 
-        _targets[target][selector] = roleAccess;
-        emit targetsChanged(target, selector, roleAccess.roleId); 
+            } else if (!checkExistJomhorInfo("All", 0, roleAccess[i].roleId) || !checkExistJomhorInfo("All", 0, roleAdmin)) {
+                emit RoleIdIsNotValid(target, i);
+                continue;
+
+            } else if (!exist) {
+                emit SelectorIsNotValid(target, i);
+                continue;
+            }
+
+            _targets[target][selector[i]] = roleAccess[i];
+            emit targetsChanged(target, selector[i], roleAccess[i].roleId); 
+        }
+    }
+
+    function getTargets(address target, bytes4 selector) public view returns (TargetConfig memory) {
+        return _targets[target][selector];
     }
 
     function getConnectorMapping(bytes32 contractTypeName, bytes32 peopleName_satrap) public view returns (address) {

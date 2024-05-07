@@ -49,7 +49,7 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"AccessControl(address,address,bytes4)": "e35b31b7",
+			"accessControl(address,address,bytes4)": "006951f2",
 			"setBaned(bool,uint32,bytes32)": "863ad595",
 			"setCaller(bool,address,address,bytes32,uint32,uint48)": "c92a788c"
 		}
@@ -73,7 +73,7 @@
 					"type": "bytes4"
 				}
 			],
-			"name": "AccessControl",
+			"name": "accessControl",
 			"outputs": [
 				{
 					"internalType": "bool",
