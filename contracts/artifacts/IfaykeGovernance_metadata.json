@@ -1,0 +1,321 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "addContract",
+						"type": "address"
+					}
+				],
+				"name": "TheAddressIsInvalid",
+				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "contractTypeName",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "addContract",
+						"type": "address"
+					}
+				],
+				"name": "AddressConnectedToConnector",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newCaller",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					}
+				],
+				"name": "AnOfficialWasConfirmed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newCaller",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					}
+				],
+				"name": "AnOfficialWasElected",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "baned",
+						"type": "bool"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					}
+				],
+				"name": "ChangeBanedOfThisRole",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "contractTypeName",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bool",
+						"name": "exist",
+						"type": "bool"
+					}
+				],
+				"name": "ContractExistenceStateChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint48",
+						"name": "newPeriodTime",
+						"type": "uint48"
+					}
+				],
+				"name": "NewValueForTheDefaultTimePeriod",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bool",
+						"name": "exist",
+						"type": "bool"
+					}
+				],
+				"name": "RoleExistenceStateChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "RoleIdIsNotValid",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "SelectorIsNotValid",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "TargetIsNotValid",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "peopleName_satrap",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					}
+				],
+				"name": "roleInfoChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes4",
+						"name": "selector",
+						"type": "bytes4"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint32",
+						"name": "roleId",
+						"type": "uint32"
+					}
+				],
+				"name": "targetsChanged",
+				"type": "event"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/IfaykGovernance.sol": "IfaykeGovernance"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/IfaykGovernance.sol": {
+			"keccak256": "0xee14ed3768738daf29000c6a4285b772082914610ab6ccd1db54f74a4576be3f",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://254ce24f78a7ef24db635104c3931baccf9917a0c40422c56b6c01afbe6aabe1",
+				"dweb:/ipfs/QmNzKbe6aDJP1qSwL2wMg3ENzrzi8Tc3YDt1LkBBGQXYCh"
+			]
+		}
+	},
+	"version": 1
+}

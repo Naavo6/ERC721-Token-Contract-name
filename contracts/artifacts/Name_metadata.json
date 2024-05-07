@@ -18,7 +18,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/3_Ballot.sol": "Name"
+			"contracts/IfaykGovernance.sol": "Name"
 		},
 		"evmVersion": "shanghai",
 		"libraries": {},
@@ -32,12 +32,11 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/3_Ballot.sol": {
-			"keccak256": "0xcd9e8565813310c95891fa8829519aa23783c40beae2b0f8988ec4da36785f24",
-			"license": "MIT",
+		"contracts/IfaykGovernance.sol": {
+			"keccak256": "0x48417f138d6a8b853386b7a4933f19535067e702869d4fa9ef2c912d4610a680",
 			"urls": [
-				"bzz-raw://f07939b02c3cec36e04534f430c2d185458e335190e8ebf5950f50c7a7f38913",
-				"dweb:/ipfs/QmVpaaE25ounJEf1QSRLrkWZyVpqSU4U1USM99N2cuAMLq"
+				"bzz-raw://13d3360b5bd961d55f58b1a4c7ffceb3868be4ab478cc51d12b4d66bc57eff6a",
+				"dweb:/ipfs/QmaPCD6Cfra9uwjvBKQuN5Fe2cduis3YhaRLuG51GEDcez"
 			]
 		}
 	},

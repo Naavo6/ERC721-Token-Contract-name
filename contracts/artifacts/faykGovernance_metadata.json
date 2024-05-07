@@ -228,6 +228,63 @@
 					{
 						"indexed": true,
 						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "RoleIdIsNotValid",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "SelectorIsNotValid",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "TargetIsNotValid",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
 						"name": "GCAddress",
 						"type": "address"
 					},
@@ -425,6 +482,35 @@
 				],
 				"name": "targetsChanged",
 				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "caller",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes4",
+						"name": "Fselector",
+						"type": "bytes4"
+					}
+				],
+				"name": "acessControl",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "access",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			},
 			{
 				"inputs": [
@@ -691,6 +777,57 @@
 						"internalType": "bool",
 						"name": "baned",
 						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes4",
+						"name": "selector",
+						"type": "bytes4"
+					}
+				],
+				"name": "getTargets",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint32",
+								"name": "roleId",
+								"type": "uint32"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "peopleName_satrap",
+								"type": "bytes32"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "contractTypeName",
+								"type": "bytes32"
+							},
+							{
+								"internalType": "uint48",
+								"name": "executeDelay",
+								"type": "uint48"
+							},
+							{
+								"internalType": "bool",
+								"name": "closed",
+								"type": "bool"
+							}
+						],
+						"internalType": "struct faykGovernance.TargetConfig",
+						"name": "",
+						"type": "tuple"
 					}
 				],
 				"stateMutability": "view",
@@ -965,9 +1102,9 @@
 						"type": "address"
 					},
 					{
-						"internalType": "bytes4",
+						"internalType": "bytes4[]",
 						"name": "selector",
-						"type": "bytes4"
+						"type": "bytes4[]"
 					},
 					{
 						"components": [
@@ -997,9 +1134,9 @@
 								"type": "bool"
 							}
 						],
-						"internalType": "struct faykGovernance.TargetConfig",
+						"internalType": "struct faykGovernance.TargetConfig[]",
 						"name": "roleAccess",
-						"type": "tuple"
+						"type": "tuple[]"
 					}
 				],
 				"name": "setTargets",
@@ -1106,20 +1243,28 @@
 				"dweb:/ipfs/QmNvgomZYUwFAt4cZbPWAiTeSZQreGehY9BK5xyVJsUttb"
 			]
 		},
-		"contracts/authority.sol": {
-			"keccak256": "0xb380aed957446328bfb1be863b0aad3e0ff476e8f3c3082cae7846ac65b84997",
+		"contracts/IfaykGovernance.sol": {
+			"keccak256": "0xee14ed3768738daf29000c6a4285b772082914610ab6ccd1db54f74a4576be3f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6d8f6571d376152af407893cebaa00ab7284c8601dc0dcc6e0ac5a1ab1969db0",
-				"dweb:/ipfs/QmXhwNZPyMPEAHazCaiM8xefguf2oAYRYm38RSzt6PzCW8"
+				"bzz-raw://254ce24f78a7ef24db635104c3931baccf9917a0c40422c56b6c01afbe6aabe1",
+				"dweb:/ipfs/QmNzKbe6aDJP1qSwL2wMg3ENzrzi8Tc3YDt1LkBBGQXYCh"
+			]
+		},
+		"contracts/authority.sol": {
+			"keccak256": "0x0c02f9ee31d9d24513d5c340cf4f1aae09bfc06b6b779149e132121d067b11f5",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6696b9421022a8850e08fd2e69ae098a36839f69d4758c6e7a39fd472b03cbec",
+				"dweb:/ipfs/QmX2ncKQzFhhZaERCVHpLi9k4hubygxfwpPP6mvxHsS773"
 			]
 		},
 		"contracts/faykGovernance.sol": {
-			"keccak256": "0x544040c33ba6f91e3aff43bec4af5f22a0f8f0fb38feda2780769342df964bb4",
+			"keccak256": "0x1739ef9757ad0bcbb7844c8c663135960f930ba4e9630d7850d6b7a2884e83d7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6d09b7b66f56da14c884db7e8b1337ae0ac1cda6e0e4bbe12da8a8f3f5f34d93",
-				"dweb:/ipfs/QmVG7AwrBENxQ8MgUwGEPsbzohkSJxc93YiuqvZH9YAYMd"
+				"bzz-raw://70b87db4a58760e4535cf26542e4df96cda12ab09021719f1b42aea6e9dbe357",
+				"dweb:/ipfs/QmUiEebe4vdmfoyxjgRC4fBzSKU1HRM2ZiQKpBE9vx4Lo6"
 			]
 		}
 	},

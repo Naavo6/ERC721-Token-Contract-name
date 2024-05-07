@@ -1,0 +1,44 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/IfaykGovernance.sol": "Ifa"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/IfaykGovernance.sol": {
+			"keccak256": "0xc2bacbd7ce5081e8da402fab17169cc63fe2106a16f1dc1d5aba489fb196b337",
+			"urls": [
+				"bzz-raw://2e5808ce855026c84e482e9be23cdc4297c661ce9466e1a3ee17a40abe79124b",
+				"dweb:/ipfs/QmQjcsT6Z7dVho95CXTMCfGVAAxYCnMAMXSAGBbXPfycMu"
+			]
+		}
+	},
+	"version": 1
+}
