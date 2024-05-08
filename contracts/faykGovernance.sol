@@ -28,7 +28,7 @@ contract faykGovernance is Authority, IfaykeGovernance {
         uint32 roleId;
         bytes32 peopleName_satrap;
         bytes32 contractTypeName;
-        uint48 executeDelay;
+     // uint48 executeDelay;
         bool closed;
     }
 
@@ -276,6 +276,19 @@ contract faykGovernance is Authority, IfaykeGovernance {
         }
     }
 
+    function setFunctionClosed(bool closed, uint32 roleId, bytes32 peopleName_satrap, address target, bytes4 Fselector) 
+    public onlyAdminOrGuardian(2, roleId, peopleName_satrap) {
+        TargetConfig memory target_ = _targets[target][Fselector];
+        require((target_.roleId == roleId) && (target_.peopleName_satrap == peopleName_satrap), "RoleId or PeopleName_Satrap varies with sources");
+
+        _targets[target][Fselector].closed = closed;
+        emit ChangeClosedOfThisFunction(target, Fselector, closed);
+    }
+
+    function getFunctionClosed(address target, bytes4 Fselector) public view returns (bool closed) {
+        return _targets[target][Fselector].closed;
+    }
+
     function getTargets(address target, bytes4 selector) public view returns (TargetConfig memory) {
         return _targets[target][selector];
     }
@@ -289,9 +302,32 @@ contract faykGovernance is Authority, IfaykeGovernance {
         return getConnectorMapping(contractTypeName, caller_.peopleName_satrap);
     }
 
-    function acessControl(address caller, address target, bytes4 Fselector) public returns (bool access) 
+    function acessControl(address caller, address target, bytes4 Fselector) public view returns (bool access) {
+        CallerInfo memory caller_ = _callerInfo[caller];
+        TargetConfig memory target_ = _targets[target][Fselector];
+        if (caller_.roleId != target_.roleId) {
+            revert RoleIdConflict(caller_.roleId);
 
-    
-    
-   
+        } else if (caller_.peopleName_satrap != target_.peopleName_satrap) {
+            revert PeopleName_SatrapConflict(caller_.peopleName_satrap);
+
+        } else if (caller_.since > block.timestamp || caller_.EndSession < block.timestamp) {
+            revert YourAccessTimeIsNotValid(caller_.since, caller_.EndSession);
+
+         } else if (getFunctionClosed(target, Fselector)) {
+            revert ThisFunctionIsClosed(target, Fselector);
+
+        } else if (getBaned(caller_.roleId, caller_.peopleName_satrap)) {
+            revert YouAreBanned(caller_.roleId, caller_.peopleName_satrap);
+            
+        }
+
+        return true;
+
+    }
+
+
+
+
+
 }

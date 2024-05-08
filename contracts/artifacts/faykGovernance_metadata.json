@@ -29,6 +29,22 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint32",
+						"name": "callerRoleId",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint32",
+						"name": "targetRoleId",
+						"type": "uint32"
+					}
+				],
+				"name": "RoleIDconflict",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "addContract",
 						"type": "address"
@@ -509,7 +525,7 @@
 						"type": "bool"
 					}
 				],
-				"stateMutability": "nonpayable",
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -1244,11 +1260,11 @@
 			]
 		},
 		"contracts/IfaykGovernance.sol": {
-			"keccak256": "0xee14ed3768738daf29000c6a4285b772082914610ab6ccd1db54f74a4576be3f",
+			"keccak256": "0x952235c34a3a2ac12252f27891d56fa2d3ef5ec2d491f394b8ece015da039308",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://254ce24f78a7ef24db635104c3931baccf9917a0c40422c56b6c01afbe6aabe1",
-				"dweb:/ipfs/QmNzKbe6aDJP1qSwL2wMg3ENzrzi8Tc3YDt1LkBBGQXYCh"
+				"bzz-raw://9b11d27d79e85459c55e1fc9328b62f38adea7f354b8820ce13a5b62f2816ae6",
+				"dweb:/ipfs/QmVku6AimYWS9vFDficRG1scJ3UXgm5jwxdGpcGKjuQtwQ"
 			]
 		},
 		"contracts/authority.sol": {
@@ -1260,11 +1276,11 @@
 			]
 		},
 		"contracts/faykGovernance.sol": {
-			"keccak256": "0x1739ef9757ad0bcbb7844c8c663135960f930ba4e9630d7850d6b7a2884e83d7",
+			"keccak256": "0x5c6bf49630c7ebfaa2a7d1d1211a3320f7a74b516578c975117bde4cff3d81d5",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://70b87db4a58760e4535cf26542e4df96cda12ab09021719f1b42aea6e9dbe357",
-				"dweb:/ipfs/QmUiEebe4vdmfoyxjgRC4fBzSKU1HRM2ZiQKpBE9vx4Lo6"
+				"bzz-raw://15c0a7bfc9164ea577f8e2084583680686f5dc106891719e58bcc7d54ad3eb1a",
+				"dweb:/ipfs/QmV3PVzBZKosrxu31Up3YAtEmy4j8Y1HGBBrBSwQFTW7Nx"
 			]
 		}
 	},

@@ -8,12 +8,82 @@
 			{
 				"inputs": [
 					{
+						"internalType": "bytes32",
+						"name": "caller_peopleName_satrap",
+						"type": "bytes32"
+					}
+				],
+				"name": "PeopleName_SatrapConflict",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint32",
+						"name": "callerRoleId",
+						"type": "uint32"
+					}
+				],
+				"name": "RoleIdConflict",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "addContract",
 						"type": "address"
 					}
 				],
 				"name": "TheAddressIsInvalid",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes4",
+						"name": "Fselector",
+						"type": "bytes4"
+					}
+				],
+				"name": "ThisFunctionIsClosed",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint32",
+						"name": "caller_roleId",
+						"type": "uint32"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "caller_peopleName_satrap",
+						"type": "bytes32"
+					}
+				],
+				"name": "YouAreBanned",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint48",
+						"name": "caller_since",
+						"type": "uint48"
+					},
+					{
+						"internalType": "uint48",
+						"name": "caller_EndSession",
+						"type": "uint48"
+					}
+				],
+				"name": "YourAccessTimeIsNotValid",
 				"type": "error"
 			},
 			{
@@ -114,6 +184,31 @@
 					}
 				],
 				"name": "ChangeBanedOfThisRole",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes4",
+						"name": "Fselector",
+						"type": "bytes4"
+					},
+					{
+						"indexed": true,
+						"internalType": "bool",
+						"name": "closed",
+						"type": "bool"
+					}
+				],
+				"name": "ChangeClosedOfThisFunction",
 				"type": "event"
 			},
 			{
@@ -309,11 +404,11 @@
 	},
 	"sources": {
 		"contracts/IfaykGovernance.sol": {
-			"keccak256": "0xee14ed3768738daf29000c6a4285b772082914610ab6ccd1db54f74a4576be3f",
+			"keccak256": "0x78bd52c6000f6edcbaf89f85cbc9eae3a9a284ff467c38ba55d97445b9c9cac2",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://254ce24f78a7ef24db635104c3931baccf9917a0c40422c56b6c01afbe6aabe1",
-				"dweb:/ipfs/QmNzKbe6aDJP1qSwL2wMg3ENzrzi8Tc3YDt1LkBBGQXYCh"
+				"bzz-raw://287582ae516c07bd8bb4a6ab056e2bf7499f210e1c5a343682e774a7601c7dcd",
+				"dweb:/ipfs/Qma9NoJYrFvdgo8iHKQm9mNNkhpUCUsXnqEdQfxZ2mei1s"
 			]
 		}
 	},

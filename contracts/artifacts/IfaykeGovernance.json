@@ -54,12 +54,82 @@
 		{
 			"inputs": [
 				{
+					"internalType": "bytes32",
+					"name": "caller_peopleName_satrap",
+					"type": "bytes32"
+				}
+			],
+			"name": "PeopleName_SatrapConflict",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint32",
+					"name": "callerRoleId",
+					"type": "uint32"
+				}
+			],
+			"name": "RoleIdConflict",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
 					"internalType": "address",
 					"name": "addContract",
 					"type": "address"
 				}
 			],
 			"name": "TheAddressIsInvalid",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "target",
+					"type": "address"
+				},
+				{
+					"internalType": "bytes4",
+					"name": "Fselector",
+					"type": "bytes4"
+				}
+			],
+			"name": "ThisFunctionIsClosed",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint32",
+					"name": "caller_roleId",
+					"type": "uint32"
+				},
+				{
+					"internalType": "bytes32",
+					"name": "caller_peopleName_satrap",
+					"type": "bytes32"
+				}
+			],
+			"name": "YouAreBanned",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint48",
+					"name": "caller_since",
+					"type": "uint48"
+				},
+				{
+					"internalType": "uint48",
+					"name": "caller_EndSession",
+					"type": "uint48"
+				}
+			],
+			"name": "YourAccessTimeIsNotValid",
 			"type": "error"
 		},
 		{
@@ -160,6 +230,31 @@
 				}
 			],
 			"name": "ChangeBanedOfThisRole",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "target",
+					"type": "address"
+				},
+				{
+					"indexed": true,
+					"internalType": "bytes4",
+					"name": "Fselector",
+					"type": "bytes4"
+				},
+				{
+					"indexed": true,
+					"internalType": "bool",
+					"name": "closed",
+					"type": "bool"
+				}
+			],
+			"name": "ChangeClosedOfThisFunction",
 			"type": "event"
 		},
 		{
