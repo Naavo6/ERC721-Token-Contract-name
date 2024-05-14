@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "hardhat": "^2.22.4"
+  },
+  "name": "TokenContractName",
+  "version": "1.0.0",
+  "description": "ERC721",
+  "main": "index.js",
+  "repository": "https://github.com/Naavo6/ERC721-Token-ContractName.git",
+  "license": "MIT"
+}
