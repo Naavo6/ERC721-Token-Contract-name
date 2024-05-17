@@ -21,5 +21,8 @@
   "description": "ERC721",
   "main": "index.js",
   "repository": "https://github.com/Naavo6/ERC721-Token-ContractName.git",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2"
+  }
 }
