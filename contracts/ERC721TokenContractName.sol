@@ -5,13 +5,14 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
+import {Authority} from "contracts/authority.sol";
 import {IERC721Errors} from "@openzeppelin/contracts/interfaces/draft-IERC6093.sol";
 import {IERC721TCNReceiver} from "contracts/IERc721TokenContractNameReceiver.sol";
 
 
 
 
-contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
+contract ERC721TokenContractName is Authority, Context, IERC721Errors, IERC721TCNReceiver {
     event Approval(address indexed owner, address indexed approved, uint16 indexed tokenId);
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
     event Transfer(address indexed from, address indexed to, uint16 indexed tokenId);
@@ -66,17 +67,12 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
 
     mapping(address owner => mapping(address operator => bool)) private _operatorApprovals;
 
-    address private _governance;
-
-    address private _storageContract;
 
 
-    constructor(bytes20 name_, bytes10 symbol_, address governance_, address storageContract_) {
+
+    constructor(bytes20 name_, bytes10 symbol_, address storageContract_) {
         _name = name_;
         _symbol = symbol_;
-        mintInfo.executor = _msgSender();
-        _governance = governance_;
-        _storageContract = storageContract_;
     }
 
 
@@ -142,7 +138,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         return _operatorApprovals[owner][operator];
     }
 
-    function transferFrom(address from, address to, uint16 tokenId) public virtual {
+    function transferFrom(address from, address to, uint16 tokenId) public {
          if (to == address(0)) {
             revert ERC721InvalidReceiver(address(0));
         }
@@ -155,7 +151,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
             revert ERC721InsufficientApproval(_msgSender(), tokenId);
         }
 
-                if (previousOwner != from) {
+        if (previousOwner != from) {
             revert ERC721IncorrectOwner(from, tokenId, previousOwner);
         }
 
@@ -169,18 +165,16 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         safeTransferFrom(from, to, tokenId, "");
     }
 
-    function safeTransferFrom(address from, address to, uint16 tokenId, bytes memory data) public virtual {
+    function safeTransferFrom(address from, address to, uint16 tokenId, bytes memory data) public {
         transferFrom(from, to, tokenId);
         _checkOnERC721Received(from, to, tokenId, data);
     }
 
     function setBallotForupdateMintInfo(
         uint256 value,
-        address ballotAddress) public returns (uint256 proposalId) {
+        address ballotAddress) public AccessCheck(msg.sender) returns (uint256 proposalId) {
 
-            require(_msgSender() == mintInfo.executor, "You do not have access to this function");
-
-            (,bytes memory data) = _governance.call(
+            (,bytes memory data) = getGovernance().call(
                 abi.encodeWithSignature(
                 "propose(uint256,address,address,address)",
                 value, address(this), msg.sender, ballotAddress
@@ -199,9 +193,9 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
     uint256 newmintPrice,
     uint16[1201] memory newTokenId,
     bytes32 descriptionHash,
-    address governance) public payable {
+    address governance) public payable AccessCheck(msg.sender) {
 
-        require(_msgSender() == mintInfo.executor, "You do not have access to this function");
+        require(msg.sender == newexecutor, "Discrepancy in newexecutor address");
         if (0 < newmaxMint && newmaxMint <= 1000) {
                 if (newmaxMint > mintInfo.nRegistrants && newregistrationStartTime >= block.timestamp) {
                     revert ERC721ParamArentAcceptable(newmaxMint, newregistrationStartTime);
@@ -209,7 +203,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
                     revert Erc721InvalidTotalNewTokenId(newTokenId[0]);
                 }
         } else if (newmaxMint <= 1200) {
-            if (governance != _governance) {
+            if (governance != getGovernance()) {
                     revert ERC721InvalidGovernanceAddress(governance);
                 }
             bytes memory callData = abi.encodeWithSignature("updateMintInfo(uint16,uint256,address,address,uint256,uint16[],bytes32,address)", newmaxMint, newregistrationStartTime, newexecutor, newbankAddress, newmintPrice, newTokenId, descriptionHash, governance);
@@ -242,8 +236,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         return data;
     }
 
-    function mint() public {
-        require (_msgSender() == mintInfo.executor, "Access only for executor");
+    function mint() public AccessCheck(msg.sender) {
 
         if (mintInfo.nRegistrants > mintInfo.currentTokens) {
             uint48[1201] memory salts_ = mintInfo.salts;
@@ -277,7 +270,7 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         }
     }
 
-    // in set bayad tvasote ye contrct set anjam beshe va da dastres bashe. 
+    // in set bayad tvasote ye contrct set anjam shavad. 
     // yani jaye in tabe faghat bayad contract set be _ban dastresi dashte bashe.
     // pas in cod badan avaz khahad shod va alan ebtedayi hastesh.
     function setBan(uint16 tokenId, bool set_) public { 
@@ -290,18 +283,6 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         } else {
             revert ERC721AccessIsNotApproved(_msgSender());
         }
-    }
-
-    function setAccessAddress(address address_, bytes32 varName) public {
-        require(governoraccess(_msgSender()), "invalid access"); // in bayad kharj az daste modirane mahali bashad bayad dar ekhtiyare modirane balatar bashad
-        bytes32 varName_ = keccak256(abi.encodePacked(varName));
-       if (keccak256(abi.encodePacked("executor")) == varName_) {
-        mintInfo.executor = address_;
-       } else if (keccak256(abi.encodePacked("governance")) == varName_) {
-        _governance = address_;
-       } else if (keccak256(abi.encodePacked("storage")) == varName_) {
-        _storageContract = address_;
-       }
     }
 
 
@@ -332,7 +313,11 @@ contract ERC721TokenContractName is Context, IERC721Errors, IERC721TCNReceiver {
         _balanceAndTokId[to][0] = newBalanceTo;
 
         _owners[tokenId] = to;
-        (bool suc,) = _storageContract.call(abi.encodeWithSignature("setActivityTimeToken(uint48,uint16,bytes32)", block.timestamp, tokenId, "lastTransfer"));
+
+        (, bytes memory data) = getGovernance().call(abi.encodeWithSignature("getCMWithCallerAddress(address, bytes32)", msg.sender, "storageContract"));
+        address storageContract_ = abi.decode(data, (address));
+        (bool suc,) = storageContract_.call(abi.encodeWithSignature("setActivityTimeToken(uint48,uint16,bytes32)", block.timestamp, tokenId, "lastTransfer"));
+
         if (suc) {
             emit updateActivityTimeTransfer(tokenId, block.timestamp);
         }

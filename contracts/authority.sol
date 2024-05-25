@@ -85,7 +85,7 @@ contract Authority {
     }
 
     modifier AccessCheck(address caller) {
-        require(Igovernance_set(_governance.roleAdd).accessControl(caller, msg.sender, msg.sig), "Access is not valid");
+       Igovernance_set(_governance.roleAdd).accessControl(caller, msg.sender, msg.sig);
         
         _;
     }

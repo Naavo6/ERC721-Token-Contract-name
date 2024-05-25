@@ -3,6 +3,7 @@
 pragma solidity ^0.8.20;
 
 //import {ERC721TokenContractName} from "contracts/ERC721TokenContractName.sol";
+import {Authority} from "contracts/authority.sol";
 
 
 interface IgetBalance {
@@ -10,11 +11,15 @@ interface IgetBalance {
     function balanceOf(address owner) external view returns (uint16);
 }
 
-/** 
+interface IFaykGovernance {
+    function getCMWithCallerAddress(address caller, bytes32 contractTypeName) external view returns (address);
+}
+
+/**
  * @title Ballot
  * @dev Implements voting process along with vote delegation
  */
-contract BallotTCN {
+contract BallotTCN is Authority {
 
     event etaSecondsIsActivated(address indexed _this, uint48 _etaSeconds);
     event TheVoteWasRegistered(address indexed sender, address indexed _this);
@@ -98,7 +103,7 @@ contract BallotTCN {
 
         // proposal param
         _proposalParams.proposer = msg.sender;
-        _proposalParams.target = _targetConnectors[_proposalParams.proposer];// barasase governance taghir bede******
+        _proposalParams.target = IFaykGovernance(getGovernance()).getCMWithCallerAddress(_proposalParams.proposer, "ERC721TokenContractName");
         if (_proposalParams.target == address(0)) {
             revert invalidProposer(_proposalParams.proposer);
         }
